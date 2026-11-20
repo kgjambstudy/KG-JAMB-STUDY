@@ -1,10 +1,19 @@
+
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#102a43"><title>KG JAMB STUDY</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#102a43">
+<title>KG JAMB STUDY</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <style>
 .connection-banner{margin:12px 0;padding:12px;border-radius:9px;background:#fff7e6;border:1px solid #f1d59b;color:#704900}.status-line{font-size:12px;color:var(--muted);margin-top:8px}.qopt:has(input:checked){border-color:var(--b);background:#eef7ff}.qopt input{accent-color:var(--b)}button:disabled{opacity:.55;cursor:not-allowed}
 :root{--n:#102a43;--b:#1769aa;--ink:#172b4d;--muted:#62748a;--line:#dce5ee;--bg:#f4f7fb}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,Arial}button,input,select,textarea{font:inherit}button{border:0;border-radius:9px;padding:10px 14px;background:var(--b);color:white;font-weight:650;cursor:pointer}button.secondary{background:#e8eef5;color:var(--ink)}button.danger{background:#b42318}button.good{background:#16794b}input,select,textarea{width:100%;padding:11px;border:1px solid #cbd6e2;border-radius:8px;background:white;color:var(--ink)}label{display:block;font-weight:650;margin:10px 0 5px}.hidden{display:none!important}.top{background:var(--n);color:white;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.brand{font-size:19px;font-weight:850}.brand small{display:block;font-size:11px;font-weight:500;opacity:.75}.wrap{max-width:1160px;margin:22px auto;padding:0 14px}.panel,.card{background:white;border:1px solid var(--line);border-radius:13px;padding:16px;box-shadow:0 3px 12px #102a4309}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:13px}.row,.between{display:flex;gap:9px;align-items:center;flex-wrap:wrap}.between{justify-content:space-between}.muted{color:var(--muted)}.small{font-size:12px}.metric{font-size:26px;font-weight:850}.pill{display:inline-block;padding:3px 9px;border-radius:20px;background:#e8f5ff;color:#13558a;font-size:12px;font-weight:700}.notice{padding:12px;border-radius:9px;background:#fff7e6;border:1px solid #f1d59b;color:#704900}.tabs{display:flex;gap:7px;flex-wrap:wrap;margin:15px 0}.tabs button{background:#e8eef5;color:var(--ink)}.tabs button.active{background:var(--n);color:white}.section{margin:16px 0}.table{width:100%;border-collapse:collapse;font-size:13px}.table th,.table td{padding:9px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}.table th{background:#f6f9fc}.qopt{display:block;border:1px solid var(--line);padding:10px;border-radius:8px;margin:8px 0;font-weight:500}.qopt input{width:auto;margin-right:8px}.bar{height:8px;background:#e7edf4;border-radius:20px;overflow:hidden}.bar span{display:block;height:100%;background:var(--b)}.modalback{position:fixed;inset:0;background:#061525b8;display:grid;place-items:center;padding:18px;z-index:20}.modal{background:white;max-width:450px;width:100%;padding:22px;border-radius:14px}.footer{text-align:center;color:var(--muted);padding:24px;font-size:12px}@media(max-width:600px){.wrap{margin:12px auto}.panel,.card{padding:13px}.table{display:block;overflow-x:auto}}
-</style></head><body>
+</style>
+</head>
+<body>
 <header class="top"><div class="brand">KG JAMB STUDY<small>Learn smarter. Practise better. Achieve more.</small></div><div class="row"><span id="who" class="small"></span><button id="topOut" class="secondary hidden" onclick="signOut()">Sign out</button></div></header>
 <main class="wrap">
 <section id="auth" class="panel" style="max-width:540px;margin:35px auto"><h1>Welcome to KG JAMB STUDY</h1><p class="muted">Sign in or create your student account.</p><div class="tabs"><button id="loginTab" class="active" onclick="authMode('login')">Sign in</button><button id="signupTab" onclick="authMode('signup')">Create account</button></div><p id="authMsg" class="notice hidden"></p><p id="connectionStatus" class="connection-banner">Checking secure backend connection…</p><label id="nameLabel" class="hidden">Full name</label><input id="fullName" class="hidden" placeholder="Your full name"><label>Email</label><input id="email" type="email"><label>Password</label><input id="password" type="password"><button id="authBtn" style="width:100%;margin-top:14px" onclick="authenticate()">Sign in</button><p class="small muted">This form creates student accounts only. Staff roles must be assigned securely by an administrator.</p><p class="small muted">Your account session is securely restored when you return. Backend configuration is managed by KG JAMB STUDY.</p></section>
@@ -22,24 +31,23 @@
 <section id="adminApp" class="hidden"><div class="between"><div><h1>Admin Control Centre</h1><p class="muted">Platform operations and quality control.</p></div><div class="row"><span class="pill">ADMIN</span><button class="danger" onclick="signOut()">Sign out</button></div></div><div class="grid"><div class="card">Students<div class="metric" id="mStudents">—</div></div><div class="card">Collectors<div class="metric" id="mCollectors">—</div></div><div class="card">Approved questions<div class="metric" id="mQuestions">—</div></div><div class="card">Pending batches<div class="metric" id="mPending">—</div></div></div>
 <nav class="tabs" id="adminTabs"><button class="active" onclick="adminPage('overview',this)">Overview</button><button onclick="adminPage('students',this)">Students</button><button onclick="adminPage('collectors',this)">Collectors</button><button onclick="adminPage('bank',this)">Question bank</button><button onclick="adminPage('review',this)">Review queue</button><button onclick="adminPage('challenge',this)">Daily Challenge</button><button onclick="adminPage('reports',this)">Reports</button><button onclick="adminPage('audit',this)">Activity log</button></nav>
 <div id="admin-overview" class="panel adminpage"><h2>Administration overview</h2><div class="notice">Dual-founder approval: Gerald and Kings must independently approve a batch. No self-approval. Rejection blocks publication. Enforce this in secure database functions.</div></div><div id="admin-students" class="panel adminpage hidden"><h2>Student management</h2><div id="studentsTable">Admin RPC required.</div></div><div id="admin-collectors" class="panel adminpage hidden"><h2>Collector management</h2><p class="small muted">Create/disable collector accounts and assign subjects through a trusted server function, never a browser service-role key.</p><div id="collectorsTable">Admin RPC required.</div></div><div id="admin-bank" class="panel adminpage hidden"><h2>Question bank</h2><div id="bankTable">Admin RPC required.</div></div><div id="admin-review" class="panel adminpage hidden"><h2>Submission review</h2><div id="reviewQueue">Secure review RPC required.</div></div>
-<div id="admin-challenge" class="panel adminpage hidden"><h2>Configure Daily Challenge</h2><div class="grid"><div><label>Date</label><input id="challengeDate" type="date"></div><div><label>Subject</label><select id="challengeSubject"><option>English</option><option>Physics</option><option>Chemistry</option><option>Biology</option></select></div><div><label>Topic</label><input id="challengeTopic"></div><div><label>Question count</label><select id="challengeCount"><option>10</option><option>15</option><option>20</option><option>30</option></select></div><div><label>Duration</label><select id="challengeTime"><option>10</option><option>15</option><option>20</option><option>30</option></select></div><div><label>Fallback deadline</label><input id="challengeDeadline" type="datetime-local"></div></div><p class="notice">A scheduled server job must publish an approved random question set if no challenge is published by the deadline. It must be identical for all students.</p><button onclick="publishChallenge()">Save / publish</button><p id="challengeStatus" class="small muted"></p></div><div id="admin-reports" class="panel adminpage hidden"><h2>Student reports & corrections</h2><div id="reportsList">Admin RPC required.</div></div><div id="admin-audit" class="panel adminpage hidden"><h2>Admin activity log</h2><div id="auditList">Audit-log RPC required.</div></div></section></main>
+<div id="admin-challenge" class="panel adminpage hidden"><h2>Configure Daily Challenge</h2><div class="grid"><div><label>Date</label><input id="challengeDate" type="date"></div><div><label>Subject</label><select id="challengeSubject"><option>English</option><option>Physics</option><option>Chemistry</option><option>Biology</option></select></div><div><label>Topic</label><input id="challengeTopic"></div><div><label>Question count</label><select id="challengeCount"><option>10</option><option>15</option><option>20</option><option>30</option></select></div><div><label>Duration</label><select id="challengeTime"><option>10</option><option>15</option><option>20</option><option>30</option></select></div><div><label>Fallback deadline</label><input id="challengeDeadline" type="datetime-local"></div></div><p class="notice">A scheduled server job must publish an approved random question set if no challenge is published by the deadline. It must be identical for all students.</p><button onclick="publishChallenge()">Save / publish</button><p id="challengeStatus" class="small muted"></p></div><div id="admin-reports" class="panel adminpage hidden"><h2>Student reports & corrections</h2><div id="reportsList">Admin RPC required.</div></div><div id="admin-audit" class="panel adminpage hidden"><h2>Admin activity log</h2><div id="auditList">Audit-log RPC required.</div></div></section>
+</main>
 <div id="exitModal" class="modalback hidden"><div class="modal"><h2>Are you sure you want to quit this examination?</h2><p>Your examination is still in progress. If you exit, your attempt may be marked incomplete. Your answers should be preserved where possible.</p><div class="row"><button class="secondary" onclick="continueExam()">Continue exam</button><button class="danger" onclick="confirmExit()">Exit exam</button></div></div></div><div id="toast" class="modalback hidden" style="z-index:30"><div class="modal"><p id="toastText"></p><button onclick="$('toast').classList.add('hidden')">OK</button></div></div>
 <footer class="footer">KG JAMB STUDY · KG JAMB STUDY · Secure learning platform</footer>
 <script>
-// Public browser configuration only. Add the project's Supabase URL and anon/publishable key here.
-// NEVER place a service-role key, database password, JWT secret, or other server secret in this file.
-// KG JAMB STUDY — Supabase connection
-// Replace these two values with the EXISTING project's Project URL and
-// anon/public (publishable) key from Supabase Settings > API.
-// Never put a service_role/secret key in this public website.
+// Public browser configuration only. Never put server secrets in this file.
 const SUPABASE_URL = 'https://aycckgtshuzpexhupbmf.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_xuSYHzsR23gMFIu-rVw6lg_2hV3I3EH';
+
 let sb=null,user=null,profile=null,mode='login',kind='custom',qs=[],answers={},active=false,timer=null,left=0,staged=[],attemptId=null,submitInFlight=false,autosaveTimer=null;
 const $=id=>document.getElementById(id),subjects=['English','Physics','Chemistry','Biology'];
+
 function safe(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function showToast(t){$('toastText').textContent=t;$('toast').classList.remove('hidden')}
 function setAuthMessage(t){$('authMsg').textContent=t;$('authMsg').classList.remove('hidden')}
 function authMode(m){mode=m;$('loginTab').classList.toggle('active',m==='login');$('signupTab').classList.toggle('active',m==='signup');$('fullName').classList.toggle('hidden',m==='login');$('nameLabel').classList.toggle('hidden',m==='login');$('authBtn').textContent=m==='login'?'Sign in':'Create student account'}
+
 function init(){
   if(!window.supabase){$('connectionStatus').textContent='The Supabase library could not load. Check your internet connection and reload.';return}
   if(!SUPABASE_URL.startsWith('https://')||SUPABASE_URL.includes('ADD_')||SUPABASE_ANON_KEY.includes('ADD_')){$('connectionStatus').textContent='Supabase connection is not configured. Add the existing project URL and anon/public key in the configuration section of this file.';return}
@@ -50,25 +58,57 @@ function init(){
     checkSession();
   }catch(e){$('connectionStatus').textContent='Could not initialise backend: '+e.message}
 }
+
 function routeToAuth(){['studentApp','collectorApp','adminApp'].forEach(x=>$(x).classList.add('hidden'));$('auth').classList.remove('hidden');$('topOut').classList.add('hidden');$('who').textContent=''}
+
+/* CORRECTED SIGN-UP FUNCTION */
 async function authenticate(){
   if(!$('email').value.trim() || !$('password').value){
     $('authMsg').textContent='Please enter your email and password.';
     $('authMsg').classList.remove('hidden');
     return;
   }
+
   if(!sb)return setAuthMessage('The website backend has not been configured yet. Please try again after setup is completed.');
-  const email=$('email').value.trim(),password=$('password').value,name=$('fullName').value.trim();
+
+  const email=$('email').value.trim();
+  const password=$('password').value;
+  const name=$('fullName').value.trim();
+
   if(!email||!password)return setAuthMessage('Enter your email and password.');
   if(mode==='signup'&&!name)return setAuthMessage('Enter your full name.');
+
   $('authBtn').disabled=true;
+
   try{
-    const r=mode==='signup'?await sb.auth.signUp({email,password,options:{data:{full_name:name}}}):await sb.auth.signInWithPassword({email,password});
+    const r = mode === 'signup'
+      ? await sb.auth.signUp({
+          email,
+          password,
+          options:{
+            data:{full_name:name},
+            emailRedirectTo:'https://kgjambstudy.github.io/KG-JAMB-STUDY/'
+          }
+        })
+      : await sb.auth.signInWithPassword({email,password});
+
     if(r.error)return setAuthMessage(r.error.message);
-    if(mode==='signup'&&!r.data.session){setAuthMessage('Account created. Confirm your email if required, then sign in.');return}
-    user=r.data.user;await loadProfile();
-  }catch(e){setAuthMessage('Connection problem: '+e.message)}finally{$('authBtn').disabled=false}
+
+    if(mode==='signup'&&!r.data.session){
+      setAuthMessage('Account created. Confirm your email if required, then sign in.');
+      return;
+    }
+
+    user=r.data.user;
+    await loadProfile();
+
+  }catch(e){
+    setAuthMessage('Connection problem: '+e.message);
+  }finally{
+    $('authBtn').disabled=false;
+  }
 }
+
 async function checkSession(){if(!sb)return;try{const {data,error}=await sb.auth.getSession();if(error)throw error;if(data.session){user=data.session.user;await loadProfile()}else $('connectionStatus').textContent='Backend connected. Sign in or create your student account.'}catch(e){$('connectionStatus').textContent='Could not restore sign-in: '+e.message}}
 async function loadProfile(){if(!sb||!user)return;try{const {data,error}=await sb.from('profiles').select('id,full_name,role,membership_type,is_active').eq('id',user.id).maybeSingle();if(error||!data){setAuthMessage('Your profile could not be loaded. Please contact support.');return}if(data.is_active===false){await signOut();setAuthMessage('This account is currently disabled. Contact support.');return}profile=data;route()}catch(e){setAuthMessage('Profile loading failed: '+e.message)}}
 function route(){['auth','studentApp','collectorApp','adminApp'].forEach(x=>$(x).classList.add('hidden'));$('who').textContent=profile.full_name||user.email;$('topOut').classList.remove('hidden');if(profile.role==='student'){$('studentApp').classList.remove('hidden');$('greeting').textContent='Welcome, '+(profile.full_name||'Student');$('profileName').value=profile.full_name||'';$('profileEmail').value=user.email||'';$('membership').textContent=profile.membership_type||'Free';loadStudent();resumeActiveExam()}else if(profile.role==='collector'){$('collectorApp').classList.remove('hidden');loadCollector()}else if(profile.role==='admin'){$('adminApp').classList.remove('hidden');loadAdmin()}else showToast('Unrecognized account role. Contact an administrator.')}
@@ -76,6 +116,7 @@ async function signOut(){if(active){showToast('Submit or exit your active examin
 async function loadStudent(){if(!sb)return;const {data,error}=await sb.rpc('get_my_student_dashboard');if(error){$('historyList').textContent='Dashboard is temporarily unavailable: '+error.message;return}if(data){$('usage').textContent=data.remaining_shared_uses??'—';$('streak').textContent=data.study_streak??'—';$('historyList').innerHTML=(data.recent_attempts||[]).map(x=>`<p>${safe(x.subject)} · ${safe(x.score)} · <button class="secondary" onclick="reviewAttempt('${safe(x.id)}')">Review</button></p>`).join('')||'No attempts yet.';$('weaknessList').innerHTML=(data.topic_performance||[]).map(x=>`<p><b>${safe(x.subject)} — ${safe(x.topic)}: ${safe(x.average_percent)}%</b><div class="bar"><span style="width:${Math.max(0,Math.min(100,Number(x.average_percent)||0))}%"></span></div>${safe(x.recommendation||'Keep practising.')}</p>`).join('')||'Complete practice exams to build your topic analysis.'}}
 function studentPage(p,b){document.querySelectorAll('.studentpage').forEach(x=>x.classList.add('hidden'));$('student-'+p).classList.remove('hidden');document.querySelectorAll('#studentTabs button').forEach(x=>x.classList.remove('active'));b.classList.add('active')}
 function startExam(k){kind=k;$('setup').classList.remove('hidden');$('setupTitle').textContent=k==='topic'?'Topic Practice':k==='full'?'Full Subject Examination':'Custom Examination';$('topic').disabled=k==='full';$('count').disabled=k==='full';if(k==='topic')$('count').value='20';if(k==='full')$('count').value='100'}
+
 async function beginExam(){
  if(!sb)return showToast('The backend is not configured yet.');if(active)return showToast('An examination is already in progress.');
  const topic=$('topic').value.trim();if(kind==='topic'&&!topic)return showToast('Enter a topic.');
@@ -90,6 +131,7 @@ async function beginExam(){
   saveLocalBackup();await saveExamProgress();timer=setInterval(()=>{left--;tick();if(left<=0)submitExam(true)},1000);tick();addEventListener('beforeunload',beforeUnload);
  }catch(e){showToast('Could not start examination: '+e.message)}finally{if(btn)btn.disabled=false}
 }
+
 function renderExam(){let h=`<div class="between"><h2>${safe($('subject').value)} examination</h2><b id="clock"></b></div><p class="small muted">Your answers are saved as you work. If your connection drops, keep this page open until it reconnects.</p>`;qs.forEach((q,i)=>{h+=`<div class="section"><b>${i+1}. ${safe(q.question_text||q.question)}</b><button class="secondary" onclick="bookmark(${i})">☆ Save</button> <button class="secondary" onclick="reportQuestion(${i})">Report</button>`;['A','B','C','D'].forEach(a=>h+=`<label class="qopt"><input type="radio" name="q${i}" ${answers[i]===a?'checked':''} onchange="setAnswer(${i},'${a}')"> ${a}. ${safe(q['option_'+a.toLowerCase()]??q[a]??'')}</label>`);h+='</div>'});h+='<button id="submitExamBtn" class="good" onclick="submitExam()">Submit examination</button> <button class="secondary" onclick="requestExit()">Exit exam</button><p id="saveState" class="status-line">Saving answers…</p>';$('examArea').innerHTML=h;$('examArea').classList.remove('hidden')}
 function setAnswer(i,a){answers[i]=a;saveLocalBackup();$('saveState').textContent='Saving answer…';if(autosaveTimer)clearTimeout(autosaveTimer);autosaveTimer=setTimeout(saveExamProgress,450)}
 function saveLocalBackup(){if(!attemptId)return;try{localStorage.setItem('kg_exam_backup_'+attemptId,JSON.stringify({attemptId,answers,updatedAt:Date.now()}))}catch(e){}}
@@ -104,7 +146,6 @@ onpopstate=()=>{if(active){history.pushState({exam:true},'','#exam');requestExit
 async function submitExam(auto=false){
  if(!active||submitInFlight)return;submitInFlight=true;const btn=$('submitExamBtn');if(btn)btn.disabled=true;if($('saveState'))$('saveState').textContent='Submitting securely…';
  try{await saveExamProgress();const {data,error}=await sb.rpc('submit_student_exam',{p_attempt_id:attemptId,p_answers:qs.map((q,i)=>({question_id:q.id,answer:answers[i]||null})),p_auto_submitted:auto});if(error)throw error;
-  // Only close the attempt after the server confirms successful submission.
   active=false;clearInterval(timer);removeEventListener('beforeunload',beforeUnload);if(attemptId)localStorage.removeItem('kg_exam_backup_'+attemptId);$('examArea').innerHTML='<h2>Examination submitted</h2><p>Result confirmed and saved by the server.</p>'+(data?.score!==undefined?`<div class="metric">${safe(data.score)} / ${safe(data.total||qs.length)}</div>`:'')+(data?.review||[]).map((x,i)=>`<div class="section"><b>${i+1}. Correct answer: ${safe(x.correct_answer)}</b><p>${safe(x.explanation||'Explanation pending.')}</p></div>`).join('');await loadStudent();
  }catch(e){submitInFlight=false;if(btn)btn.disabled=false;if($('saveState'))$('saveState').textContent='Submission not confirmed. Your answers are preserved; retry when connected.';showToast('Submission failed: '+e.message+'. Your examination has NOT been closed. Retry submission when the connection is available.')}
 }
@@ -126,4 +167,6 @@ async function loadAdmin(){const {data,error}=await sb.rpc('get_admin_dashboard'
 function adminPage(p,b){document.querySelectorAll('.adminpage').forEach(x=>x.classList.add('hidden'));$('admin-'+p).classList.remove('hidden');document.querySelectorAll('#adminTabs button').forEach(x=>x.classList.remove('active'));b.classList.add('active')}
 async function publishChallenge(){const p={challenge_date:$('challengeDate').value,subject:$('challengeSubject').value,topic:$('challengeTopic').value||null,question_count:Number($('challengeCount').value),duration_minutes:Number($('challengeTime').value),fallback_deadline:$('challengeDeadline').value||null};const {data,error}=await sb.rpc('admin_publish_daily_challenge',{p_challenge:p});$('challengeStatus').textContent=error?'Could not publish: '+error.message:'Challenge publication request confirmed: '+JSON.stringify(data||'')}
 addEventListener('DOMContentLoaded',init);
-</script></body></html>
+</script>
+</body>
+</html>
