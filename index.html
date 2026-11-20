@@ -1,3 +1,4 @@
+HTML
 
 <!doctype html>
 <html lang="en">
@@ -16,7 +17,10 @@
 <body>
 <header class="top"><div class="brand">KG JAMB STUDY<small>Learn smarter. Practise better. Achieve more.</small></div><div class="row"><span id="who" class="small"></span><button id="topOut" class="secondary hidden" onclick="signOut()">Sign out</button></div></header>
 <main class="wrap">
-<section id="auth" class="panel" style="max-width:540px;margin:35px auto"><h1>Welcome to KG JAMB STUDY</h1><p class="muted">Sign in or create your student account.</p><div class="tabs"><button id="loginTab" class="active" onclick="authMode('login')">Sign in</button><button id="signupTab" onclick="authMode('signup')">Create account</button></div><p id="authMsg" class="notice hidden"></p><p id="connectionStatus" class="connection-banner">Checking secure backend connection…</p><label id="nameLabel" class="hidden">Full name</label><input id="fullName" class="hidden" placeholder="Your full name"><label>Email</label><input id="email" type="email"><label>Password</label><input id="password" type="password"><button id="authBtn" style="width:100%;margin-top:14px" onclick="authenticate()">Sign in</button><p class="small muted">This form creates student accounts only. Staff roles must be assigned securely by an administrator.</p><p class="small muted">Your account session is securely restored when you return. Backend configuration is managed by KG JAMB STUDY.</p></section>
+<section id="auth" class="panel" style="max-width:540px;margin:35px auto"><h1>Welcome to KG JAMB STUDY</h1><p class="muted">Sign in or create your student account.</p><div class="tabs"><button id="loginTab" class="active" onclick="authMode('login')">Sign in</button><button id="signupTab" onclick="authMode('signup')">Create account</button></div><p id="authMsg" class="notice hidden"></p><p id="connectionStatus" class="connection-banner">Checking secure backend connection…</p><label id="nameLabel" class="hidden">Full name</label><input id="fullName" class="hidden" placeholder="Your full name"><label>Email</label><input id="email" type="email"><label>Password</label><input id="password" type="password"><button id="authBtn" style="width:100%;margin-top:14px" onclick="authenticate()">Sign in</button>
+<button id="resendBtn" class="secondary" style="width:100%;margin-top:8px" onclick="resendVerification()">Resend verification email</button>
+<p class="small muted">This form creates student accounts only. Staff roles must be assigned securely by an administrator.</p><p class="small muted">Your account session is securely restored when you return. Backend configuration is managed by KG JAMB STUDY.</p></section>
+
 <section id="studentApp" class="hidden"><div class="between"><div><h1 id="greeting">Student dashboard</h1><p class="muted">Your JAMB preparation workspace.</p></div><span class="pill">STUDENT</span></div>
 <div class="grid"><div class="card"><div class="small muted">Shared Topic + Custom free uses</div><div class="metric" id="usage">—</div></div><div class="card"><div class="small muted">Full Subject Exams</div><div class="metric">Unlimited</div></div><div class="card"><div class="small muted">Study streak</div><div class="metric" id="streak">—</div></div><div class="card"><div class="small muted">Membership</div><div class="metric" id="membership">Free</div></div></div>
 <nav class="tabs" id="studentTabs"><button class="active" onclick="studentPage('learn',this)">Learn & practise</button><button onclick="studentPage('progress',this)">Progress</button><button onclick="studentPage('saved',this)">Saved questions</button><button onclick="studentPage('history',this)">Exam history</button><button onclick="studentPage('friends',this)">Friends & leaderboard</button><button onclick="studentPage('profile',this)">Profile</button></nav>
@@ -27,7 +31,9 @@
 <div id="student-history" class="panel studentpage hidden"><h2>Exam history & review</h2><div id="historyList">History backend required.</div></div>
 <div id="student-friends" class="panel studentpage hidden"><h2>Friends & leaderboard</h2><div class="notice">Friend requests and rankings require protected database access and verified exam scores.</div><div class="grid section"><div class="card"><h3>Find friends</h3><input id="friendSearch" placeholder="Student username"><button class="secondary section" onclick="showToast('Friend search backend is not configured.')">Search</button></div><div class="card"><h3>Leaderboard</h3><p class="small muted">Monthly rankings use verified results.</p><button class="secondary" onclick="showToast('Leaderboard backend is not configured.')">View leaderboard</button></div></div></div>
 <div id="student-profile" class="panel studentpage hidden"><h2>My profile</h2><label>Full name</label><input id="profileName"><label>Email</label><input id="profileEmail" disabled><button onclick="saveProfile()">Save profile</button></div></section>
+
 <section id="collectorApp" class="hidden"><div class="between"><div><h1>Question Collector Workspace</h1><p class="muted">Prepare and submit question batches.</p></div><span class="pill">COLLECTOR</span></div><div class="notice">Collectors cannot publish questions or approve their own submissions.</div><div class="grid section"><div class="card">Assigned subjects<div class="metric" id="collectorSubjects">—</div></div><div class="card">Submitted batches<div class="metric" id="collectorBatches">—</div></div><div class="card">Approved questions<div class="metric" id="collectorApproved">—</div></div></div><div class="panel section"><h2>Smart bulk question importer</h2><p class="small muted">CSV and Excel (.xlsx/.xls). Required: subject, topic, question, options A–D, correct answer. Missing answers are flagged, never guessed.</p><label>Question file</label><input type="file" id="bulkFile" accept=".csv,.xlsx,.xls"><div class="row section"><button onclick="previewBulk()">Preview & arrange</button><button class="secondary" onclick="downloadTemplate()">CSV template</button></div><div id="importSummary"></div><div id="importPreview"></div><button id="submitBatch" class="good hidden section" onclick="submitBatch()">Submit for review</button></div><div class="panel section"><h2>Submission history</h2><div id="collectorHistory">Backend required.</div></div></section>
+
 <section id="adminApp" class="hidden"><div class="between"><div><h1>Admin Control Centre</h1><p class="muted">Platform operations and quality control.</p></div><div class="row"><span class="pill">ADMIN</span><button class="danger" onclick="signOut()">Sign out</button></div></div><div class="grid"><div class="card">Students<div class="metric" id="mStudents">—</div></div><div class="card">Collectors<div class="metric" id="mCollectors">—</div></div><div class="card">Approved questions<div class="metric" id="mQuestions">—</div></div><div class="card">Pending batches<div class="metric" id="mPending">—</div></div></div>
 <nav class="tabs" id="adminTabs"><button class="active" onclick="adminPage('overview',this)">Overview</button><button onclick="adminPage('students',this)">Students</button><button onclick="adminPage('collectors',this)">Collectors</button><button onclick="adminPage('bank',this)">Question bank</button><button onclick="adminPage('review',this)">Review queue</button><button onclick="adminPage('challenge',this)">Daily Challenge</button><button onclick="adminPage('reports',this)">Reports</button><button onclick="adminPage('audit',this)">Activity log</button></nav>
 <div id="admin-overview" class="panel adminpage"><h2>Administration overview</h2><div class="notice">Dual-founder approval: Gerald and Kings must independently approve a batch. No self-approval. Rejection blocks publication. Enforce this in secure database functions.</div></div><div id="admin-students" class="panel adminpage hidden"><h2>Student management</h2><div id="studentsTable">Admin RPC required.</div></div><div id="admin-collectors" class="panel adminpage hidden"><h2>Collector management</h2><p class="small muted">Create/disable collector accounts and assign subjects through a trusted server function, never a browser service-role key.</p><div id="collectorsTable">Admin RPC required.</div></div><div id="admin-bank" class="panel adminpage hidden"><h2>Question bank</h2><div id="bankTable">Admin RPC required.</div></div><div id="admin-review" class="panel adminpage hidden"><h2>Submission review</h2><div id="reviewQueue">Secure review RPC required.</div></div>
@@ -35,6 +41,7 @@
 </main>
 <div id="exitModal" class="modalback hidden"><div class="modal"><h2>Are you sure you want to quit this examination?</h2><p>Your examination is still in progress. If you exit, your attempt may be marked incomplete. Your answers should be preserved where possible.</p><div class="row"><button class="secondary" onclick="continueExam()">Continue exam</button><button class="danger" onclick="confirmExit()">Exit exam</button></div></div></div><div id="toast" class="modalback hidden" style="z-index:30"><div class="modal"><p id="toastText"></p><button onclick="$('toast').classList.add('hidden')">OK</button></div></div>
 <footer class="footer">KG JAMB STUDY · KG JAMB STUDY · Secure learning platform</footer>
+
 <script>
 // Public browser configuration only. Never put server secrets in this file.
 const SUPABASE_URL = 'https://aycckgtshuzpexhupbmf.supabase.co';
@@ -46,7 +53,16 @@ const $=id=>document.getElementById(id),subjects=['English','Physics','Chemistry
 function safe(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function showToast(t){$('toastText').textContent=t;$('toast').classList.remove('hidden')}
 function setAuthMessage(t){$('authMsg').textContent=t;$('authMsg').classList.remove('hidden')}
-function authMode(m){mode=m;$('loginTab').classList.toggle('active',m==='login');$('signupTab').classList.toggle('active',m==='signup');$('fullName').classList.toggle('hidden',m==='login');$('nameLabel').classList.toggle('hidden',m==='login');$('authBtn').textContent=m==='login'?'Sign in':'Create student account'}
+
+function authMode(m){
+  mode=m;
+  $('loginTab').classList.toggle('active',m==='login');
+  $('signupTab').classList.toggle('active',m==='signup');
+  $('fullName').classList.toggle('hidden',m==='login');
+  $('nameLabel').classList.toggle('hidden',m==='login');
+  $('authBtn').textContent=m==='login'?'Sign in':'Create student account';
+  $('resendBtn').classList.toggle('hidden',m!=='login');
+}
 
 function init(){
   if(!window.supabase){$('connectionStatus').textContent='The Supabase library could not load. Check your internet connection and reload.';return}
@@ -61,7 +77,6 @@ function init(){
 
 function routeToAuth(){['studentApp','collectorApp','adminApp'].forEach(x=>$(x).classList.add('hidden'));$('auth').classList.remove('hidden');$('topOut').classList.add('hidden');$('who').textContent=''}
 
-/* CORRECTED SIGN-UP FUNCTION */
 async function authenticate(){
   if(!$('email').value.trim() || !$('password').value){
     $('authMsg').textContent='Please enter your email and password.';
@@ -95,7 +110,7 @@ async function authenticate(){
     if(r.error)return setAuthMessage(r.error.message);
 
     if(mode==='signup'&&!r.data.session){
-      setAuthMessage('Account created. Confirm your email if required, then sign in.');
+      setAuthMessage('Account created. Confirm your email if required, then sign in. If the email does not arrive, return to Sign in and use Resend verification email.');
       return;
     }
 
@@ -106,6 +121,43 @@ async function authenticate(){
     setAuthMessage('Connection problem: '+e.message);
   }finally{
     $('authBtn').disabled=false;
+  }
+}
+
+/* RESEND EMAIL VERIFICATION */
+async function resendVerification(){
+  if(!sb){
+    return setAuthMessage('Backend connection is unavailable. Please reload the website.');
+  }
+
+  const email=$('email').value.trim();
+
+  if(!email){
+    return setAuthMessage('Enter your registered Gmail address first.');
+  }
+
+  const btn=$('resendBtn');
+  btn.disabled=true;
+
+  try{
+    const {error}=await sb.auth.resend({
+      type:'signup',
+      email,
+      options:{
+        emailRedirectTo:'https://kgjambstudy.github.io/KG-JAMB-STUDY/'
+      }
+    });
+
+    if(error){
+      setAuthMessage('Could not resend verification email: '+error.message);
+    }else{
+      setAuthMessage('Verification email request sent. Check your Gmail inbox and Spam folder. If the account is already confirmed, you do not need another confirmation email.');
+    }
+
+  }catch(e){
+    setAuthMessage('Connection problem: '+e.message);
+  }finally{
+    btn.disabled=false;
   }
 }
 
