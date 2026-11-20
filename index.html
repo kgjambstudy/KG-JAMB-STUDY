@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -9,7 +10,9 @@
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <style>
 .connection-banner{margin:12px 0;padding:12px;border-radius:9px;background:#fff7e6;border:1px solid #f1d59b;color:#704900}.status-line{font-size:12px;color:var(--muted);margin-top:8px}.qopt:has(input:checked){border-color:var(--b);background:#eef7ff}.qopt input{accent-color:var(--b)}button:disabled{opacity:.55;cursor:not-allowed}
-:root{--n:#102a43;--b:#1769aa;--ink:#172b4d;--muted:#62748a;--line:#dce5ee;--bg:#f4f7fb}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,Arial}button,input,select,textarea{font:inherit}button{border:0;border-radius:9px;padding:10px 14px;background:var(--b);color:white;font-weight:650;cursor:pointer}button.secondary{background:#e8eef5;color:var(--ink)}button.danger{background:#b42318}button.good{background:#16794b}input,select,textarea{width:100%;padding:11px;border:1px solid #cbd6e2;border-radius:8px;background:white;color:var(--ink)}label{display:block;font-weight:650;margin:10px 0 5px}.hidden{display:none!important}.top{background:var(--n);color:white;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.brand{font-size:19px;font-weight:850}.brand small{display:block;font-size:11px;font-weight:500;opacity:.75}.wrap{max-width:1160px;margin:22px auto;padding:0 14px}.panel,.card{background:white;border:1px solid var(--line);border-radius:13px;padding:16px;box-shadow:0 3px 12px #102a4309}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:13px}.row,.between{display:flex;gap:9px;align-items:center;flex-wrap:wrap}.between{justify-content:space-between}.muted{color:var(--muted)}.small{font-size:12px}.metric{font-size:26px;font-weight:850}.pill{display:inline-block;padding:3px 9px;border-radius:20px;background:#e8f5ff;color:#13558a;font-size:12px;font-weight:700}.notice{padding:12px;border-radius:9px;background:#fff7e6;border:1px solid #f1d59b;color:#704900}.tabs{display:flex;gap:7px;flex-wrap:wrap;margin:15px 0}.tabs button{background:#e8eef5;color:var(--ink)}.tabs button.active{background:var(--n);color:white}.section{margin:16px 0}.table{width:100%;border-collapse:collapse;font-size:13px}.table th,.table td{padding:9px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}.table th{background:#f6f9fc}.qopt{display:block;border:1px solid var(--line);padding:10px;border-radius:8px;margin:8px 0;font-weight:500}.qopt input{width:auto;margin-right:8px}.bar{height:8px;background:#e7edf4;border-radius:20px;overflow:hidden}.bar span{display:block;height:100%;background:var(--b)}.modalback{position:fixed;inset:0;background:#061525b8;display:grid;place-items:center;padding:18px;z-index:20}.modal{background:white;max-width:450px;width:100%;padding:22px;border-radius:14px}.footer{text-align:center;color:var(--muted);padding:24px;font-size:12px}@media(max-width:600px){.wrap{margin:12px auto}.panel,.card{padding:13px}.table{display:block;overflow-x:auto}}
+:root{--n:#102a43;--b:#1769aa;--ink:#172b4d;--muted:#62748a;--line:#dce5ee;--bg:#f4f7fb}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,Arial}button,input,select,textarea{font:inherit}button{border:0;border-radius:9px;padding:10px 14px;background:var(--b);color:white;font-weight:650;cursor:pointer}button.secondary{background:#e8eef5;color:var(--ink)}button.danger{background:#b42318}button.good{background:#16794b}input,select,textarea{width:100%;padding:11px;border:1px solid #cbd6e2;border-radius:8px;background:white;color:var(--ink)}label{display:block;font-weight:650;margin:10px 0 5px}.hidden{display:none!important}.top{background:var(--n);color:white;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.brand{font-size:19px;font-weight:850}.brand small{display:block;font-size:11px;font-weight:500;opacity:.75}.wrap{max-width:1160px;margin:22px auto;padding:0 14px}.panel,.card{background:white;border:1px solid var(--line);border-radius:13px;padding:16px;box-shadow:0 3px 12px #102a4309}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:13px}.row,.between{display:flex;gap:9px;align-items:center;flex-wrap:wrap}.between{justify-content:space-between}.muted{color:var(--muted)}.small{font-size:12px}.metric{font-size:26px;font-weight:850}.pill{display:inline-block;padding:3px 9px;border-radius:20px;background:#e8f5ff;color:#13558a;font-size:12px;font-weight:700}.notice{padding:12px;border-radius:9px;background:#fff7e6;border:1px solid #f1d59b;color:#704900}.tabs{display:flex;gap:7px;flex-wrap:wrap;margin:15px 0}.tabs button{background:#e8eef5;color:var(--ink)}.tabs button.active{background:var(--n);color:white}.section{margin:16px 0}.table{width:100%;border-collapse:collapse;font-size:13px}.table th,.table td{padding:9px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}.table th{background:#f6f9fc}.qopt{display:block;border:1px solid var(--line);padding:10px;border-radius:8px;margin:8px 0;font-weight:500}.qopt input{width:auto;margin-right:8px}.bar{height:8px;background:#e7edf4;border-radius:20px;overflow:hidden}.bar span{display:block;height:100%;background:var(--b)}.modalback{position:fixed;inset:0;background:#061525b8;display:grid;place-items:center;padding:18px;z-index:20}.modal{background:white;max-width:450px;width:100%;padding:22px;border-radius:14px}.footer{text-align:center;color:var(--muted);padding:24px;font-size:12px}
+.admin-question-card{border:1px solid var(--line);border-radius:10px;padding:13px;margin:12px 0;background:#fff}.admin-question-card .grid{grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:9px}.admin-question-card label{font-size:12px;margin-top:6px}.admin-question-card textarea{min-height:65px}.admin-issue{color:#b42318;font-size:12px;font-weight:650}.admin-ready{color:#16794b;font-size:12px;font-weight:650}.admin-preview-head{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center}.admin-import-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+@media(max-width:600px){.wrap{margin:12px auto}.panel,.card{padding:13px}.table{display:block;overflow-x:auto}}
 </style>
 </head>
 <body>
@@ -33,10 +36,77 @@
 
 <section id="adminApp" class="hidden"><div class="between"><div><h1>Admin Control Centre</h1><p class="muted">Platform operations and quality control.</p></div><div class="row"><span class="pill">ADMIN</span><button class="danger" onclick="signOut()">Sign out</button></div></div><div class="grid"><div class="card">Students<div class="metric" id="mStudents">—</div></div><div class="card">Collectors<div class="metric" id="mCollectors">—</div></div><div class="card">Approved questions<div class="metric" id="mQuestions">—</div></div><div class="card">Pending batches<div class="metric" id="mPending">—</div></div></div>
 <nav class="tabs" id="adminTabs"><button class="active" onclick="adminPage('overview',this)">Overview</button><button onclick="adminPage('students',this)">Students</button><button onclick="adminPage('collectors',this)">Collectors</button><button onclick="adminPage('bank',this)">Question bank</button><button onclick="adminPage('review',this)">Review queue</button><button onclick="adminPage('challenge',this)">Daily Challenge</button><button onclick="adminPage('reports',this)">Reports</button><button onclick="adminPage('audit',this)">Activity log</button></nav>
-<div id="admin-overview" class="panel adminpage"><h2>Administration overview</h2><div class="notice">Submission approval is handled by authorized administrators. The current backend supports one administrator approval; dual-founder approval is not yet implemented.</div></div><div id="admin-students" class="panel adminpage hidden"><h2>Student management</h2><div id="studentsTable">Admin RPC required.</div></div><div id="admin-collectors" class="panel adminpage hidden"><h2>Collector management</h2><p class="small muted">Create/disable collector accounts and assign subjects through a trusted server function, never a browser service-role key.</p><div id="collectorsTable">Admin RPC required.</div></div><div id="admin-bank" class="panel adminpage hidden"><h2>Question bank</h2><div id="bankTable">Admin RPC required.</div></div><div id="admin-review" class="panel adminpage hidden"><h2>Submission review</h2><div id="reviewQueue">Secure review RPC required.</div></div>
-<div id="admin-challenge" class="panel adminpage hidden"><h2>Configure Daily Challenge</h2><div class="grid"><div><label>Date</label><input id="challengeDate" type="date"></div><div><label>Subject</label><select id="challengeSubject"><option>English</option><option>Physics</option><option>Chemistry</option><option>Biology</option></select></div><div><label>Topic</label><input id="challengeTopic"></div><div><label>Question count</label><select id="challengeCount"><option>10</option><option>15</option><option>20</option><option>30</option></select></div><div><label>Duration</label><select id="challengeTime"><option>10</option><option>15</option><option>20</option><option>30</option></select></div><div><label>Fallback deadline</label><input id="challengeDeadline" type="datetime-local"></div></div><p class="notice">A scheduled server job must publish an approved random question set if no challenge is published by the deadline. It must be identical for all students.</p><button onclick="publishChallenge()">Save / publish</button><p id="challengeStatus" class="small muted"></p></div><div id="admin-reports" class="panel adminpage hidden"><h2>Student reports & corrections</h2><div id="reportsList">Admin RPC required.</div></div><div id="admin-audit" class="panel adminpage hidden"><h2>Admin activity log</h2><div id="auditList">Audit-log RPC required.</div></div></section>
+
+<div id="admin-overview" class="panel adminpage"><h2>Administration overview</h2><div class="notice">Submission approval is handled by authorized administrators. The current backend supports one administrator approval; dual-founder approval is not yet implemented.</div></div>
+<div id="admin-students" class="panel adminpage hidden"><h2>Student management</h2><div id="studentsTable">Admin RPC required.</div></div>
+<div id="admin-collectors" class="panel adminpage hidden"><h2>Collector management</h2><p class="small muted">Create/disable collector accounts and assign subjects through a trusted server function, never a browser service-role key.</p><div id="collectorsTable">Admin RPC required.</div></div>
+
+<!-- ADMIN QUESTION BANK AND IMPORTER -->
+<div id="admin-bank" class="panel adminpage hidden">
+<h2>Question bank</h2>
+<p class="muted">Import questions directly into the approved question bank or add them individually.</p>
+
+<div class="card section">
+<h3>Bulk question importer</h3>
+<p class="small muted">Upload a CSV or Excel file (.csv, .xlsx, .xls). The first row must contain column headings. Review and edit every question before importing. Correct answers are never guessed.</p>
+<label>Choose question file</label>
+<input type="file" id="adminBulkFile" accept=".csv,.xlsx,.xls">
+<div class="admin-import-actions">
+<button onclick="previewAdminBulk()">Preview file</button>
+<button class="secondary" onclick="downloadTemplate()">Download CSV template</button>
+</div>
+<div id="adminImportSummary" class="section"></div>
+<div id="adminImportPreview"></div>
+<button id="adminImportButton" class="good hidden section" onclick="importAdminQuestions()">Import valid questions into question bank</button>
+</div>
+
+<div class="card section">
+<h3>Add a question manually</h3>
+<p class="small muted">Complete the fields below. The question will be added to the preview first, not saved immediately.</p>
+<div class="grid">
+<div><label>Subject</label><select id="adminManualSubject"><option>English</option><option>Physics</option><option>Chemistry</option><option>Biology</option></select></div>
+<div><label>Topic</label><input id="adminManualTopic" placeholder="e.g. Motion"></div>
+</div>
+<label>Question</label>
+<textarea id="adminManualQuestion" rows="3" placeholder="Enter the full question"></textarea>
+<div class="grid">
+<div><label>Option A</label><input id="adminManualA"></div>
+<div><label>Option B</label><input id="adminManualB"></div>
+<div><label>Option C</label><input id="adminManualC"></div>
+<div><label>Option D</label><input id="adminManualD"></div>
+</div>
+<div class="grid">
+<div><label>Correct answer</label><select id="adminManualAnswer"><option value="">Choose correct answer</option><option>A</option><option>B</option><option>C</option><option>D</option></select></div>
+<div><label>Explanation (optional)</label><input id="adminManualExplanation" placeholder="Explain the correct answer"></div>
+</div>
+<button onclick="addManualAdminQuestion()">Add to preview</button>
+</div>
+
+<div class="card section">
+<div class="admin-preview-head">
+<div><h3>Question import preview</h3><p class="small muted">Review and edit the questions here before importing.</p></div>
+<button class="secondary" onclick="clearAdminImport()">Clear preview</button>
+</div>
+<div id="adminImportSummaryBottom" class="small muted">No questions prepared yet.</div>
+<div id="adminImportPreviewBottom"></div>
+<button id="adminImportButtonBottom" class="good hidden section" onclick="importAdminQuestions()">Import valid questions into question bank</button>
+</div>
+
+<div class="section">
+<h3>Existing question bank records</h3>
+<div id="bankTable">Admin RPC required.</div>
+</div>
+</div>
+
+<div id="admin-review" class="panel adminpage hidden"><h2>Submission review</h2><div id="reviewQueue">Secure review RPC required.</div></div>
+<div id="admin-challenge" class="panel adminpage hidden"><h2>Configure Daily Challenge</h2><div class="grid"><div><label>Date</label><input id="challengeDate" type="date"></div><div><label>Subject</label><select id="challengeSubject"><option>English</option><option>Physics</option><option>Chemistry</option><option>Biology</option></select></div><div><label>Topic</label><input id="challengeTopic"></div><div><label>Question count</label><select id="challengeCount"><option>10</option><option>15</option><option>20</option><option>30</option></select></div><div><label>Duration</label><select id="challengeTime"><option>10</option><option>15</option><option>20</option><option>30</option></select></div><div><label>Fallback deadline</label><input id="challengeDeadline" type="datetime-local"></div></div><p class="notice">A scheduled server job must publish an approved random question set if no challenge is published by the deadline. It must be identical for all students.</p><button onclick="publishChallenge()">Save / publish</button><p id="challengeStatus" class="small muted"></p></div>
+<div id="admin-reports" class="panel adminpage hidden"><h2>Student reports & corrections</h2><div id="reportsList">Admin RPC required.</div></div>
+<div id="admin-audit" class="panel adminpage hidden"><h2>Admin activity log</h2><div id="auditList">Audit-log RPC required.</div></div>
+</section>
 </main>
-<div id="exitModal" class="modalback hidden"><div class="modal"><h2>Are you sure you want to quit this examination?</h2><p>Your examination is still in progress. If you exit, your attempt may be marked incomplete. Your answers should be preserved where possible.</p><div class="row"><button class="secondary" onclick="continueExam()">Continue exam</button><button class="danger" onclick="confirmExit()">Exit exam</button></div></div></div><div id="toast" class="modalback hidden" style="z-index:30"><div class="modal"><p id="toastText"></p><button onclick="$('toast').classList.add('hidden')">OK</button></div></div>
+
+<div id="exitModal" class="modalback hidden"><div class="modal"><h2>Are you sure you want to quit this examination?</h2><p>Your examination is still in progress. If you exit, your attempt may be marked incomplete. Your answers should be preserved where possible.</p><div class="row"><button class="secondary" onclick="continueExam()">Continue exam</button><button class="danger" onclick="confirmExit()">Exit exam</button></div></div></div>
+<div id="toast" class="modalback hidden" style="z-index:30"><div class="modal"><p id="toastText"></p><button onclick="$('toast').classList.add('hidden')">OK</button></div></div>
 <footer class="footer">KG JAMB STUDY · KG JAMB STUDY · Secure learning platform</footer>
 
 <script>
@@ -45,6 +115,7 @@ const SUPABASE_URL = 'https://aycckgtshuzpexhupbmf.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_xuSYHzsR23gMFIu-rVw6lg_2hV3I3EH';
 
 let sb=null,user=null,profile=null,mode='login',kind='custom',qs=[],answers={},active=false,timer=null,left=0,staged=[],attemptId=null,submitInFlight=false,autosaveTimer=null;
+let adminStaged=[];
 const $=id=>document.getElementById(id),subjects=['English','Physics','Chemistry','Biology'];
 
 function safe(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
@@ -150,7 +221,6 @@ async function beginExam(){
   if(!Array.isArray(qs)||!qs.length)throw new Error('There are not enough approved questions for this exam.');
   if(!attemptId)throw new Error('The server did not return an examination ID.');
 
-  // Apply the student's selected duration to the server-side attempt.
   const selectedDuration=Number($('duration').value);
   const durationResult=await sb.rpc('set_student_exam_duration',{
     p_attempt_id:attemptId,
@@ -241,15 +311,199 @@ async function loadDaily(){if(!sb)return;const area=$('dailyArea');area.classLis
 async function startDailyExam(){kind='daily';if(!sb)return;const {data,error}=await sb.rpc('start_daily_challenge_attempt');if(error)return showToast(error.message);qs=data?.questions||[];attemptId=data?.attempt_id||null;if(!qs.length||!attemptId)return showToast('No challenge questions were returned.');answers={};left=Number(data.duration_seconds||900);active=true;renderExam();$('dailyArea').classList.add('hidden');timer=setInterval(()=>{left--;tick();if(left<=0)submitExam(true)},1000);tick();addEventListener('beforeunload',beforeUnload)}
 async function saveProfile(){const full_name=$('profileName').value.trim();if(!full_name)return showToast('Full name cannot be empty.');const {error}=await sb.rpc('update_my_profile',{p_full_name:full_name});if(error)return showToast(error.message);profile.full_name=full_name;$('who').textContent=full_name;showToast('Profile updated.')}
 async function loadCollector(){const {data,error}=await sb.rpc('get_my_collector_dashboard');if(error){$('collectorSubjects').textContent='Setup needed';$('collectorHistory').textContent=error.message;return}$('collectorSubjects').textContent=(data.assigned_subjects||[]).join(', ');$('collectorBatches').textContent=data.batch_count??0;$('collectorApproved').textContent=data.approved_question_count??0;$('collectorHistory').textContent=JSON.stringify(data.submissions||[],null,2)}
+
 function csvParse(s){let out=[],r=[],v='',q=false;for(let i=0;i<s.length;i++){let c=s[i];if(c==='"'&&q&&s[i+1]==='"'){v+='"';i++}else if(c==='"')q=!q;else if(c===','&&!q){r.push(v);v=''}else if((c==='\n'||c==='\r')&&!q){if(c==='\r'&&s[i+1]==='\n')i++;r.push(v);if(r.some(x=>x.trim()))out.push(r);r=[];v=''}else v+=c}r.push(v);if(r.some(x=>x.trim()))out.push(r);return out}
 function norm(s){return String(s||'').toLowerCase().replace(/[^a-z0-9]/g,'')}
 function mapQ(h,r){const a={subject:['subject'],topic:['topic','chapter'],question_text:['question','questiontext'],option_a:['a','optiona','option1'],option_b:['b','optionb','option2'],option_c:['c','optionc','option3'],option_d:['d','optiond','option4'],correct_answer:['answer','correctanswer','correctoption','key'],explanation:['explanation','solution']},o={};for(const k in a){const i=h.findIndex(x=>a[k].includes(norm(x)));o[k]=i<0?'':String(r[i]??'').trim()}return o}
+
 async function previewBulk(){try{const f=$('bulkFile').files[0];if(!f)return showToast('Choose a file.');let rows;if(f.name.toLowerCase().endsWith('.csv'))rows=csvParse(await f.text());else{if(!window.XLSX)return showToast('Excel parser unavailable; try CSV.');const w=XLSX.read(await f.arrayBuffer(),{type:'array'});rows=XLSX.utils.sheet_to_json(w.Sheets[w.SheetNames[0]],{header:1,defval:''})}if(!rows.length)return showToast('The file is empty.');const seen=new Set();staged=rows.slice(1).map((r,i)=>{const q=mapQ(rows[0],r),issues=[];if(!subjects.includes(q.subject))issues.push('Invalid subject');if(!q.topic)issues.push('Missing topic');if(!q.question_text)issues.push('Missing question');['option_a','option_b','option_c','option_d'].forEach(k=>{if(!q[k])issues.push('Missing option '+k.slice(-1))});q.correct_answer=q.correct_answer.toUpperCase();if(!['A','B','C','D'].includes(q.correct_answer))issues.push('Missing/invalid answer');const fp=(q.subject+'|'+q.question_text).toLowerCase().replace(/\s+/g,' ').trim();if(seen.has(fp))issues.push('Duplicate within this file');seen.add(fp);q.issues=issues;q.row=i+2;return q});const good=staged.filter(x=>!x.issues.length).length;$('importSummary').textContent=`${staged.length} rows · ${good} valid · ${staged.length-good} need correction. Answers are never guessed.`;$('importPreview').innerHTML='<table class="table"><tr><th>Row</th><th>Subject/topic</th><th>Question</th><th>Answer</th><th>Validation</th></tr>'+staged.slice(0,50).map(q=>`<tr><td>${q.row}</td><td>${safe(q.subject)}<br>${safe(q.topic)}</td><td>${safe(q.question_text)}</td><td>${safe(q.correct_answer)}</td><td>${safe(q.issues.join(', ')||'Ready')}</td></tr>`).join('')+'</table>';$('submitBatch').classList.toggle('hidden',!good)}catch(e){showToast('Could not read file: '+e.message)}}
 async function submitBatch(){if(!sb)return showToast('Backend not configured.');const valid=staged.filter(q=>!q.issues.length);if(!valid.length)return showToast('There are no valid rows to submit.');const btn=$('submitBatch');btn.disabled=true;try{const {error}=await sb.rpc('create_question_submission',{p_questions:valid});if(error)throw error;showToast('Batch submitted for review.');staged=[];$('importPreview').innerHTML='';btn.classList.add('hidden');await loadCollector()}catch(e){showToast('Batch was not confirmed: '+e.message)}finally{btn.disabled=false}}
 function downloadTemplate(){const s='subject,topic,question,option_a,option_b,option_c,option_d,correct_answer,explanation\nPhysics,Motion,What is speed?,Distance/time,Mass/time,Force/time,Work/time,A,Distance divided by time\n',a=document.createElement('a');a.href=URL.createObjectURL(new Blob([s],{type:'text/csv'}));a.download='KG_JAMB_Question_Template.csv';a.click();URL.revokeObjectURL(a.href)}
-async function loadAdmin(){const {data,error}=await sb.rpc('get_admin_dashboard');if(error)return showToast('Admin backend setup required: '+error.message);$('mStudents').textContent=data.students??0;$('mCollectors').textContent=data.collectors??0;$('mQuestions').textContent=data.approved_questions??0;$('mPending').textContent=data.pending_batches??0;for(const [id,key] of [['studentsTable','students_preview'],['collectorsTable','collectors_preview'],['bankTable','question_bank_preview'],['reviewQueue','pending_submissions'],['reportsList','reports'],['auditList','audit_log']])$(id).textContent=JSON.stringify(data[key]||[],null,2)}
+
+// ADMIN QUESTION IMPORTER
+function validateAdminQuestion(q){
+ const issues=[];
+ if(!subjects.includes(q.subject))issues.push('Choose a valid subject');
+ if(!String(q.topic||'').trim())issues.push('Missing topic');
+ if(!String(q.question_text||'').trim())issues.push('Missing question');
+ ['option_a','option_b','option_c','option_d'].forEach(k=>{if(!String(q[k]||'').trim())issues.push('Missing option '+k.slice(-1).toUpperCase())});
+ if(!['A','B','C','D'].includes(String(q.correct_answer||'').trim().toUpperCase()))issues.push('Choose correct answer A, B, C or D');
+ return issues;
+}
+
+function refreshAdminValidation(){
+ const seen=new Set();
+ adminStaged.forEach(q=>{
+  q.subject=String(q.subject||'').trim();
+  q.correct_answer=String(q.correct_answer||'').trim().toUpperCase();
+  q.issues=validateAdminQuestion(q);
+  const fingerprint=(q.subject+'|'+String(q.question_text||'')).toLowerCase().replace(/\s+/g,' ').trim();
+  if(fingerprint!=='|'&&seen.has(fingerprint))q.issues.push('Duplicate within this import');
+  if(fingerprint!=='|')seen.add(fingerprint);
+ });
+ const valid=adminStaged.filter(q=>!q.issues.length).length;
+ const invalid=adminStaged.length-valid;
+ const summary=`${adminStaged.length} questions prepared · ${valid} valid · ${invalid} need correction.`;
+ $('adminImportSummary').textContent=summary;
+ $('adminImportSummaryBottom').textContent=summary;
+ $('adminImportButton').classList.toggle('hidden',valid===0);
+ $('adminImportButtonBottom').classList.toggle('hidden',valid===0);
+ renderAdminImportPreview();
+}
+
+function updateAdminDraft(index,field,value){
+ if(!adminStaged[index])return;
+ adminStaged[index][field]=value;
+ refreshAdminValidation();
+}
+
+function renderAdminImportPreview(){
+ const host=$('adminImportPreview');
+ const bottom=$('adminImportPreviewBottom');
+ if(!adminStaged.length){
+  host.innerHTML='<p class="small muted">No file questions loaded.</p>';
+  bottom.innerHTML='<p class="small muted">Add questions manually or upload a file to see them here.</p>';
+  return;
+ }
+ const html=adminStaged.map((q,i)=>{
+  const subjectOptions=subjects.map(s=>`<option value="${s}" ${q.subject===s?'selected':''}>${s}</option>`).join('');
+  const answerOptions=['A','B','C','D'].map(a=>`<option value="${a}" ${q.correct_answer===a?'selected':''}>${a}</option>`).join('');
+  return `<div class="admin-question-card">
+   <div class="between"><b>Question ${i+1}</b><button class="danger" onclick="removeAdminDraft(${i})">Remove</button></div>
+   <div class="grid">
+    <div><label>Subject</label><select onchange="updateAdminDraft(${i},'subject',this.value)">${subjectOptions}</select></div>
+    <div><label>Topic</label><input value="${safe(q.topic)}" oninput="updateAdminDraft(${i},'topic',this.value)"></div>
+   </div>
+   <label>Question</label><textarea oninput="updateAdminDraft(${i},'question_text',this.value)">${safe(q.question_text)}</textarea>
+   <div class="grid">
+    <div><label>Option A</label><input value="${safe(q.option_a)}" oninput="updateAdminDraft(${i},'option_a',this.value)"></div>
+    <div><label>Option B</label><input value="${safe(q.option_b)}" oninput="updateAdminDraft(${i},'option_b',this.value)"></div>
+    <div><label>Option C</label><input value="${safe(q.option_c)}" oninput="updateAdminDraft(${i},'option_c',this.value)"></div>
+    <div><label>Option D</label><input value="${safe(q.option_d)}" oninput="updateAdminDraft(${i},'option_d',this.value)"></div>
+   </div>
+   <div class="grid">
+    <div><label>Correct answer</label><select onchange="updateAdminDraft(${i},'correct_answer',this.value)"><option value="">Choose answer</option>${answerOptions}</select></div>
+    <div><label>Explanation (optional)</label><textarea oninput="updateAdminDraft(${i},'explanation',this.value)">${safe(q.explanation)}</textarea></div>
+   </div>
+   <p class="${q.issues.length?'admin-issue':'admin-ready'}">${q.issues.length?'⚠ '+safe(q.issues.join(' · ')):'✓ Ready to import'}</p>
+  </div>`;
+ }).join('');
+ host.innerHTML=html;
+ bottom.innerHTML=html;
+}
+
+async function previewAdminBulk(){
+ try{
+  const f=$('adminBulkFile').files[0];
+  if(!f)return showToast('Choose a CSV or Excel file first.');
+  let rows;
+  if(f.name.toLowerCase().endsWith('.csv')){
+   rows=csvParse(await f.text());
+  }else{
+   if(!window.XLSX)return showToast('Excel reader unavailable. Try a CSV file.');
+   const workbook=XLSX.read(await f.arrayBuffer(),{type:'array'});
+   const sheet=workbook.Sheets[workbook.SheetNames[0]];
+   rows=XLSX.utils.sheet_to_json(sheet,{header:1,defval:''});
+  }
+  if(!rows||rows.length<2)return showToast('The file has no question rows. Check that the first row contains headings.');
+  adminStaged=rows.slice(1).filter(r=>r.some(x=>String(x??'').trim())).map((r,i)=>{
+   const q=mapQ(rows[0],r);
+   return {...q,correct_answer:String(q.correct_answer||'').toUpperCase(),source_row:i+2};
+  });
+  refreshAdminValidation();
+  showToast('File loaded. Review and correct the questions before importing.');
+ }catch(e){
+  showToast('Could not read the file: '+e.message);
+ }
+}
+
+function addManualAdminQuestion(){
+ const q={
+  subject:$('adminManualSubject').value,
+  topic:$('adminManualTopic').value.trim(),
+  question_text:$('adminManualQuestion').value.trim(),
+  option_a:$('adminManualA').value.trim(),
+  option_b:$('adminManualB').value.trim(),
+  option_c:$('adminManualC').value.trim(),
+  option_d:$('adminManualD').value.trim(),
+  correct_answer:$('adminManualAnswer').value,
+  explanation:$('adminManualExplanation').value.trim()
+ };
+ const issues=validateAdminQuestion(q);
+ if(issues.length){
+  showToast('Please complete the required fields: '+issues.join(', '));
+  return;
+ }
+ adminStaged.push(q);
+ ['adminManualTopic','adminManualQuestion','adminManualA','adminManualB','adminManualC','adminManualD','adminManualExplanation'].forEach(id=>$(id).value='');
+ $('adminManualAnswer').value='';
+ refreshAdminValidation();
+ showToast('Question added to the preview. It has not been imported yet.');
+}
+
+function removeAdminDraft(index){
+ adminStaged.splice(index,1);
+ refreshAdminValidation();
+}
+
+function clearAdminImport(){
+ adminStaged=[];
+ $('adminBulkFile').value='';
+ refreshAdminValidation();
+}
+
+async function importAdminQuestions(){
+ if(!sb)return showToast('Backend is not connected.');
+ if(!profile||profile.role!=='admin'||profile.is_active===false)return showToast('Administrator access is required.');
+ refreshAdminValidation();
+ const valid=adminStaged.filter(q=>!q.issues.length).map(q=>({
+  subject:q.subject,
+  topic:q.topic,
+  question_text:q.question_text,
+  option_a:q.option_a,
+  option_b:q.option_b,
+  option_c:q.option_c,
+  option_d:q.option_d,
+  correct_answer:q.correct_answer,
+  explanation:q.explanation||''
+ }));
+ if(!valid.length)return showToast('There are no valid questions to import.');
+ if(!confirm(`Import ${valid.length} valid question(s) directly into the approved question bank?`))return;
+ const buttons=[$('adminImportButton'),$('adminImportButtonBottom')];
+ buttons.forEach(b=>b.disabled=true);
+ try{
+  const {data,error}=await sb.rpc('admin_import_questions',{p_questions:valid});
+  if(error)throw error;
+  const result=Array.isArray(data)?data[0]:data;
+  const inserted=Number(result?.inserted??0);
+  const duplicates=Number(result?.duplicates_skipped??0);
+  const submitted=Number(result?.submitted??valid.length);
+  adminStaged=[];
+  $('adminBulkFile').value='';
+  refreshAdminValidation();
+  showToast(`Import completed. ${inserted} question(s) added to the approved question bank. ${duplicates} duplicate(s) skipped. ${submitted} valid question(s) were submitted.`);
+  await loadAdmin();
+ }catch(e){
+  showToast('Import was not confirmed: '+e.message+'. Your preview is still available; no success is being assumed.');
+ }finally{
+  buttons.forEach(b=>b.disabled=false);
+ }
+}
+
+async function loadAdmin(){
+ const {data,error}=await sb.rpc('get_admin_dashboard');
+ if(error)return showToast('Admin backend setup required: '+error.message);
+ $('mStudents').textContent=data.students??0;
+ $('mCollectors').textContent=data.collectors??0;
+ $('mQuestions').textContent=data.approved_questions??0;
+ $('mPending').textContent=data.pending_batches??0;
+ for(const [id,key] of [['studentsTable','students_preview'],['collectorsTable','collectors_preview'],['bankTable','question_bank_preview'],['reviewQueue','pending_submissions'],['reportsList','reports'],['auditList','audit_log']]){
+  $(id).textContent=JSON.stringify(data[key]||[],null,2);
+ }
+}
 function adminPage(p,b){document.querySelectorAll('.adminpage').forEach(x=>x.classList.add('hidden'));$('admin-'+p).classList.remove('hidden');document.querySelectorAll('#adminTabs button').forEach(x=>x.classList.remove('active'));b.classList.add('active')}
 async function publishChallenge(){const p={challenge_date:$('challengeDate').value,subject:$('challengeSubject').value,topic:$('challengeTopic').value||null,question_count:Number($('challengeCount').value),duration_minutes:Number($('challengeTime').value),fallback_deadline:$('challengeDeadline').value||null};const {data,error}=await sb.rpc('admin_publish_daily_challenge',{p_challenge:p});$('challengeStatus').textContent=error?'Could not publish: '+error.message:'Challenge publication request confirmed: '+JSON.stringify(data||'')}
+
 addEventListener('DOMContentLoaded',init);
 </script>
 </body>
