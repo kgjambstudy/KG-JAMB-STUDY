@@ -51,6 +51,8 @@ label{display:block;font-weight:650;margin:10px 0 5px}
 .modalback{position:fixed;inset:0;background:#061525b8;display:grid;place-items:center;padding:18px;z-index:20}
 .modal{background:white;max-width:450px;width:100%;padding:22px;border-radius:14px}
 .footer{text-align:center;color:var(--muted);padding:24px;font-size:12px}
+.import-scroll{width:100%;overflow-x:auto}
+.import-status{padding:11px;border-radius:8px;background:#eef7ff;margin:10px 0;font-size:13px}
 @media(max-width:600px){.wrap{margin:12px auto}.panel,.card{padding:13px}.table{display:block;overflow-x:auto}}
 </style>
 </head>
@@ -208,7 +210,45 @@ label{display:block;font-weight:650;margin:10px 0 5px}
 <div id="admin-overview" class="panel adminpage"><h2>Administration overview</h2><div class="notice">Dual-founder approval: Gerald and Kings must independently approve a batch. No self-approval. Enforce this in secure database functions.</div></div>
 <div id="admin-students" class="panel adminpage hidden"><h2>Student management</h2><div id="studentsTable">Admin RPC required.</div></div>
 <div id="admin-collectors" class="panel adminpage hidden"><h2>Collector management</h2><p class="small muted">Create/disable collector accounts and assign subjects through a trusted server function, never a browser service-role key.</p><div id="collectorsTable">Admin RPC required.</div></div>
-<div id="admin-bank" class="panel adminpage hidden"><h2>Question bank</h2><div id="bankTable">Admin RPC required.</div></div>
+
+<div id="admin-bank" class="panel adminpage hidden">
+<h2>Question bank</h2>
+
+<div class="notice">
+<strong>Direct Admin Import</strong><br>
+Questions imported here are sent directly to the approved question bank. Only an active administrator can use this operation.
+</div>
+
+<div class="card section">
+<h3>Bulk question uploader</h3>
+<p class="small muted">
+Upload CSV or Excel files. Every question must contain a valid subject, topic, question, four options and correct answer. The system will not guess missing answers.
+</p>
+
+<label for="adminBulkFile">Choose question file</label>
+<input type="file" id="adminBulkFile" accept=".csv,.xlsx,.xls">
+
+<div class="row section">
+<button onclick="previewAdminBulk()">Preview questions</button>
+<button class="secondary" onclick="downloadAdminTemplate()">Download CSV template</button>
+</div>
+
+<div id="adminImportSummary"></div>
+<div id="adminImportPreview" class="import-scroll"></div>
+
+<button id="adminImportBtn" class="good section hidden" onclick="importAdminQuestions()">
+Import approved questions
+</button>
+
+<p id="adminImportStatus" class="status-line"></p>
+</div>
+
+<div class="section">
+<h3>Question bank information</h3>
+<div id="bankTable">Admin RPC required.</div>
+</div>
+</div>
+
 <div id="admin-review" class="panel adminpage hidden"><h2>Submission review</h2><div id="reviewQueue">Secure review RPC required.</div></div>
 
 <div id="admin-challenge" class="panel adminpage hidden">
@@ -261,6 +301,7 @@ const SUPABASE_ANON_KEY='sb_publishable_xuSYHzsR23gMFIu-rVw6lg_2hV3I3EH';
 
 let sb=null,user=null,profile=null,mode='login',kind='custom';
 let qs=[],answers={},active=false,timer=null,left=0,staged=[];
+let adminStaged=[],adminImportBusy=false;
 let attemptId=null,submitInFlight=false,autosaveTimer=null;
 let progressSaving=false,progressSavePromise=null,progressDirty=false;
 let dailyChallengeSubject='';
@@ -525,14 +566,12 @@ async function beginExam(){
   if(!newAttemptId)throw new Error('The server did not return an examination ID.');
   if(!Array.isArray(newQuestions)||!newQuestions.length)throw new Error('There are not enough approved questions for this exam.');
 
-  // Apply the student's selected duration through the protected server function.
   const {error:durationError}=await sb.rpc('set_student_exam_duration',{
    p_attempt_id:newAttemptId,
    p_duration_minutes:selectedDuration
   });
 
   if(durationError){
-   // Avoid leaving an unwanted active attempt behind if duration setup fails.
    await sb.rpc('abandon_student_exam',{p_attempt_id:newAttemptId});
    throw new Error('The exam was created, but its duration could not be set: '+durationError.message);
   }
@@ -640,7 +679,6 @@ async function saveExamProgress(){
 
     if($('saveState'))$('saveState').textContent='Answers saved to your account.';
    }catch(e){
-    // Keep the local backup and mark progress dirty for the next retry.
     progressDirty=true;
     if($('saveState'))$('saveState').textContent='Offline backup saved on this device. Server sync will retry.';
     break;
@@ -900,7 +938,6 @@ async function submitExam(auto=false){
    (review.length?review.map((x,i)=>renderQuestionReview(x,i)).join(''):'<p class="muted">The result was saved, but detailed review was not returned.</p>')+
    '<button class="good section" onclick="returnToDashboard()">Return to dashboard</button>';
 
-  // Clear the completed attempt from local exam state.
   attemptId=null;
   qs=[];
   answers={};
@@ -1122,67 +1159,106 @@ function mapQ(h,r){
  return o;
 }
 
+async function readQuestionFile(file){
+ let rows;
+
+ if(file.name.toLowerCase().endsWith('.csv')){
+  rows=csvParse(await file.text());
+ }else{
+  if(!window.XLSX)throw new Error('Excel parser unavailable. Try uploading a CSV file.');
+
+  const workbook=XLSX.read(await file.arrayBuffer(),{type:'array'});
+  const firstSheet=workbook.Sheets[workbook.SheetNames[0]];
+
+  if(!firstSheet)throw new Error('The Excel file has no readable worksheet.');
+
+  rows=XLSX.utils.sheet_to_json(firstSheet,{header:1,defval:''});
+ }
+
+ if(!rows.length)throw new Error('The file is empty.');
+
+ return rows;
+}
+
+function validateQuestionRows(rows){
+ if(!rows.length)throw new Error('The file contains no question rows.');
+
+ const seen=new Set();
+
+ return rows.map((r,i)=>{
+  const q=mapQ(rows[0],r);
+  const issues=[];
+
+  q.subject=q.subject.trim();
+  q.topic=q.topic.trim();
+  q.question_text=q.question_text.trim();
+  q.correct_answer=q.correct_answer.trim().toUpperCase();
+
+  if(!subjects.includes(q.subject))issues.push('Invalid subject');
+  if(!q.topic)issues.push('Missing topic');
+  if(!q.question_text)issues.push('Missing question');
+
+  ['option_a','option_b','option_c','option_d'].forEach(k=>{
+   if(!q[k])issues.push('Missing option '+k.slice(-1));
+  });
+
+  if(!['A','B','C','D'].includes(q.correct_answer)){
+   issues.push('Missing/invalid answer');
+  }
+
+  const fp=(q.subject+'|'+q.question_text).toLowerCase().replace(/\s+/g,' ').trim();
+
+  if(seen.has(fp))issues.push('Duplicate within this file');
+  seen.add(fp);
+
+  q.issues=issues;
+  q.row=i+2;
+
+  return q;
+ });
+}
+
+function renderImportPreview(items,summaryId,previewId,buttonId){
+ const valid=items.filter(q=>!q.issues.length);
+ const invalid=items.length-valid.length;
+
+ $(summaryId).innerHTML=
+  `<div class="import-status">
+   <strong>${items.length} rows found</strong><br>
+   ${valid.length} valid · ${invalid} need correction.
+   The preview shows up to 50 rows.
+   </div>`;
+
+ $(previewId).innerHTML=
+  '<table class="table"><tr><th>Row</th><th>Subject/topic</th><th>Question</th><th>Answer</th><th>Validation</th></tr>'+
+  items.slice(0,50).map(q=>
+   `<tr>
+    <td>${q.row}</td>
+    <td>${safe(q.subject)}<br>${safe(q.topic)}</td>
+    <td>${safe(q.question_text)}</td>
+    <td>${safe(q.correct_answer)}</td>
+    <td>${safe(q.issues.join(', ')||'Ready')}</td>
+   </tr>`
+  ).join('')+'</table>';
+
+ $(buttonId).classList.toggle('hidden',valid.length===0);
+ return {valid,invalid};
+}
+
 async function previewBulk(){
  try{
   const f=$('bulkFile').files[0];
 
   if(!f)return showToast('Choose a file.');
 
-  let rows;
+  const rows=await readQuestionFile(f);
+  staged=validateQuestionRows(rows.slice(1));
 
-  if(f.name.toLowerCase().endsWith('.csv')){
-   rows=csvParse(await f.text());
-  }else{
-   if(!window.XLSX)return showToast('Excel parser unavailable; try CSV.');
+  const result=renderImportPreview(staged,'importSummary','importPreview','submitBatch');
 
-   const w=XLSX.read(await f.arrayBuffer(),{type:'array'});
-   rows=XLSX.utils.sheet_to_json(w.Sheets[w.SheetNames[0]],{header:1,defval:''});
+  if(!result.valid.length){
+   $('importSummary').innerHTML+='<p>No valid questions to submit. Correct the errors and upload the file again.</p>';
   }
-
-  if(!rows.length)return showToast('The file is empty.');
-
-  const seen=new Set();
-
-  staged=rows.slice(1).map((r,i)=>{
-   const q=mapQ(rows[0],r);
-   const issues=[];
-
-   if(!subjects.includes(q.subject))issues.push('Invalid subject');
-   if(!q.topic)issues.push('Missing topic');
-   if(!q.question_text)issues.push('Missing question');
-
-   ['option_a','option_b','option_c','option_d'].forEach(k=>{
-    if(!q[k])issues.push('Missing option '+k.slice(-1));
-   });
-
-   q.correct_answer=q.correct_answer.toUpperCase();
-
-   if(!['A','B','C','D'].includes(q.correct_answer))issues.push('Missing/invalid answer');
-
-   const fp=(q.subject+'|'+q.question_text).toLowerCase().replace(/\s+/g,' ').trim();
-
-   if(seen.has(fp))issues.push('Duplicate within this file');
-   seen.add(fp);
-
-   q.issues=issues;
-   q.row=i+2;
-
-   return q;
-  });
-
-  const good=staged.filter(x=>!x.issues.length).length;
-
-  $('importSummary').textContent=
-   `${staged.length} rows · ${good} valid · ${staged.length-good} need correction. Answers are never guessed.`;
-
-  $('importPreview').innerHTML=
-   '<table class="table"><tr><th>Row</th><th>Subject/topic</th><th>Question</th><th>Answer</th><th>Validation</th></tr>'+
-   staged.slice(0,50).map(q=>
-    `<tr><td>${q.row}</td><td>${safe(q.subject)}<br>${safe(q.topic)}</td><td>${safe(q.question_text)}</td><td>${safe(q.correct_answer)}</td><td>${safe(q.issues.join(', ')||'Ready')}</td></tr>`
-   ).join('')+'</table>';
-
-  $('submitBatch').classList.toggle('hidden',!good);
-
  }catch(e){
   showToast('Could not read file: '+e.message);
  }
@@ -1199,8 +1275,6 @@ async function submitBatch(){
  btn.disabled=true;
 
  try{
-  // Send only the question fields expected by the backend.
-  // Frontend-only fields such as "issues" and "row" are excluded.
   const payload=valid.map(q=>({
    subject:q.subject,
    topic:q.topic,
@@ -1223,6 +1297,7 @@ async function submitBatch(){
   staged=[];
   $('importPreview').innerHTML='';
   $('importSummary').textContent='';
+  $('bulkFile').value='';
   btn.classList.add('hidden');
 
   await loadCollector();
@@ -1237,14 +1312,149 @@ async function submitBatch(){
 function downloadTemplate(){
  const s='subject,topic,question,option_a,option_b,option_c,option_d,correct_answer,explanation\nPhysics,Motion,What is speed?,Distance/time,Mass/time,Force/time,Work/time,A,Distance divided by time\n';
 
+ downloadCSV(s,'KG_JAMB_Question_Template.csv');
+}
+
+function downloadAdminTemplate(){
+ const s='subject,topic,question,option_a,option_b,option_c,option_d,correct_answer,explanation\nPhysics,Motion,What is speed?,Distance/time,Mass/time,Force/time,Work/time,A,Distance divided by time\n';
+
+ downloadCSV(s,'KG_JAMB_Admin_Import_Template.csv');
+}
+
+function downloadCSV(content,filename){
  const a=document.createElement('a');
- const url=URL.createObjectURL(new Blob([s],{type:'text/csv'}));
+ const url=URL.createObjectURL(new Blob([content],{type:'text/csv;charset=utf-8'}));
 
  a.href=url;
- a.download='KG_JAMB_Question_Template.csv';
+ a.download=filename;
  a.click();
 
  setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+
+// ADMIN DIRECT QUESTION IMPORT
+// The database function performs the final admin-role validation.
+async function previewAdminBulk(){
+ if(!profile||profile.role!=='admin'){
+  return showToast('Administrator access is required.');
+ }
+
+ try{
+  const f=$('adminBulkFile').files[0];
+
+  if(!f)return showToast('Choose a CSV or Excel file.');
+
+  const rows=await readQuestionFile(f);
+  adminStaged=validateQuestionRows(rows.slice(1));
+
+  const valid=adminStaged.filter(q=>!q.issues.length);
+
+  const result=renderImportPreview(
+   adminStaged,
+   'adminImportSummary',
+   'adminImportPreview',
+   'adminImportBtn'
+  );
+
+  if(adminStaged.length>500){
+   $('adminImportBtn').classList.add('hidden');
+   $('adminImportSummary').innerHTML+=
+    '<p class="notice">This file contains more than 500 question rows. Split it into smaller files before importing.</p>';
+  }else if(!valid.length){
+   $('adminImportSummary').innerHTML+=
+    '<p class="notice">No valid questions are available for import.</p>';
+  }else{
+   $('adminImportSummary').innerHTML+=
+    `<p class="small muted">${result.valid.length} valid questions are ready for direct admin import. Invalid rows will not be sent.</p>`;
+  }
+
+  $('adminImportStatus').textContent='Preview complete. Check the validation column before importing.';
+ }catch(e){
+  adminStaged=[];
+  $('adminImportBtn').classList.add('hidden');
+  showToast('Could not read admin import file: '+e.message);
+ }
+}
+
+async function importAdminQuestions(){
+ if(!sb)return showToast('Supabase is not connected.');
+
+ if(!profile||profile.role!=='admin'){
+  return showToast('Administrator access is required.');
+ }
+
+ if(adminImportBusy)return;
+
+ const valid=adminStaged.filter(q=>!q.issues.length);
+
+ if(!valid.length)return showToast('There are no valid questions to import.');
+
+ if(adminStaged.length>500){
+  return showToast('The file has more than 500 question rows. Split it into smaller files.');
+ }
+
+ const confirmed=confirm(
+  `Import ${valid.length} valid questions directly into the approved question bank?\n\n`+
+  'The database will skip duplicates. This operation cannot be undone from this page.'
+ );
+
+ if(!confirmed)return;
+
+ const btn=$('adminImportBtn');
+ adminImportBusy=true;
+ btn.disabled=true;
+ btn.textContent='Importing…';
+ $('adminImportStatus').textContent='Sending questions to Supabase. Please do not close this page.';
+
+ try{
+  const payload=valid.map(q=>({
+   subject:q.subject,
+   topic:q.topic,
+   question_text:q.question_text,
+   option_a:q.option_a,
+   option_b:q.option_b,
+   option_c:q.option_c,
+   option_d:q.option_d,
+   correct_answer:q.correct_answer,
+   explanation:q.explanation
+  }));
+
+  const {data,error}=await sb.rpc('admin_import_questions',{
+   p_questions:payload
+  });
+
+  if(error)throw error;
+
+  const inserted=Number(data?.inserted??0);
+  const duplicates=Number(data?.duplicates_skipped??0);
+  const submitted=Number(data?.submitted??valid.length);
+
+  $('adminImportStatus').innerHTML=
+   `<strong>Import completed.</strong><br>
+    Submitted: ${safe(submitted)}<br>
+    Inserted into question bank: ${safe(inserted)}<br>
+    Duplicates skipped: ${safe(duplicates)}`;
+
+  showToast(
+   `Import completed.\n${inserted} questions inserted.\n${duplicates} duplicates skipped.`
+  );
+
+  adminStaged=[];
+  $('adminBulkFile').value='';
+  $('adminImportPreview').innerHTML='';
+  $('adminImportSummary').innerHTML='';
+  btn.classList.add('hidden');
+
+  await loadAdmin();
+
+ }catch(e){
+  $('adminImportStatus').textContent='Import failed: '+e.message;
+  showToast('Admin import failed: '+e.message);
+ }finally{
+  adminImportBusy=false;
+  btn.disabled=false;
+  btn.textContent='Import approved questions';
+ }
 }
 
 async function loadAdmin(){
