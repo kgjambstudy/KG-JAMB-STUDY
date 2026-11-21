@@ -112,6 +112,17 @@ label{display:block;font-weight:650;margin:10px 0 5px}
   font-weight:850;
   color:var(--b);
 }
+
+/* Exam review display */
+.review-question{border:1px solid var(--line);border-radius:10px;padding:14px;margin:14px 0;background:white}
+.review-option{padding:8px 10px;border:1px solid var(--line);border-radius:8px;margin:7px 0}
+.review-option.review-selected{border-color:#1769aa;background:#eef7ff}
+.review-option.review-correct{border-color:#16794b;background:#eefaf3}
+.review-status{font-weight:750;margin:8px 0}
+.review-status.correct{color:#16794b}
+.review-status.incorrect{color:#b42318}
+.review-answer{margin:8px 0}
+.admin-bank-controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin:12px 0}
 @media(max-width:600px){
   .wrap{margin:12px auto}
   .panel,.card{padding:13px}
@@ -539,6 +550,23 @@ label{display:block;font-weight:650;margin:10px 0 5px}
 
     <div class="section">
       <h3>Existing question bank records</h3>
+
+      <div class="admin-bank-controls">
+        <div>
+          <label for="adminBankSearch">Search questions</label>
+          <input id="adminBankSearch" type="search" placeholder="Search question, topic or subject" oninput="renderAdminQuestionBank()">
+        </div>
+        <div>
+          <label for="adminBankStatus">Filter by status</label>
+          <select id="adminBankStatus" onchange="renderAdminQuestionBank()">
+            <option value="all">All statuses</option>
+            <option value="approved">Approved</option>
+            <option value="draft">Draft</option>
+            <option value="archived">Archived</option>
+          </select>
+        </div>
+      </div>
+
       <div id="bankTable">Admin RPC required.</div>
     </div>
   </div>
@@ -623,6 +651,7 @@ const SUPABASE_ANON_KEY = 'sb_publishable_xuSYHzsR23gMFIu-rVw6lg_2hV3I3EH';
 let sb=null,user=null,profile=null,mode='login',kind='custom',qs=[],answers={},active=false,timer=null,left=0,staged=[],attemptId=null,submitInFlight=false,autosaveTimer=null;
 let adminStaged=[];
 let studentViewSnapshot=[];
+let adminQuestionBankRows=[];
 
 const $=id=>document.getElementById(id);
 const subjects=['English','Physics','Chemistry','Biology'];
@@ -1229,6 +1258,64 @@ onpopstate=()=>{
 };
 
 
+/* EXAM REVIEW DISPLAY */
+
+function renderQuestionReview(q,i){
+  const selected=String(q.selected_answer??q.student_answer??'').trim().toUpperCase();
+  const correct=String(q.correct_answer??'').trim().toUpperCase();
+
+  const isCorrect=typeof q.is_correct==='boolean'
+    ?q.is_correct
+    :(selected!==''&&selected===correct);
+
+  const options=['A','B','C','D'].map(letter=>{
+    const lower=letter.toLowerCase();
+    const value=q['option_'+lower]??q.options?.[letter]??q.options?.[lower]??'';
+    const isSelected=selected===letter;
+    const isAnswer=correct===letter;
+
+    let classes='review-option';
+    if(isSelected)classes+=' review-selected';
+    if(isAnswer)classes+=' review-correct';
+
+    let markers=[];
+    if(isSelected)markers.push('Your answer');
+    if(isAnswer)markers.push('Correct answer');
+
+    return `
+      <div class="${classes}">
+        <b>${letter}.</b> ${safe(value)}
+        ${markers.length?`<span class="small muted"> — ${safe(markers.join(' · '))}</span>`:''}
+      </div>
+    `;
+  }).join('');
+
+  return `
+    <div class="review-question">
+      <div class="review-status ${isCorrect?'correct':'incorrect'}">
+        ${i+1}. ${isCorrect?'✓ Correct':'✗ Incorrect'}
+      </div>
+
+      <p><b>${safe(q.question_text||q.question||'Question')}</b></p>
+
+      <div>${options}</div>
+
+      <p class="review-answer">
+        <b>Your answer:</b>
+        ${selected?safe(selected):'Not answered'}
+      </p>
+
+      <p class="review-answer">
+        <b>Correct answer:</b>
+        ${correct?safe(correct):'Not provided'}
+      </p>
+
+      <p><b>Explanation:</b> ${safe(q.explanation||'Explanation pending.')}</p>
+    </div>
+  `;
+}
+
+
 /* EXAMINATION SUBMISSION */
 
 async function submitExam(auto=false){
@@ -1264,18 +1351,17 @@ async function submitExam(auto=false){
       localStorage.removeItem('kg_exam_backup_'+attemptId);
     }
 
+    const review=Array.isArray(data?.review)?data.review:[];
+
     $('examArea').innerHTML=
       '<h2>Examination submitted</h2>'+
       '<p>Result confirmed and saved by the server.</p>'+
       (data?.score!==undefined
         ?`<div class="metric">${safe(data.score)} / ${safe(data.total||qs.length)}</div>`
         :'')+
-      (data?.review||[]).map((x,i)=>
-        `<div class="section">
-          <b>${i+1}. Correct answer: ${safe(x.correct_answer)}</b>
-          <p>${safe(x.explanation||'Explanation pending.')}</p>
-        </div>`
-      ).join('')+
+      (review.length
+        ?'<h3 class="section">Question review</h3>'+review.map((x,i)=>renderQuestionReview(x,i)).join('')
+        :'<p class="notice">The server did not return question-by-question review details for this attempt.</p>')+
       '<button class="section" onclick="returnToDashboard()">Return to Dashboard</button>';
 
     await loadStudent();
@@ -1333,13 +1419,9 @@ async function reviewAttempt(id){
     return;
   }
 
-  $('historyList').innerHTML=questions.map((q,i)=>
-    `<div class="card section">
-      <b>${i+1}. ${safe(q.question_text||q.question||'Question')}</b>
-      <p>Your answer: ${safe(q.selected_answer??q.student_answer??'Not answered')} · Correct: ${safe(q.correct_answer)}</p>
-      <p>${safe(q.explanation||'Explanation pending.')}</p>
-    </div>`
-  ).join('');
+  $('historyList').innerHTML=
+    '<h3>Examination review</h3>'+
+    questions.map((q,i)=>renderQuestionReview(q,i)).join('');
 }
 
 async function loadSaved(mode){
@@ -1931,9 +2013,130 @@ async function importAdminQuestions(){
 }
 
 
+/* ADMIN QUESTION BANK RECORDS */
+
+function renderAdminQuestionBank(){
+  const host=$('bankTable');
+
+  if(!adminQuestionBankRows.length){
+    host.innerHTML='<p class="muted">No question records were returned by the admin dashboard.</p>';
+    return;
+  }
+
+  const search=String($('adminBankSearch')?.value||'').trim().toLowerCase();
+  const statusFilter=$('adminBankStatus')?.value||'all';
+
+  const filtered=adminQuestionBankRows.filter(q=>{
+    const status=String(q.status||'').toLowerCase();
+
+    if(statusFilter!=='all'&&status!==statusFilter)return false;
+
+    const searchable=[
+      q.subject,
+      q.topic,
+      q.question_text,
+      q.correct_answer,
+      q.explanation
+    ].join(' ').toLowerCase();
+
+    return !search||searchable.includes(search);
+  });
+
+  if(!filtered.length){
+    host.innerHTML='<p class="muted">No questions match your search or selected status.</p>';
+    return;
+  }
+
+  host.innerHTML=filtered.map((q,index)=>{
+    const status=String(q.status||'unknown').toLowerCase();
+    const options=q.options||{};
+    const optionA=q.option_a??options.A??options.a??'';
+    const optionB=q.option_b??options.B??options.b??'';
+    const optionC=q.option_c??options.C??options.c??'';
+    const optionD=q.option_d??options.D??options.d??'';
+
+    const questionId=String(q.id||'');
+
+    const action=status==='archived'
+      ?`<button class="good" onclick="adminSetQuestionArchived('${safe(questionId)}',false)">Restore question</button>`
+      :`<button class="danger" onclick="adminSetQuestionArchived('${safe(questionId)}',true)">Archive question</button>`;
+
+    return `
+      <div class="admin-question-card">
+        <div class="between">
+          <div>
+            <span class="pill">${safe(q.subject||'Subject unavailable')}</span>
+            <span class="pill">${safe(status)}</span>
+          </div>
+          <span class="small muted">Record ${index+1}</span>
+        </div>
+
+        <p><b>Topic:</b> ${safe(q.topic||'Not specified')}</p>
+        <p><b>Question:</b> ${safe(q.question_text||'Question text unavailable')}</p>
+
+        <div class="grid">
+          <div><b>A.</b> ${safe(optionA)}</div>
+          <div><b>B.</b> ${safe(optionB)}</div>
+          <div><b>C.</b> ${safe(optionC)}</div>
+          <div><b>D.</b> ${safe(optionD)}</div>
+        </div>
+
+        <p><b>Correct answer:</b> ${safe(q.correct_answer||'Not specified')}</p>
+        <p><b>Explanation:</b> ${safe(q.explanation||'No explanation provided.')}</p>
+
+        <div class="row section">
+          ${questionId?action:'<span class="small muted">Question ID unavailable; archive controls cannot be used.</span>'}
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+async function adminSetQuestionArchived(questionId,archived){
+  if(!sb)return showToast('Backend is not connected.');
+
+  if(!profile||profile.role!=='admin'||profile.is_active===false){
+    return showToast('Active administrator access is required.');
+  }
+
+  if(!questionId)return showToast('Question ID is missing.');
+
+  const action=archived?'archive':'restore';
+  const confirmation=archived
+    ?'Archive this question? It will not be permanently deleted.'
+    :'Restore this question to the approved question bank?';
+
+  if(!confirm(confirmation))return;
+
+  try{
+    const {data,error}=await sb.rpc('admin_set_question_archived',{
+      p_question_id:questionId,
+      p_archived:archived
+    });
+
+    if(error)throw error;
+
+    if(data?.success===false){
+      throw new Error('The server did not confirm the change.');
+    }
+
+    showToast(archived
+      ?'Question archived successfully.'
+      :'Question restored successfully.');
+
+    await loadAdmin();
+
+  }catch(e){
+    showToast('Could not '+action+' question: '+e.message);
+  }
+}
+
+
 /* ADMIN DASHBOARD */
 
 async function loadAdmin(){
+  if(!sb)return;
+
   const {data,error}=await sb.rpc('get_admin_dashboard');
 
   if(error)return showToast('Admin backend setup required: '+error.message);
@@ -1946,13 +2149,18 @@ async function loadAdmin(){
   for(const [id,key] of [
     ['studentsTable','students_preview'],
     ['collectorsTable','collectors_preview'],
-    ['bankTable','question_bank_preview'],
     ['reviewQueue','pending_submissions'],
     ['reportsList','reports'],
     ['auditList','audit_log']
   ]){
     $(id).textContent=JSON.stringify(data[key]||[],null,2);
   }
+
+  adminQuestionBankRows=Array.isArray(data.question_bank_preview)
+    ?data.question_bank_preview
+    :[];
+
+  renderAdminQuestionBank();
 }
 
 function adminPage(p,b){
