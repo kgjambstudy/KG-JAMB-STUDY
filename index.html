@@ -9,12 +9,6 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <style>
-.connection-banner{margin:12px 0;padding:12px;border-radius:9px;background:#fff7e6;border:1px solid #f1d59b;color:#704900}
-.status-line{font-size:12px;color:var(--muted);margin-top:8px}
-.qopt:has(input:checked){border-color:var(--b);background:#eef7ff}
-.qopt input{accent-color:var(--b)}
-button:disabled{opacity:.55;cursor:not-allowed}
-
 :root{--n:#102a43;--b:#1769aa;--ink:#172b4d;--muted:#62748a;--line:#dce5ee;--bg:#f4f7fb}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,Arial}
@@ -23,6 +17,7 @@ button{border:0;border-radius:9px;padding:10px 14px;background:var(--b);color:wh
 button.secondary{background:#e8eef5;color:var(--ink)}
 button.danger{background:#b42318}
 button.good{background:#16794b}
+button:disabled{opacity:.55;cursor:not-allowed}
 input,select,textarea{width:100%;padding:11px;border:1px solid #cbd6e2;border-radius:8px;background:white;color:var(--ink)}
 label{display:block;font-weight:650;margin:10px 0 5px}
 .hidden{display:none!important}
@@ -38,7 +33,9 @@ label{display:block;font-weight:650;margin:10px 0 5px}
 .small{font-size:12px}
 .metric{font-size:26px;font-weight:850}
 .pill{display:inline-block;padding:3px 9px;border-radius:20px;background:#e8f5ff;color:#13558a;font-size:12px;font-weight:700}
-.notice{padding:12px;border-radius:9px;background:#fff7e6;border:1px solid #f1d59b;color:#704900}
+.notice,.connection-banner{padding:12px;border-radius:9px;background:#fff7e6;border:1px solid #f1d59b;color:#704900}
+.connection-banner{margin:12px 0}
+.status-line{font-size:12px;color:var(--muted);margin-top:8px}
 .tabs{display:flex;gap:7px;flex-wrap:wrap;margin:15px 0}
 .tabs button{background:#e8eef5;color:var(--ink)}
 .tabs button.active{background:var(--n);color:white}
@@ -47,1943 +44,1272 @@ label{display:block;font-weight:650;margin:10px 0 5px}
 .table th,.table td{padding:9px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
 .table th{background:#f6f9fc}
 .qopt{display:block;border:1px solid var(--line);padding:10px;border-radius:8px;margin:8px 0;font-weight:500}
-.qopt input{width:auto;margin-right:8px}
+.qopt input{width:auto;margin-right:8px;accent-color:var(--b)}
+.qopt:has(input:checked){border-color:var(--b);background:#eef7ff}
 .bar{height:8px;background:#e7edf4;border-radius:20px;overflow:hidden}
 .bar span{display:block;height:100%;background:var(--b)}
 .modalback{position:fixed;inset:0;background:#061525b8;display:grid;place-items:center;padding:18px;z-index:20}
 .modal{background:white;max-width:450px;width:100%;padding:22px;border-radius:14px}
 .footer{text-align:center;color:var(--muted);padding:24px;font-size:12px}
-
-.admin-question-card{border:1px solid var(--line);border-radius:10px;padding:13px;margin:12px 0;background:#fff}
-.admin-question-card .grid{grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:9px}
-.admin-question-card label{font-size:12px;margin-top:6px}
-.admin-question-card textarea{min-height:65px}
-.admin-issue{color:#b42318;font-size:12px;font-weight:650}
-.admin-ready{color:#16794b;font-size:12px;font-weight:650}
-.admin-preview-head{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center}
-.admin-import-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-
-/* Dedicated examination screens */
-.exam-screen{
-  min-height:calc(100vh - 80px);
-  background:white;
-  border:1px solid var(--line);
-  border-radius:14px;
-  padding:18px;
-  margin:12px 0;
-}
-.exam-screen-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:12px;
-  flex-wrap:wrap;
-  border-bottom:1px solid var(--line);
-  padding-bottom:14px;
-  margin-bottom:18px;
-}
-.exam-setup-card{
-  max-width:750px;
-  margin:20px auto;
-}
-.exam-setup-card .grid{margin-top:12px}
-.exam-setup-actions{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-  margin-top:20px;
-}
-.exam-question{
-  border-bottom:1px solid var(--line);
-  padding:12px 0 18px;
-}
-.exam-question:last-of-type{border-bottom:0}
-.exam-question-title{font-weight:700;margin-bottom:10px}
-.exam-toolbar{
-  position:sticky;
-  top:0;
-  z-index:5;
-  background:white;
-  padding:10px 0;
-  border-bottom:1px solid var(--line);
-}
-.exam-clock{
-  font-size:22px;
-  font-weight:850;
-  color:var(--b);
-}
-@media(max-width:600px){
-  .wrap{margin:12px auto}
-  .panel,.card{padding:13px}
-  .table{display:block;overflow-x:auto}
-  .exam-screen{padding:12px}
-}
+@media(max-width:600px){.wrap{margin:12px auto}.panel,.card{padding:13px}.table{display:block;overflow-x:auto}}
 </style>
 </head>
-
 <body>
 
 <header class="top">
-  <div class="brand">KG JAMB STUDY
-    <small>Learn smarter. Practise better. Achieve more.</small>
-  </div>
-  <div class="row">
-    <span id="who" class="small"></span>
-    <button id="topOut" class="secondary hidden" onclick="signOut()">Sign out</button>
-  </div>
+<div class="brand">KG JAMB STUDY<small>Learn smarter. Practise better. Achieve more.</small></div>
+<div class="row"><span id="who" class="small"></span><button id="topOut" class="secondary hidden" onclick="signOut()">Sign out</button></div>
 </header>
 
 <main class="wrap">
 
 <section id="auth" class="panel" style="max-width:540px;margin:35px auto">
-  <h1>Welcome to KG JAMB STUDY</h1>
-  <p class="muted">Sign in or create your student account.</p>
-
-  <div class="tabs">
-    <button id="loginTab" class="active" onclick="authMode('login')">Sign in</button>
-    <button id="signupTab" onclick="authMode('signup')">Create account</button>
-  </div>
-
-  <p id="authMsg" class="notice hidden"></p>
-  <p id="connectionStatus" class="connection-banner">Checking secure backend connection…</p>
-
-  <label id="nameLabel" class="hidden">Full name</label>
-  <input id="fullName" class="hidden" placeholder="Your full name">
-
-  <label>Email</label>
-  <input id="email" type="email">
-
-  <label>Password</label>
-  <input id="password" type="password">
-
-  <button id="authBtn" style="width:100%;margin-top:14px" onclick="authenticate()">Sign in</button>
-
-  <p class="small muted">This form creates student accounts only. Staff roles must be assigned securely by an administrator.</p>
-  <p class="small muted">Your account session is securely restored when you return. Backend configuration is managed by KG JAMB STUDY.</p>
+<h1>Welcome to KG JAMB STUDY</h1>
+<p class="muted">Sign in or create your student account.</p>
+<div class="tabs">
+<button id="loginTab" class="active" onclick="authMode('login')">Sign in</button>
+<button id="signupTab" onclick="authMode('signup')">Create account</button>
+</div>
+<p id="authMsg" class="notice hidden"></p>
+<p id="connectionStatus" class="connection-banner">Checking secure backend connection…</p>
+<label id="nameLabel" class="hidden">Full name</label>
+<input id="fullName" class="hidden" placeholder="Your full name">
+<label>Email</label>
+<input id="email" type="email">
+<label>Password</label>
+<input id="password" type="password">
+<button id="authBtn" style="width:100%;margin-top:14px" onclick="authenticate()">Sign in</button>
+<p class="small muted">This form creates student accounts only. Staff roles must be assigned securely by an administrator.</p>
+<p class="small muted">Your account session is securely restored when you return. Backend configuration is managed by KG JAMB STUDY.</p>
 </section>
 
-
-<!-- STUDENT APPLICATION -->
 <section id="studentApp" class="hidden">
+<div class="between">
+<div><h1 id="greeting">Student dashboard</h1><p class="muted">Your JAMB preparation workspace.</p></div>
+<span class="pill">STUDENT</span>
+</div>
 
-  <div class="between">
-    <div>
-      <h1 id="greeting">Student dashboard</h1>
-      <p class="muted">Your JAMB preparation workspace.</p>
-    </div>
-    <span class="pill">STUDENT</span>
-  </div>
+<div class="grid">
+<div class="card"><div class="small muted">Shared Topic + Custom free uses</div><div class="metric" id="usage">—</div></div>
+<div class="card"><div class="small muted">Full Subject Exams</div><div class="metric">Unlimited</div></div>
+<div class="card"><div class="small muted">Study streak</div><div class="metric" id="streak">—</div></div>
+<div class="card"><div class="small muted">Membership</div><div class="metric" id="membership">Free</div></div>
+</div>
 
-  <div class="grid">
-    <div class="card">
-      <div class="small muted">Shared Topic + Custom free uses</div>
-      <div class="metric" id="usage">—</div>
-    </div>
-    <div class="card">
-      <div class="small muted">Full Subject Exams</div>
-      <div class="metric">Unlimited</div>
-    </div>
-    <div class="card">
-      <div class="small muted">Study streak</div>
-      <div class="metric" id="streak">—</div>
-    </div>
-    <div class="card">
-      <div class="small muted">Membership</div>
-      <div class="metric" id="membership">Free</div>
-    </div>
-  </div>
+<nav class="tabs" id="studentTabs">
+<button class="active" onclick="studentPage('learn',this)">Learn & practise</button>
+<button onclick="studentPage('progress',this)">Progress</button>
+<button onclick="studentPage('saved',this)">Saved questions</button>
+<button onclick="studentPage('history',this)">Exam history</button>
+<button onclick="studentPage('friends',this)">Friends & leaderboard</button>
+<button onclick="studentPage('profile',this)">Profile</button>
+</nav>
 
-  <nav class="tabs" id="studentTabs">
-    <button class="active" onclick="studentPage('learn',this)">Learn & practise</button>
-    <button onclick="studentPage('progress',this)">Progress</button>
-    <button onclick="studentPage('saved',this)">Saved questions</button>
-    <button onclick="studentPage('history',this)">Exam history</button>
-    <button onclick="studentPage('friends',this)">Friends & leaderboard</button>
-    <button onclick="studentPage('profile',this)">Profile</button>
-  </nav>
+<div id="student-learn" class="panel studentpage">
+<h2>Start practising</h2>
+<div class="grid">
+<div class="card"><h3>Topic Practice</h3><p class="small muted">Practise a selected topic.</p><button onclick="startExam('topic')">Start practice</button></div>
+<div class="card"><h3>Custom Examination</h3><p class="small muted">Choose subject, topic and question count.</p><button onclick="startExam('custom')">Create exam</button></div>
+<div class="card"><h3>Full Subject Exam</h3><p class="small muted">Unlimited free access.</p><button onclick="startExam('full')">Start full exam</button></div>
+<div class="card"><h3>Daily Challenge</h3><p class="small muted">Same challenge for all students.</p><button onclick="loadDaily()">View challenge</button></div>
+</div>
 
-  <div id="student-learn" class="panel studentpage">
-    <h2>Start practising</h2>
+<div id="setup" class="card section hidden">
+<h3 id="setupTitle">Exam setup</h3>
+<div class="grid">
+<div><label>Subject</label><select id="subject"><option>English</option><option>Physics</option><option>Chemistry</option><option>Biology</option></select></div>
+<div><label>Topic</label><input id="topic" placeholder="e.g. Motion, Ecology"></div>
+<div><label>Question count</label><select id="count"><option>10</option><option>20</option><option>30</option><option>40</option><option>60</option><option>100</option></select></div>
+<div><label>Duration (minutes)</label><select id="duration"><option>15</option><option>30</option><option>45</option><option>60</option><option>90</option></select></div>
+</div>
+<button onclick="beginExam()">Load questions</button>
+<button class="secondary" onclick="$('setup').classList.add('hidden')">Cancel</button>
+</div>
 
-    <div class="grid">
-      <div class="card">
-        <h3>Topic Practice</h3>
-        <p class="small muted">Practise a selected topic.</p>
-        <button onclick="startExam('topic')">Start practice</button>
-      </div>
+<div id="examArea" class="card section hidden"></div>
+<div id="dailyArea" class="card section hidden"></div>
+</div>
 
-      <div class="card">
-        <h3>Custom Examination</h3>
-        <p class="small muted">Choose subject, topic and question count.</p>
-        <button onclick="startExam('custom')">Create exam</button>
-      </div>
+<div id="student-progress" class="panel studentpage hidden">
+<h2>Weakness Detector & achievements</h2>
+<p class="muted">Topic insights are calculated from server-validated exam history.</p>
+<div id="weaknessList">Analytics backend required.</div>
+<h3>Achievements</h3>
+<div id="achievements" class="grid">
+<div class="card">🔥 Study streak</div><div class="card">🏆 Perfect score</div><div class="card">📚 Topic master</div><div class="card">⚡ Comeback</div>
+</div>
+</div>
 
-      <div class="card">
-        <h3>Full Subject Exam</h3>
-        <p class="small muted">Unlimited free access.</p>
-        <button onclick="startExam('full')">Start full exam</button>
-      </div>
+<div id="student-saved" class="panel studentpage hidden">
+<h2>Revision list</h2>
+<div class="tabs"><button onclick="loadSaved('bookmarks')">Bookmarks</button><button onclick="loadSaved('wrong')">Questions I got wrong</button></div>
+<div id="savedList">Revision backend required.</div>
+</div>
 
-      <div class="card">
-        <h3>Daily Challenge</h3>
-        <p class="small muted">Same challenge for all students.</p>
-        <button onclick="loadDaily()">View challenge</button>
-      </div>
-    </div>
+<div id="student-history" class="panel studentpage hidden">
+<h2>Exam history & review</h2>
+<div id="historyList">History backend required.</div>
+</div>
 
-    <div id="dailyArea" class="card section hidden"></div>
-  </div>
+<div id="student-friends" class="panel studentpage hidden">
+<h2>Friends & leaderboard</h2>
+<div class="notice">Friend requests and rankings require protected database access and verified exam scores.</div>
+<div class="grid section">
+<div class="card"><h3>Find friends</h3><input id="friendSearch" placeholder="Student username"><button class="secondary section" onclick="showToast('Friend search backend is not configured.')">Search</button></div>
+<div class="card"><h3>Leaderboard</h3><p class="small muted">Monthly rankings use verified results.</p><button class="secondary" onclick="showToast('Leaderboard backend is not configured.')">View leaderboard</button></div>
+</div>
+</div>
 
-  <div id="student-progress" class="panel studentpage hidden">
-    <h2>Weakness Detector & achievements</h2>
-    <p class="muted">Topic insights are calculated from server-validated exam history.</p>
-    <div id="weaknessList">Analytics backend required.</div>
-    <h3>Achievements</h3>
-    <div id="achievements" class="grid">
-      <div class="card">🔥 Study streak</div>
-      <div class="card">🏆 Perfect score</div>
-      <div class="card">📚 Topic master</div>
-      <div class="card">⚡ Comeback</div>
-    </div>
-  </div>
-
-  <div id="student-saved" class="panel studentpage hidden">
-    <h2>Revision list</h2>
-    <div class="tabs">
-      <button onclick="loadSaved('bookmarks')">Bookmarks</button>
-      <button onclick="loadSaved('incorrect')">Questions I got wrong</button>
-    </div>
-    <div id="savedList">Revision backend required.</div>
-  </div>
-
-  <div id="student-history" class="panel studentpage hidden">
-    <h2>Exam history & review</h2>
-    <div id="historyList">History backend required.</div>
-  </div>
-
-  <div id="student-friends" class="panel studentpage hidden">
-    <h2>Friends & leaderboard</h2>
-    <div class="notice">Friend requests and rankings require protected database access and verified exam scores.</div>
-    <div class="grid section">
-      <div class="card">
-        <h3>Find friends</h3>
-        <input id="friendSearch" placeholder="Student username">
-        <button class="secondary section" onclick="showToast('Friend search backend is not configured.')">Search</button>
-      </div>
-      <div class="card">
-        <h3>Leaderboard</h3>
-        <p class="small muted">Monthly rankings use verified results.</p>
-        <button class="secondary" onclick="showToast('Leaderboard backend is not configured.')">View leaderboard</button>
-      </div>
-    </div>
-  </div>
-
-  <div id="student-profile" class="panel studentpage hidden">
-    <h2>My profile</h2>
-    <label>Full name</label>
-    <input id="profileName">
-    <label>Email</label>
-    <input id="profileEmail" disabled>
-    <button onclick="saveProfile()">Save profile</button>
-  </div>
-
-  <!-- DEDICATED EXAM SETUP SCREEN -->
-  <div id="examSetupScreen" class="exam-screen hidden">
-
-    <div class="exam-screen-header">
-      <div>
-        <h2>Examination Setup</h2>
-        <p class="small muted">Configure your examination before starting.</p>
-      </div>
-      <button class="secondary" onclick="closeExamSetup()">Back to dashboard</button>
-    </div>
-
-    <div class="exam-setup-card">
-      <h2 id="setupTitle">Custom Examination</h2>
-      <p class="muted">Choose your examination settings.</p>
-
-      <label>Subject</label>
-      <select id="subject">
-        <option>English</option>
-        <option>Physics</option>
-        <option>Chemistry</option>
-        <option>Biology</option>
-      </select>
-
-      <div id="topicSetupField">
-        <label>Topic</label>
-        <input id="topic" placeholder="e.g. Motion, Ecology">
-      </div>
-
-      <div class="grid">
-        <div>
-          <label>Number of questions</label>
-          <select id="count">
-            <option>10</option>
-            <option>20</option>
-            <option>30</option>
-            <option>40</option>
-            <option>60</option>
-            <option>100</option>
-          </select>
-        </div>
-
-        <div>
-          <label>Duration (minutes)</label>
-          <select id="duration">
-            <option>15</option>
-            <option>30</option>
-            <option>45</option>
-            <option>60</option>
-            <option>90</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="notice section">
-        Your examination timer starts when the questions load.
-      </div>
-
-      <div class="exam-setup-actions">
-        <button onclick="beginExam()">Start Examination</button>
-        <button class="secondary" onclick="closeExamSetup()">Cancel</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- DEDICATED EXAMINATION SCREEN -->
-  <div id="examScreen" class="exam-screen hidden">
-    <div class="exam-screen-header">
-      <div>
-        <h2>Examination in Progress</h2>
-        <p class="small muted">Answer the questions and submit when finished.</p>
-      </div>
-    </div>
-    <div id="examArea"></div>
-  </div>
-
+<div id="student-profile" class="panel studentpage hidden">
+<h2>My profile</h2>
+<label>Full name</label><input id="profileName">
+<label>Email</label><input id="profileEmail" disabled>
+<button onclick="saveProfile()">Save profile</button>
+</div>
 </section>
 
-
-<!-- COLLECTOR APPLICATION -->
 <section id="collectorApp" class="hidden">
-  <div class="between">
-    <div>
-      <h1>Question Collector Workspace</h1>
-      <p class="muted">Prepare and submit question batches.</p>
-    </div>
-    <span class="pill">COLLECTOR</span>
-  </div>
-
-  <div class="notice">Collectors cannot publish questions or approve their own submissions.</div>
-
-  <div class="grid section">
-    <div class="card">Assigned subjects<div class="metric" id="collectorSubjects">—</div></div>
-    <div class="card">Submitted batches<div class="metric" id="collectorBatches">—</div></div>
-    <div class="card">Approved questions<div class="metric" id="collectorApproved">—</div></div>
-  </div>
-
-  <div class="panel section">
-    <h2>Smart bulk question importer</h2>
-    <p class="small muted">CSV and Excel (.xlsx/.xls). Required: subject, topic, question, options A–D, correct answer. Missing answers are flagged, never guessed.</p>
-    <label>Question file</label>
-    <input type="file" id="bulkFile" accept=".csv,.xlsx,.xls">
-    <div class="row section">
-      <button onclick="previewBulk()">Preview & arrange</button>
-      <button class="secondary" onclick="downloadTemplate()">CSV template</button>
-    </div>
-    <div id="importSummary"></div>
-    <div id="importPreview"></div>
-    <button id="submitBatch" class="good hidden section" onclick="submitBatch()">Submit for review</button>
-  </div>
-
-  <div class="panel section">
-    <h2>Submission history</h2>
-    <div id="collectorHistory">Backend required.</div>
-  </div>
+<div class="between"><div><h1>Question Collector Workspace</h1><p class="muted">Prepare and submit question batches.</p></div><span class="pill">COLLECTOR</span></div>
+<div class="notice">Collectors cannot publish questions or approve their own submissions.</div>
+<div class="grid section">
+<div class="card">Assigned subjects<div class="metric" id="collectorSubjects">—</div></div>
+<div class="card">Submitted batches<div class="metric" id="collectorBatches">—</div></div>
+<div class="card">Approved questions<div class="metric" id="collectorApproved">—</div></div>
+</div>
+<div class="panel section">
+<h2>Smart bulk question importer</h2>
+<p class="small muted">CSV and Excel (.xlsx/.xls). Required: subject, topic, question, options A–D, correct answer. Missing answers are flagged, never guessed.</p>
+<label>Question file</label><input type="file" id="bulkFile" accept=".csv,.xlsx,.xls">
+<div class="row section"><button onclick="previewBulk()">Preview & arrange</button><button class="secondary" onclick="downloadTemplate()">CSV template</button></div>
+<div id="importSummary"></div><div id="importPreview"></div>
+<button id="submitBatch" class="good hidden section" onclick="submitBatch()">Submit for review</button>
+</div>
+<div class="panel section"><h2>Submission history</h2><div id="collectorHistory">Backend required.</div></div>
 </section>
 
-
-<!-- ADMIN APPLICATION -->
 <section id="adminApp" class="hidden">
+<div class="between"><div><h1>Admin Control Centre</h1><p class="muted">Platform operations and quality control.</p></div><div class="row"><span class="pill">ADMIN</span><button class="danger" onclick="signOut()">Sign out</button></div></div>
+<div class="grid">
+<div class="card">Students<div class="metric" id="mStudents">—</div></div>
+<div class="card">Collectors<div class="metric" id="mCollectors">—</div></div>
+<div class="card">Approved questions<div class="metric" id="mQuestions">—</div></div>
+<div class="card">Pending batches<div class="metric" id="mPending">—</div></div>
+</div>
+<nav class="tabs" id="adminTabs">
+<button class="active" onclick="adminPage('overview',this)">Overview</button>
+<button onclick="adminPage('students',this)">Students</button>
+<button onclick="adminPage('collectors',this)">Collectors</button>
+<button onclick="adminPage('bank',this)">Question bank</button>
+<button onclick="adminPage('review',this)">Review queue</button>
+<button onclick="adminPage('challenge',this)">Daily Challenge</button>
+<button onclick="adminPage('reports',this)">Reports</button>
+<button onclick="adminPage('audit',this)">Activity log</button>
+</nav>
+<div id="admin-overview" class="panel adminpage"><h2>Administration overview</h2><div class="notice">Dual-founder approval: Gerald and Kings must independently approve a batch. No self-approval. Enforce this in secure database functions.</div></div>
+<div id="admin-students" class="panel adminpage hidden"><h2>Student management</h2><div id="studentsTable">Admin RPC required.</div></div>
+<div id="admin-collectors" class="panel adminpage hidden"><h2>Collector management</h2><p class="small muted">Create/disable collector accounts and assign subjects through a trusted server function, never a browser service-role key.</p><div id="collectorsTable">Admin RPC required.</div></div>
+<div id="admin-bank" class="panel adminpage hidden"><h2>Question bank</h2><div id="bankTable">Admin RPC required.</div></div>
+<div id="admin-review" class="panel adminpage hidden"><h2>Submission review</h2><div id="reviewQueue">Secure review RPC required.</div></div>
 
-  <div class="between">
-    <div>
-      <h1>Admin Control Centre</h1>
-      <p class="muted">Platform operations and quality control.</p>
-    </div>
-    <div class="row">
-      <span class="pill">ADMIN</span>
-      <button class="danger" onclick="signOut()">Sign out</button>
-    </div>
-  </div>
+<div id="admin-challenge" class="panel adminpage hidden">
+<h2>Configure Daily Challenge</h2>
+<div class="grid">
+<div><label>Date</label><input id="challengeDate" type="date"></div>
+<div><label>Subject</label><select id="challengeSubject"><option>English</option><option>Physics</option><option>Chemistry</option><option>Biology</option></select></div>
+<div><label>Topic</label><input id="challengeTopic"></div>
+<div><label>Question count</label><select id="challengeCount"><option>10</option><option>15</option><option>20</option><option>30</option></select></div>
+<div><label>Duration</label><select id="challengeTime"><option>10</option><option>15</option><option>20</option><option>30</option></select></div>
+<div><label>Fallback deadline</label><input id="challengeDeadline" type="datetime-local"></div>
+</div>
+<p class="notice">A scheduled server job must publish an approved random question set if no challenge is published by the deadline. It must be identical for all students.</p>
+<button onclick="publishChallenge()">Save / publish</button>
+<p id="challengeStatus" class="small muted"></p>
+</div>
 
-  <div class="grid">
-    <div class="card">Students<div class="metric" id="mStudents">—</div></div>
-    <div class="card">Collectors<div class="metric" id="mCollectors">—</div></div>
-    <div class="card">Approved questions<div class="metric" id="mQuestions">—</div></div>
-    <div class="card">Pending batches<div class="metric" id="mPending">—</div></div>
-  </div>
-
-  <nav class="tabs" id="adminTabs">
-    <button class="active" onclick="adminPage('overview',this)">Overview</button>
-    <button onclick="adminPage('students',this)">Students</button>
-    <button onclick="adminPage('collectors',this)">Collectors</button>
-    <button onclick="adminPage('bank',this)">Question bank</button>
-    <button onclick="adminPage('review',this)">Review queue</button>
-    <button onclick="adminPage('challenge',this)">Daily Challenge</button>
-    <button onclick="adminPage('reports',this)">Reports</button>
-    <button onclick="adminPage('audit',this)">Activity log</button>
-  </nav>
-
-  <div id="admin-overview" class="panel adminpage">
-    <h2>Administration overview</h2>
-    <div class="notice">Submission approval is handled by authorized administrators. The current backend supports one administrator approval; dual-founder approval is not yet implemented.</div>
-  </div>
-
-  <div id="admin-students" class="panel adminpage hidden">
-    <h2>Student management</h2>
-    <div id="studentsTable">Admin RPC required.</div>
-  </div>
-
-  <div id="admin-collectors" class="panel adminpage hidden">
-    <h2>Collector management</h2>
-    <p class="small muted">Create/disable collector accounts and assign subjects through a trusted server function, never a browser service-role key.</p>
-    <div id="collectorsTable">Admin RPC required.</div>
-  </div>
-
-  <!-- ADMIN QUESTION BANK AND IMPORTER -->
-  <div id="admin-bank" class="panel adminpage hidden">
-    <h2>Question bank</h2>
-    <p class="muted">Import questions directly into the approved question bank or add them individually.</p>
-
-    <div class="card section">
-      <h3>Bulk question importer</h3>
-      <p class="small muted">Upload a CSV or Excel file (.csv, .xlsx, .xls). The first row must contain column headings. Review and edit every question before importing. Correct answers are never guessed.</p>
-
-      <label>Choose question file</label>
-      <input type="file" id="adminBulkFile" accept=".csv,.xlsx,.xls">
-
-      <div class="admin-import-actions">
-        <button onclick="previewAdminBulk()">Preview file</button>
-        <button class="secondary" onclick="downloadTemplate()">Download CSV template</button>
-      </div>
-
-      <div id="adminImportSummary" class="section"></div>
-      <div id="adminImportPreview"></div>
-
-      <button id="adminImportButton" class="good hidden section" onclick="importAdminQuestions()">Import valid questions into question bank</button>
-    </div>
-
-    <div class="card section">
-      <h3>Add a question manually</h3>
-      <p class="small muted">Complete the fields below. The question will be added to the preview first, not saved immediately.</p>
-
-      <div class="grid">
-        <div>
-          <label>Subject</label>
-          <select id="adminManualSubject">
-            <option>English</option>
-            <option>Physics</option>
-            <option>Chemistry</option>
-            <option>Biology</option>
-          </select>
-        </div>
-        <div>
-          <label>Topic</label>
-          <input id="adminManualTopic" placeholder="e.g. Motion">
-        </div>
-      </div>
-
-      <label>Question</label>
-      <textarea id="adminManualQuestion" rows="3" placeholder="Enter the full question"></textarea>
-
-      <div class="grid">
-        <div><label>Option A</label><input id="adminManualA"></div>
-        <div><label>Option B</label><input id="adminManualB"></div>
-        <div><label>Option C</label><input id="adminManualC"></div>
-        <div><label>Option D</label><input id="adminManualD"></div>
-      </div>
-
-      <div class="grid">
-        <div>
-          <label>Correct answer</label>
-          <select id="adminManualAnswer">
-            <option value="">Choose correct answer</option>
-            <option>A</option><option>B</option><option>C</option><option>D</option>
-          </select>
-        </div>
-        <div>
-          <label>Explanation (optional)</label>
-          <input id="adminManualExplanation" placeholder="Explain the correct answer">
-        </div>
-      </div>
-
-      <button onclick="addManualAdminQuestion()">Add to preview</button>
-    </div>
-
-    <div class="card section">
-      <div class="admin-preview-head">
-        <div>
-          <h3>Question import preview</h3>
-          <p class="small muted">Review and edit the questions here before importing.</p>
-        </div>
-        <button class="secondary" onclick="clearAdminImport()">Clear preview</button>
-      </div>
-
-      <div id="adminImportSummaryBottom" class="small muted">No questions prepared yet.</div>
-      <div id="adminImportPreviewBottom"></div>
-
-      <button id="adminImportButtonBottom" class="good hidden section" onclick="importAdminQuestions()">Import valid questions into question bank</button>
-    </div>
-
-    <div class="section">
-      <h3>Existing question bank records</h3>
-      <div id="bankTable">Admin RPC required.</div>
-    </div>
-  </div>
-
-  <div id="admin-review" class="panel adminpage hidden">
-    <h2>Submission review</h2>
-    <div id="reviewQueue">Secure review RPC required.</div>
-  </div>
-
-  <div id="admin-challenge" class="panel adminpage hidden">
-    <h2>Configure Daily Challenge</h2>
-
-    <div class="grid">
-      <div><label>Date</label><input id="challengeDate" type="date"></div>
-      <div>
-        <label>Subject</label>
-        <select id="challengeSubject">
-          <option>English</option><option>Physics</option><option>Chemistry</option><option>Biology</option>
-        </select>
-      </div>
-      <div><label>Topic</label><input id="challengeTopic"></div>
-      <div>
-        <label>Question count</label>
-        <select id="challengeCount">
-          <option>10</option><option>15</option><option>20</option><option>30</option>
-        </select>
-      </div>
-      <div>
-        <label>Duration</label>
-        <select id="challengeTime">
-          <option>10</option><option>15</option><option>20</option><option>30</option>
-        </select>
-      </div>
-      <div><label>Fallback deadline</label><input id="challengeDeadline" type="datetime-local"></div>
-    </div>
-
-    <p class="notice">A scheduled server job must publish an approved random question set if no challenge is published by the deadline. It must be identical for all students.</p>
-    <button onclick="publishChallenge()">Save / publish</button>
-    <p id="challengeStatus" class="small muted"></p>
-  </div>
-
-  <div id="admin-reports" class="panel adminpage hidden">
-    <h2>Student reports & corrections</h2>
-    <div id="reportsList">Admin RPC required.</div>
-  </div>
-
-  <div id="admin-audit" class="panel adminpage hidden">
-    <h2>Admin activity log</h2>
-    <div id="auditList">Audit-log RPC required.</div>
-  </div>
-
+<div id="admin-reports" class="panel adminpage hidden"><h2>Student reports & corrections</h2><div id="reportsList">Admin RPC required.</div></div>
+<div id="admin-audit" class="panel adminpage hidden"><h2>Admin activity log</h2><div id="auditList">Audit-log RPC required.</div></div>
 </section>
 </main>
 
+<div id="dailyConfirmModal" class="modalback hidden">
+<div class="modal">
+<h2>Important: Daily Challenge</h2>
+<p>You can only take today's Daily Challenge once. Once you submit, you cannot retake it. Are you ready to begin?</p>
+<div class="row"><button class="secondary" onclick="cancelDailyChallenge()">Cancel</button><button class="good" onclick="confirmDailyChallenge()">Start Challenge</button></div>
+</div>
+</div>
 
 <div id="exitModal" class="modalback hidden">
-  <div class="modal">
-    <h2>Are you sure you want to quit this examination?</h2>
-    <p>Your examination is still in progress. If you exit, your attempt may be marked incomplete. Your answers should be preserved where possible.</p>
-    <div class="row">
-      <button class="secondary" onclick="continueExam()">Continue exam</button>
-      <button class="danger" onclick="confirmExit()">Exit exam</button>
-    </div>
-  </div>
+<div class="modal">
+<h2>Are you sure you want to quit this examination?</h2>
+<p>Your examination is still in progress. Exiting marks this attempt as abandoned, and it cannot be resumed.</p>
+<div class="row"><button class="secondary" onclick="continueExam()">Continue exam</button><button class="danger" onclick="confirmExit()">Exit exam</button></div>
+</div>
 </div>
 
 <div id="toast" class="modalback hidden" style="z-index:30">
-  <div class="modal">
-    <p id="toastText"></p>
-    <button onclick="$('toast').classList.add('hidden')">OK</button>
-  </div>
+<div class="modal"><p id="toastText"></p><button onclick="$('toast').classList.add('hidden')">OK</button></div>
 </div>
 
-<footer class="footer">KG JAMB STUDY · KG JAMB STUDY · Secure learning platform</footer>
-
+<footer class="footer">KG JAMB STUDY · Secure learning platform</footer>
 
 <script>
-// Public browser configuration only. Never put server secrets in this file.
-const SUPABASE_URL = 'https://aycckgtshuzpexhupbmf.supabase.co';
-const SUPABASE_ANON_KEY = 'sb_publishable_xuSYHzsR23gMFIu-rVw6lg_2hV3I3EH';
+// PUBLIC BROWSER CONFIGURATION ONLY.
+// Never put a service-role key, database password or secret key here.
+const SUPABASE_URL='https://aycckgtshuzpexhupbmf.supabase.co';
+const SUPABASE_ANON_KEY='sb_publishable_xuSYHzsR23gMFIu-rVw6lg_2hV3I3EH';
 
-let sb=null,user=null,profile=null,mode='login',kind='custom',qs=[],answers={},active=false,timer=null,left=0,staged=[],attemptId=null,submitInFlight=false,autosaveTimer=null;
-let adminStaged=[];
-let studentViewSnapshot=[];
+let sb=null,user=null,profile=null,mode='login',kind='custom';
+let qs=[],answers={},active=false,timer=null,left=0,staged=[];
+let attemptId=null,submitInFlight=false,autosaveTimer=null;
+let progressSaving=false,progressSavePromise=null,progressDirty=false;
+let dailyChallengeSubject='';
 
 const $=id=>document.getElementById(id);
 const subjects=['English','Physics','Chemistry','Biology'];
 
 function safe(v){
-  return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
 
 function showToast(t){
-  $('toastText').textContent=t;
-  $('toast').classList.remove('hidden');
+ $('toastText').textContent=t;
+ $('toast').classList.remove('hidden');
 }
 
 function setAuthMessage(t){
-  $('authMsg').textContent=t;
-  $('authMsg').classList.remove('hidden');
+ $('authMsg').textContent=t;
+ $('authMsg').classList.remove('hidden');
 }
 
 function authMode(m){
-  mode=m;
-  $('loginTab').classList.toggle('active',m==='login');
-  $('signupTab').classList.toggle('active',m==='signup');
-  $('fullName').classList.toggle('hidden',m==='login');
-  $('nameLabel').classList.toggle('hidden',m==='login');
-  $('authBtn').textContent=m==='login'?'Sign in':'Create student account';
-  $('authMsg').classList.add('hidden');
+ mode=m;
+ $('loginTab').classList.toggle('active',m==='login');
+ $('signupTab').classList.toggle('active',m==='signup');
+ $('fullName').classList.toggle('hidden',m==='login');
+ $('nameLabel').classList.toggle('hidden',m==='login');
+ $('authBtn').textContent=m==='login'?'Sign in':'Create student account';
 }
 
 function init(){
-  if(!window.supabase){
-    $('connectionStatus').textContent='The Supabase library could not load. Check your internet connection and reload.';
-    return;
-  }
+ if(!window.supabase){
+  $('connectionStatus').textContent='The Supabase library could not load. Check your internet connection and reload.';
+  return;
+ }
 
-  if(!SUPABASE_URL.startsWith('https://')||SUPABASE_URL.includes('ADD_')||SUPABASE_ANON_KEY.includes('ADD_')){
-    $('connectionStatus').textContent='Supabase connection is not configured. Add the existing project URL and anon/public key in the configuration section of this file.';
-    return;
-  }
+ if(!SUPABASE_URL.startsWith('https://')||SUPABASE_URL.includes('ADD_')||!SUPABASE_ANON_KEY){
+  $('connectionStatus').textContent='Supabase connection is not configured. Check the configuration section of this file.';
+  return;
+ }
 
-  try{
-    sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY,{
-      auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}
-    });
+ try{
+  sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY,{
+   auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}
+  });
 
-    $('connectionStatus').textContent='Secure backend configured. Checking your saved sign-in…';
+  $('connectionStatus').textContent='Secure backend configured. Checking your saved sign-in…';
 
-    sb.auth.onAuthStateChange((_event,session)=>{
-      if(session?.user){
-        user=session.user;
-        setTimeout(loadProfile,0);
-      }else if(!session&&profile){
-        user=null;
-        profile=null;
-        routeToAuth();
-      }
-    });
+  sb.auth.onAuthStateChange((_event,session)=>{
+   if(session?.user){
+    user=session.user;
+    setTimeout(loadProfile,0);
+   }else if(!session&&profile){
+    user=null;
+    profile=null;
+    routeToAuth();
+   }
+  });
 
-    checkSession();
-  }catch(e){
-    $('connectionStatus').textContent='Could not initialise backend: '+e.message;
-  }
+  checkSession();
+ }catch(e){
+  $('connectionStatus').textContent='Could not initialise backend: '+e.message;
+ }
 }
 
 function routeToAuth(){
-  ['studentApp','collectorApp','adminApp'].forEach(x=>$(x).classList.add('hidden'));
-  $('auth').classList.remove('hidden');
-  $('topOut').classList.add('hidden');
-  $('who').textContent='';
+ ['studentApp','collectorApp','adminApp'].forEach(x=>$(x).classList.add('hidden'));
+ $('auth').classList.remove('hidden');
+ $('topOut').classList.add('hidden');
+ $('who').textContent='';
 }
 
 async function authenticate(){
-  if(!$('email').value.trim() || !$('password').value){
-    $('authMsg').textContent='Please enter your email and password.';
-    $('authMsg').classList.remove('hidden');
-    return;
+ if(!$('email').value.trim()||!$('password').value){
+  setAuthMessage('Please enter your email and password.');
+  return;
+ }
+
+ if(!sb)return setAuthMessage('The website backend has not been configured yet.');
+
+ const email=$('email').value.trim();
+ const password=$('password').value;
+ const name=$('fullName').value.trim();
+
+ if(mode==='signup'&&!name)return setAuthMessage('Enter your full name.');
+
+ $('authBtn').disabled=true;
+
+ try{
+  const r=mode==='signup'
+   ?await sb.auth.signUp({email,password,options:{data:{full_name:name}}})
+   :await sb.auth.signInWithPassword({email,password});
+
+  if(r.error)throw r.error;
+
+  if(mode==='signup'&&!r.data.session){
+   setAuthMessage('Account created. Confirm your email if required, then sign in.');
+   return;
   }
 
-  if(!sb)return setAuthMessage('The website backend has not been configured yet. Please try again after setup is completed.');
-
-  const email=$('email').value.trim();
-  const password=$('password').value;
-  const name=$('fullName').value.trim();
-
-  if(!email||!password)return setAuthMessage('Enter your email and password.');
-  if(mode==='signup'&&!name)return setAuthMessage('Enter your full name.');
-  if(mode==='signup'&&password.length<6)return setAuthMessage('Your password must contain at least 6 characters.');
-
-  $('authBtn').disabled=true;
-  $('authMsg').classList.add('hidden');
-
-  try{
-    const r = mode === 'signup'
-      ? await sb.auth.signUp({
-          email,
-          password,
-          options:{data:{full_name:name}}
-        })
-      : await sb.auth.signInWithPassword({email,password});
-
-    if(r.error)throw r.error;
-
-    if(mode==='signup'&&!r.data.session){
-      setAuthMessage('Your account was created, but Supabase did not return a sign-in session. Please check that email confirmation is disabled in Supabase Auth settings, then try signing in.');
-      return;
-    }
-
-    user=r.data.user;
-    await loadProfile();
-
-  }catch(e){
-    setAuthMessage('Could not complete sign-in: '+e.message);
-  }finally{
-    $('authBtn').disabled=false;
-  }
+  user=r.data.user;
+  await loadProfile();
+ }catch(e){
+  setAuthMessage('Authentication failed: '+e.message);
+ }finally{
+  $('authBtn').disabled=false;
+ }
 }
 
 async function checkSession(){
-  if(!sb)return;
-  try{
-    const {data,error}=await sb.auth.getSession();
-    if(error)throw error;
-    if(data.session){
-      user=data.session.user;
-      await loadProfile();
-    }else{
-      $('connectionStatus').textContent='Backend connected. Sign in or create your student account.';
-    }
-  }catch(e){
-    $('connectionStatus').textContent='Could not restore sign-in: '+e.message;
+ if(!sb)return;
+ try{
+  const {data,error}=await sb.auth.getSession();
+  if(error)throw error;
+  if(data.session){
+   user=data.session.user;
+   await loadProfile();
+  }else{
+   $('connectionStatus').textContent='Backend connected. Sign in or create your student account.';
   }
+ }catch(e){
+  $('connectionStatus').textContent='Could not restore sign-in: '+e.message;
+ }
 }
 
 async function loadProfile(){
-  if(!sb||!user)return;
-  try{
-    const {data,error}=await sb.from('profiles')
-      .select('id,full_name,role,membership_type,is_active')
-      .eq('id',user.id)
-      .maybeSingle();
+ if(!sb||!user)return;
 
-    if(error||!data){
-      setAuthMessage('Your profile could not be loaded. Please contact support.');
-      return;
-    }
+ try{
+  const {data,error}=await sb.from('profiles')
+   .select('id,full_name,role,membership_type,is_active')
+   .eq('id',user.id).maybeSingle();
 
-    if(data.is_active===false){
-      await signOut();
-      setAuthMessage('This account is currently disabled. Contact support.');
-      return;
-    }
-
-    profile=data;
-    route();
-  }catch(e){
-    setAuthMessage('Profile loading failed: '+e.message);
+  if(error||!data){
+   setAuthMessage('Your profile could not be loaded. Please contact support.');
+   return;
   }
+
+  if(data.is_active===false){
+   await signOut();
+   setAuthMessage('This account is currently disabled. Contact support.');
+   return;
+  }
+
+  profile=data;
+  route();
+ }catch(e){
+  setAuthMessage('Profile loading failed: '+e.message);
+ }
 }
 
 function route(){
-  ['auth','studentApp','collectorApp','adminApp'].forEach(x=>$(x).classList.add('hidden'));
+ ['auth','studentApp','collectorApp','adminApp'].forEach(x=>$(x).classList.add('hidden'));
+ $('who').textContent=profile.full_name||user.email;
+ $('topOut').classList.remove('hidden');
 
-  $('who').textContent=profile.full_name||user.email;
-  $('topOut').classList.remove('hidden');
-
-  if(profile.role==='student'){
-    $('studentApp').classList.remove('hidden');
-    $('greeting').textContent='Welcome, '+(profile.full_name||'Student');
-    $('profileName').value=profile.full_name||'';
-    $('profileEmail').value=user.email||'';
-    $('membership').textContent=profile.membership_type||'Free';
-    loadStudent();
-    resumeActiveExam();
-
-  }else if(profile.role==='collector'){
-    $('collectorApp').classList.remove('hidden');
-    loadCollector();
-
-  }else if(profile.role==='admin'){
-    $('adminApp').classList.remove('hidden');
-    loadAdmin();
-
-  }else{
-    showToast('Unrecognized account role. Contact an administrator.');
-  }
+ if(profile.role==='student'){
+  $('studentApp').classList.remove('hidden');
+  $('greeting').textContent='Welcome, '+(profile.full_name||'Student');
+  $('profileName').value=profile.full_name||'';
+  $('profileEmail').value=user.email||'';
+  $('membership').textContent=profile.membership_type||'Free';
+  loadStudent();
+  resumeActiveExam();
+ }else if(profile.role==='collector'){
+  $('collectorApp').classList.remove('hidden');
+  loadCollector();
+ }else if(profile.role==='admin'){
+  $('adminApp').classList.remove('hidden');
+  loadAdmin();
+ }else{
+  showToast('Unrecognized account role. Contact an administrator.');
+ }
 }
 
 async function signOut(){
-  if(active){
-    showToast('Submit or exit your active examination before signing out.');
-    return;
-  }
-  if(sb)await sb.auth.signOut();
-  user=null;
-  profile=null;
-  routeToAuth();
+ if(active){
+  showToast('Submit or exit your active examination before signing out.');
+  return;
+ }
+ if(sb)await sb.auth.signOut();
+ user=null;
+ profile=null;
+ routeToAuth();
 }
 
 async function loadStudent(){
-  if(!sb)return;
+ if(!sb)return;
 
-  const {data,error}=await sb.rpc('get_my_student_dashboard');
+ const {data,error}=await sb.rpc('get_my_student_dashboard');
 
-  if(error){
-    $('historyList').textContent='Dashboard is temporarily unavailable: '+error.message;
-    return;
-  }
+ if(error){
+  $('historyList').textContent='Dashboard is temporarily unavailable: '+error.message;
+  return;
+ }
 
-  if(data){
-    $('usage').textContent=data.remaining_shared_uses??'—';
-    $('streak').textContent=data.study_streak??'—';
+ if(data){
+  $('usage').textContent=data.remaining_shared_uses??'—';
+  $('streak').textContent=data.study_streak??'—';
 
-    $('historyList').innerHTML=(data.recent_attempts||[]).map(x=>
-      `<p>${safe(x.subject)} · ${safe(x.score)} · <button class="secondary" onclick="reviewAttempt('${safe(x.id)}')">Review</button></p>`
-    ).join('')||'No attempts yet.';
+  $('historyList').innerHTML=(data.recent_attempts||[]).map(x=>
+   `<p>${safe(x.subject)} · ${safe(x.score)} · <button class="secondary" onclick="reviewAttempt('${safe(x.id)}')">Review</button></p>`
+  ).join('')||'No attempts yet.';
 
-    $('weaknessList').innerHTML=(data.topic_performance||[]).map(x=>
-      `<p><b>${safe(x.subject)} — ${safe(x.topic)}: ${safe(x.average_percent)}%</b>
-      <div class="bar"><span style="width:${Math.max(0,Math.min(100,Number(x.average_percent)||0))}%"></span></div>
-      ${safe(x.recommendation||'Keep practising.')}</p>`
-    ).join('')||'Complete practice exams to build your topic analysis.';
-  }
+  $('weaknessList').innerHTML=(data.topic_performance||[]).map(x=>
+   `<p><b>${safe(x.subject)} — ${safe(x.topic)}: ${safe(x.average_percent)}%</b>
+   <div class="bar"><span style="width:${Math.max(0,Math.min(100,Number(x.average_percent)||0))}%"></span></div>
+   ${safe(x.recommendation||'Keep practising.')}</p>`
+  ).join('')||'Complete practice exams to build your topic analysis.';
+ }
 }
 
 function studentPage(p,b){
-  if(active){
-    showToast('Finish or exit your examination before changing pages.');
-    return;
-  }
-
-  document.querySelectorAll('.studentpage').forEach(x=>x.classList.add('hidden'));
-  $('student-'+p).classList.remove('hidden');
-
-  document.querySelectorAll('#studentTabs button').forEach(x=>x.classList.remove('active'));
-  b.classList.add('active');
-}
-
-
-/* DEDICATED EXAMINATION NAVIGATION */
-
-function enterStudentScreen(screenId){
-  const app=$('studentApp');
-
-  if(!studentViewSnapshot.length){
-    studentViewSnapshot=Array.from(app.children).map(el=>({
-      el,
-      hidden:el.classList.contains('hidden')
-    }));
-  }
-
-  Array.from(app.children).forEach(el=>el.classList.add('hidden'));
-  $(screenId).classList.remove('hidden');
-}
-
-function restoreStudentDashboard(){
-  $('examSetupScreen').classList.add('hidden');
-  $('examScreen').classList.add('hidden');
-
-  studentViewSnapshot.forEach(item=>{
-    item.el.classList.toggle('hidden',item.hidden);
-  });
-
-  studentViewSnapshot=[];
-}
-
-function closeExamSetup(){
-  if(active){
-    showToast('You cannot leave an active examination this way.');
-    return;
-  }
-  restoreStudentDashboard();
-}
-
-function returnToDashboard(){
-  if(active){
-    showToast('Submit or exit your examination first.');
-    return;
-  }
-
-  restoreStudentDashboard();
-  $('examArea').innerHTML='';
-  attemptId=null;
-  qs=[];
-  answers={};
+ document.querySelectorAll('.studentpage').forEach(x=>x.classList.add('hidden'));
+ $('student-'+p).classList.remove('hidden');
+ document.querySelectorAll('#studentTabs button').forEach(x=>x.classList.remove('active'));
+ b.classList.add('active');
 }
 
 function startExam(k){
-  if(active)return showToast('An examination is already in progress.');
+ if(active)return showToast('Finish or exit your current examination first.');
 
-  kind=k;
+ kind=k;
+ $('setup').classList.remove('hidden');
+ $('setupTitle').textContent=k==='topic'?'Topic Practice':k==='full'?'Full Subject Examination':'Custom Examination';
 
-  enterStudentScreen('examSetupScreen');
+ $('topic').disabled=k==='full';
+ $('count').disabled=k==='full';
 
-  $('setupTitle').textContent=
-    k==='topic'?'Topic Practice':
-    k==='full'?'Full Subject Examination':
-    'Custom Examination';
-
-  $('topicSetupField').classList.toggle('hidden',k==='full');
-  $('topic').disabled=k==='full';
-  $('count').disabled=k==='full';
-
-  if(k==='topic'){
-    $('count').value='20';
-  }else if(k==='full'){
-    $('count').value='100';
-  }else{
-    $('count').value='10';
-  }
-
-  $('topic').value='';
+ if(k==='topic')$('count').value='20';
+ if(k==='full')$('count').value='100';
 }
-
-
-/* EXAMINATION START */
 
 async function beginExam(){
-  if(!sb)return showToast('The backend is not configured yet.');
-  if(active)return showToast('An examination is already in progress.');
+ if(!sb)return showToast('The backend is not configured yet.');
+ if(active)return showToast('An examination is already in progress.');
 
-  const topic=kind==='full'?null:$('topic').value.trim()||null;
+ const topic=$('topic').value.trim();
+ if(kind==='topic'&&!topic)return showToast('Enter a topic.');
 
-  if(kind==='topic'&&!topic)return showToast('Enter a topic.');
+ const btn=document.querySelector('#setup button[onclick="beginExam()"]');
+ if(btn)btn.disabled=true;
 
-  const btn=document.querySelector('#examSetupScreen button[onclick="beginExam()"]');
-  if(btn)btn.disabled=true;
+ let newAttemptId=null;
 
-  try{
-    const {data,error}=await sb.rpc('start_student_exam',{
-      p_exam_type:kind,
-      p_subject:$('subject').value,
-      p_topic:topic,
-      p_question_count:kind==='full'?null:Number($('count').value)
-    });
+ try{
+  const selectedDuration=Number($('duration').value);
+  const selectedCount=kind==='full'?100:Number($('count').value);
 
-    if(error)throw error;
-
-    qs=data?.questions||data?.attempt?.questions||data||[];
-    attemptId=data?.attempt_id||data?.attempt?.id||null;
-
-    if(!Array.isArray(qs)||!qs.length){
-      throw new Error('There are not enough approved questions for this exam.');
-    }
-
-    if(!attemptId){
-      throw new Error('The server did not return an examination ID.');
-    }
-
-    const selectedDuration=Number($('duration').value);
-
-    const durationResult=await sb.rpc('set_student_exam_duration',{
-      p_attempt_id:attemptId,
-      p_duration_minutes:selectedDuration
-    });
-
-    if(durationResult.error){
-      await sb.rpc('abandon_student_exam',{p_attempt_id:attemptId});
-      throw durationResult.error;
-    }
-
-    answers={};
-
-    $('examSetupScreen').classList.add('hidden');
-    $('examScreen').classList.remove('hidden');
-
-    active=true;
-    submitInFlight=false;
-    left=selectedDuration*60;
-
-    renderExam();
-
-    history.pushState({exam:true},'','#exam');
-    saveLocalBackup();
-    await saveExamProgress();
-
-    timer=setInterval(()=>{
-      left--;
-      tick();
-      if(left<=0)submitExam(true);
-    },1000);
-
-    tick();
-    addEventListener('beforeunload',beforeUnload);
-
-  }catch(e){
-    showToast('Could not start examination: '+e.message);
-  }finally{
-    if(btn)btn.disabled=false;
-  }
-}
-
-
-/* EXAMINATION DISPLAY */
-
-function renderExam(){
-  let h=`
-    <div class="exam-toolbar">
-      <div class="between">
-        <h2>${safe($('subject').value)} examination</h2>
-        <div id="clock" class="exam-clock"></div>
-      </div>
-      <p class="small muted">Your answers are saved as you work. If your connection drops, keep this page open until it reconnects.</p>
-    </div>
-  `;
-
-  qs.forEach((q,i)=>{
-    h+=`
-      <div class="exam-question">
-        <div class="exam-question-title">${i+1}. ${safe(q.question_text||q.question)}</div>
-        <div class="row">
-          <button class="secondary" onclick="bookmark(${i})">☆ Save</button>
-          <button class="secondary" onclick="reportQuestion(${i})">Report</button>
-        </div>
-    `;
-
-    ['A','B','C','D'].forEach(a=>{
-      h+=`
-        <label class="qopt">
-          <input type="radio" name="q${i}" ${answers[i]===a?'checked':''} onchange="setAnswer(${i},'${a}')">
-          ${a}. ${safe(q['option_'+a.toLowerCase()]??q[a]??'')}
-        </label>
-      `;
-    });
-
-    h+='</div>';
+  const {data,error}=await sb.rpc('start_student_exam',{
+   p_exam_type:kind,
+   p_subject:$('subject').value,
+   p_topic:topic||null,
+   p_question_count:selectedCount
   });
 
-  h+=`
-    <div class="section">
-      <button id="submitExamBtn" class="good" onclick="submitExam()">Submit examination</button>
-      <button class="secondary" onclick="requestExit()">Exit exam</button>
-      <p id="saveState" class="status-line">Saving answers…</p>
-    </div>
-  `;
+  if(error)throw error;
 
-  $('examArea').innerHTML=h;
-  $('examArea').classList.remove('hidden');
+  const newQuestions=data?.questions||data?.attempt?.questions||[];
+  newAttemptId=data?.attempt_id||data?.attempt?.id||null;
+
+  if(!newAttemptId)throw new Error('The server did not return an examination ID.');
+  if(!Array.isArray(newQuestions)||!newQuestions.length)throw new Error('There are not enough approved questions for this exam.');
+
+  // Apply the student's selected duration through the protected server function.
+  const {error:durationError}=await sb.rpc('set_student_exam_duration',{
+   p_attempt_id:newAttemptId,
+   p_duration_minutes:selectedDuration
+  });
+
+  if(durationError){
+   // Avoid leaving an unwanted active attempt behind if duration setup fails.
+   await sb.rpc('abandon_student_exam',{p_attempt_id:newAttemptId});
+   throw new Error('The exam was created, but its duration could not be set: '+durationError.message);
+  }
+
+  attemptId=newAttemptId;
+  qs=newQuestions;
+  answers={};
+  left=selectedDuration*60;
+  active=true;
+  submitInFlight=false;
+  progressDirty=false;
+
+  $('setup').classList.add('hidden');
+  $('dailyArea').classList.add('hidden');
+
+  renderExam();
+  history.pushState({exam:true},'','#exam');
+
+  saveLocalBackup();
+  await saveExamProgress();
+  startExamClock();
+  tick();
+  addEventListener('beforeunload',beforeUnload);
+ }catch(e){
+  showToast('Could not start examination: '+e.message);
+ }finally{
+  if(btn)btn.disabled=false;
+ }
+}
+
+function renderExam(){
+ const examTitle=kind==='daily'?'Daily Challenge':safe($('subject').value)+' examination';
+ let h=`<div class="between"><h2>${examTitle}</h2><b id="clock"></b></div>
+ <p class="small muted">Your answers are saved as you work. If your connection drops, keep this page open until it reconnects.</p>`;
+
+ qs.forEach((q,i)=>{
+  h+=`<div class="section">
+  <b>${i+1}. ${safe(q.question_text||q.question)}</b>
+  <button class="secondary" onclick="bookmark(${i})">☆ Save</button>
+  <button class="secondary" onclick="reportQuestion(${i})">Report</button>`;
+
+  ['A','B','C','D'].forEach(a=>{
+   h+=`<label class="qopt">
+   <input type="radio" name="q${i}" ${answers[i]===a?'checked':''} onchange="setAnswer(${i},'${a}')">
+   ${a}. ${safe(q['option_'+a.toLowerCase()]??q[a]??'')}
+   </label>`;
+  });
+
+  h+='</div>';
+ });
+
+ h+=`<button id="submitExamBtn" class="good" onclick="submitExam()">Submit examination</button>
+ <button class="secondary" onclick="requestExit()">Exit exam</button>
+ <p id="saveState" class="status-line">Saving answers…</p>`;
+
+ $('examArea').innerHTML=h;
+ $('examArea').classList.remove('hidden');
 }
 
 function setAnswer(i,a){
-  answers[i]=a;
-  saveLocalBackup();
+ answers[i]=a;
+ saveLocalBackup();
 
-  $('saveState').textContent='Saving answer…';
+ if($('saveState'))$('saveState').textContent='Saving answer…';
 
-  if(autosaveTimer)clearTimeout(autosaveTimer);
-  autosaveTimer=setTimeout(saveExamProgress,450);
+ if(autosaveTimer)clearTimeout(autosaveTimer);
+ autosaveTimer=setTimeout(()=>saveExamProgress(),450);
 }
 
 function saveLocalBackup(){
-  if(!attemptId)return;
-
-  try{
-    localStorage.setItem('kg_exam_backup_'+attemptId,JSON.stringify({
-      attemptId,
-      answers,
-      updatedAt:Date.now()
-    }));
-  }catch(e){}
+ if(!attemptId)return;
+ try{
+  localStorage.setItem('kg_exam_backup_'+attemptId,JSON.stringify({
+   attemptId,answers,updatedAt:Date.now()
+  }));
+ }catch(e){}
 }
 
 async function saveExamProgress(){
-  if(!sb||!attemptId||!active)return;
+ if(!sb||!attemptId||!active)return;
 
-  try{
-    const {error}=await sb.rpc('save_exam_progress',{
-      p_attempt_id:attemptId,
-      p_answers:qs.map((q,i)=>({
-        question_id:q.id,
-        answer:answers[i]||null
-      })),
-      p_time_remaining_seconds:left
-    });
+ saveLocalBackup();
+ progressDirty=true;
 
+ if(progressSaving){
+  await progressSavePromise;
+  return;
+ }
+
+ progressSaving=true;
+
+ progressSavePromise=(async()=>{
+  while(progressDirty&&active){
+   progressDirty=false;
+
+   const payload={
+    p_attempt_id:attemptId,
+    p_answers:qs.map((q,i)=>({question_id:q.id,answer:answers[i]||null})),
+    p_time_remaining_seconds:left
+   };
+
+   try{
+    const {error}=await sb.rpc('save_exam_progress',payload);
     if(error)throw error;
 
     if($('saveState'))$('saveState').textContent='Answers saved to your account.';
-
-  }catch(e){
+   }catch(e){
+    // Keep the local backup and mark progress dirty for the next retry.
+    progressDirty=true;
     if($('saveState'))$('saveState').textContent='Offline backup saved on this device. Server sync will retry.';
+    break;
+   }
   }
+ })();
+
+ try{
+  await progressSavePromise;
+ }finally{
+  progressSaving=false;
+  progressSavePromise=null;
+ }
 }
 
+function startExamClock(){
+ if(timer)clearInterval(timer);
 
-/* RESUME EXAMINATION */
+ if(left<=0){
+  tick();
+  submitExam(true);
+  return;
+ }
+
+ timer=setInterval(()=>{
+  left=Math.max(0,left-1);
+  tick();
+
+  if(left>0&&left%15===0)saveExamProgress();
+
+  if(left<=0){
+   clearInterval(timer);
+   timer=null;
+   submitExam(true);
+  }
+ },1000);
+}
 
 async function resumeActiveExam(){
-  if(!sb||active)return;
+ if(!sb||active)return;
 
-  try{
-    const {data,error}=await sb.rpc('get_my_active_exam');
+ try{
+  const {data,error}=await sb.rpc('get_my_active_exam');
+  if(error||!data||!data.attempt_id)return;
 
-    if(error||!data||!data.attempt_id)return;
+  attemptId=data.attempt_id;
+  qs=data.questions||[];
 
-    attemptId=data.attempt_id;
-    qs=data.questions||[];
-
-    if(!qs.length)return;
-
-    const backup=localStorage.getItem('kg_exam_backup_'+attemptId);
-
-    answers=data.answers||{};
-
-    if(backup){
-      const b=JSON.parse(backup);
-      answers={...answers,...b.answers};
-    }
-
-    kind=data.exam_type||'custom';
-    $('subject').value=data.subject||'English';
-
-    left=Number(data.time_remaining_seconds||0);
-
-    if(left<=0)left=Number(data.duration_seconds||900);
-
-    active=true;
-
-    enterStudentScreen('examScreen');
-    renderExam();
-
-    history.pushState({exam:true},'','#exam');
-
-    timer=setInterval(()=>{
-      left--;
-      tick();
-      if(left<=0)submitExam(true);
-    },1000);
-
-    tick();
-    addEventListener('beforeunload',beforeUnload);
-
-    showToast('Your unfinished examination has been restored.');
-
-  }catch(e){
-    console.warn('Resume exam:',e);
+  if(!qs.length){
+   showToast('An active attempt was found, but its questions could not be restored. Contact support.');
+   return;
   }
+
+  const backup=localStorage.getItem('kg_exam_backup_'+attemptId);
+  answers=data.answers||{};
+
+  if(backup){
+   try{
+    const b=JSON.parse(backup);
+    answers={...answers,...(b.answers||{})};
+   }catch(e){
+    console.warn('Could not read local exam backup:',e);
+   }
+  }
+
+  kind=data.exam_type||'custom';
+  dailyChallengeSubject=data.subject||'';
+  $('subject').value=data.subject||'English';
+
+  left=Number(data.time_remaining_seconds??data.duration_seconds??900);
+  active=true;
+  submitInFlight=false;
+
+  renderExam();
+  history.pushState({exam:true},'','#exam');
+
+  await saveExamProgress();
+  startExamClock();
+  tick();
+  addEventListener('beforeunload',beforeUnload);
+
+  showToast('Your unfinished examination has been restored.');
+ }catch(e){
+  console.warn('Resume exam:',e);
+ }
 }
 
 function tick(){
-  if($('clock')){
-    $('clock').textContent=
-      Math.floor(left/60)+':'+String(left%60).padStart(2,'0');
-  }
+ if($('clock')){
+  $('clock').textContent=Math.floor(left/60)+':'+String(left%60).padStart(2,'0');
+ }
 }
 
 function beforeUnload(e){
-  if(active){
-    e.preventDefault();
-    e.returnValue='Examination in progress.';
-  }
+ if(active){
+  e.preventDefault();
+  e.returnValue='Examination in progress.';
+ }
 }
 
 function requestExit(){
-  $('exitModal').classList.remove('hidden');
+ $('exitModal').classList.remove('hidden');
 }
 
 function continueExam(){
-  $('exitModal').classList.add('hidden');
+ $('exitModal').classList.add('hidden');
 }
 
 async function confirmExit(){
-  if(!active)return;
+ if(!active)return;
 
-  $('exitModal').classList.add('hidden');
+ $('exitModal').classList.add('hidden');
 
-  try{
-    await saveExamProgress();
+ try{
+  await saveExamProgress();
 
-    const {error}=await sb.rpc('abandon_student_exam',{
-      p_attempt_id:attemptId
-    });
+  const {error}=await sb.rpc('abandon_student_exam',{
+   p_attempt_id:attemptId
+  });
 
-    if(error)throw error;
+  if(error)throw error;
 
-    finishLocalExam();
-
-    showToast('Your attempt was saved as incomplete. You can resume if the backend permits it.');
-
-  }catch(e){
-    showToast('Could not confirm exit: '+e.message+'. Your answers remain on this device; the exam is still open.');
-  }
+  finishLocalExam();
+  showToast('Your attempt has been marked abandoned and cannot be resumed.');
+ }catch(e){
+  showToast('Could not confirm exit: '+e.message+'. Your answers remain on this device; the exam is still open.');
+ }
 }
 
 function finishLocalExam(){
-  active=false;
-  clearInterval(timer);
+ const oldAttemptId=attemptId;
 
-  if(autosaveTimer)clearTimeout(autosaveTimer);
+ active=false;
+ clearInterval(timer);
+ timer=null;
 
-  removeEventListener('beforeunload',beforeUnload);
+ if(autosaveTimer){
+  clearTimeout(autosaveTimer);
+  autosaveTimer=null;
+ }
 
-  $('examArea').classList.add('hidden');
-  $('examArea').innerHTML='';
+ removeEventListener('beforeunload',beforeUnload);
 
-  history.replaceState({},'',location.pathname);
+ if(oldAttemptId){
+  try{localStorage.removeItem('kg_exam_backup_'+oldAttemptId)}catch(e){}
+ }
 
-  restoreStudentDashboard();
+ attemptId=null;
+ qs=[];
+ answers={};
+ left=0;
+ progressDirty=false;
+ submitInFlight=false;
+
+ $('examArea').classList.add('hidden');
+ history.replaceState({},'',location.pathname);
+}
+
+function returnToDashboard(){
+ $('examArea').classList.add('hidden');
+ $('student-learn').classList.remove('hidden');
+
+ document.querySelectorAll('.studentpage').forEach(x=>{
+  if(x.id!=='student-learn')x.classList.add('hidden');
+ });
+
+ document.querySelectorAll('#studentTabs button').forEach((x,i)=>{
+  x.classList.toggle('active',i===0);
+ });
+
+ loadStudent();
 }
 
 onpopstate=()=>{
-  if(active){
-    history.pushState({exam:true},'','#exam');
-    requestExit();
-  }
+ if(active){
+  history.pushState({exam:true},'','#exam');
+  requestExit();
+ }
 };
 
+function renderQuestionReview(q,i){
+ const selected=String(q.selected_answer??q.student_answer??'').toUpperCase();
+ const correct=String(q.correct_answer??'').toUpperCase();
 
-/* EXAMINATION SUBMISSION */
+ const options=['A','B','C','D'].map(letter=>{
+  const value=q['option_'+letter.toLowerCase()]??q['option'+letter]??q[letter]??'';
+  let note='';
 
-async function submitExam(auto=false){
-  if(!active||submitInFlight)return;
+  if(letter===correct&&letter===selected)note=' — Your answer · Correct';
+  else if(letter===correct)note=' — Correct answer';
+  else if(letter===selected)note=' — Your answer';
 
-  submitInFlight=true;
+  return `<div class="qopt"><b>${letter}.</b> ${safe(value)}<b>${safe(note)}</b></div>`;
+ }).join('');
 
-  const btn=$('submitExamBtn');
-  if(btn)btn.disabled=true;
-
-  if($('saveState'))$('saveState').textContent='Submitting securely…';
-
-  try{
-    await saveExamProgress();
-
-    const {data,error}=await sb.rpc('submit_student_exam',{
-      p_attempt_id:attemptId,
-      p_answers:qs.map((q,i)=>({
-        question_id:q.id,
-        answer:answers[i]||null
-      })),
-      p_auto_submitted:auto
-    });
-
-    if(error)throw error;
-
-    active=false;
-    clearInterval(timer);
-
-    removeEventListener('beforeunload',beforeUnload);
-
-    if(attemptId){
-      localStorage.removeItem('kg_exam_backup_'+attemptId);
-    }
-
-    $('examArea').innerHTML=
-      '<h2>Examination submitted</h2>'+
-      '<p>Result confirmed and saved by the server.</p>'+
-      (data?.score!==undefined
-        ?`<div class="metric">${safe(data.score)} / ${safe(data.total||qs.length)}</div>`
-        :'')+
-      (data?.review||[]).map((x,i)=>
-        `<div class="section">
-          <b>${i+1}. Correct answer: ${safe(x.correct_answer)}</b>
-          <p>${safe(x.explanation||'Explanation pending.')}</p>
-        </div>`
-      ).join('')+
-      '<button class="section" onclick="returnToDashboard()">Return to Dashboard</button>';
-
-    await loadStudent();
-
-  }catch(e){
-    submitInFlight=false;
-
-    if(btn)btn.disabled=false;
-
-    if($('saveState')){
-      $('saveState').textContent='Submission not confirmed. Your answers are preserved; retry when connected.';
-    }
-
-    showToast('Submission failed: '+e.message+'. Your examination has NOT been closed. Retry submission when the connection is available.');
-  }
+ return `<div class="section card">
+ <b>${i+1}. ${safe(q.question_text??q.question??'Question unavailable')}</b>
+ ${options}
+ <p><b>Your answer:</b> ${safe(selected||'Not answered')}</p>
+ <p><b>Correct answer:</b> ${safe(correct||'Unavailable')}</p>
+ <p><b>Explanation:</b> ${safe(q.explanation||'Explanation pending.')}</p>
+ </div>`;
 }
 
+async function submitExam(auto=false){
+ if(!active||submitInFlight)return;
 
-/* BOOKMARKS AND REPORTS */
+ submitInFlight=true;
 
-async function bookmark(i){
-  if(!sb)return;
+ const btn=$('submitExamBtn');
+ if(btn)btn.disabled=true;
 
-  const {error}=await sb.rpc('toggle_question_bookmark',{
-    p_question_id:qs[i].id
+ if($('saveState'))$('saveState').textContent='Submitting securely…';
+
+ try{
+  if(autosaveTimer){
+   clearTimeout(autosaveTimer);
+   autosaveTimer=null;
+  }
+
+  await saveExamProgress();
+
+  const submittedAttemptId=attemptId;
+
+  const {data,error}=await sb.rpc('submit_student_exam',{
+   p_attempt_id:submittedAttemptId,
+   p_answers:qs.map((q,i)=>({question_id:q.id,answer:answers[i]||null})),
+   p_auto_submitted:auto
   });
 
-  showToast(error?'Bookmark unavailable: '+error.message:'Bookmark updated.');
+  if(error)throw error;
+
+  active=false;
+  submitInFlight=false;
+
+  clearInterval(timer);
+  timer=null;
+
+  if(autosaveTimer){
+   clearTimeout(autosaveTimer);
+   autosaveTimer=null;
+  }
+
+  removeEventListener('beforeunload',beforeUnload);
+
+  if(submittedAttemptId){
+   try{localStorage.removeItem('kg_exam_backup_'+submittedAttemptId)}catch(e){}
+  }
+
+  const review=Array.isArray(data?.review)?data.review:[];
+
+  $('examArea').innerHTML=
+   '<h2>Examination submitted</h2>'+
+   '<p>Result confirmed and saved by the server.</p>'+
+   (data?.score!==undefined?`<div class="metric">${safe(data.score)} / ${safe(data.total||qs.length)}</div>`:'')+
+   (auto?'<p class="notice">Your time ended and the examination was submitted automatically.</p>':'')+
+   (review.length?review.map((x,i)=>renderQuestionReview(x,i)).join(''):'<p class="muted">The result was saved, but detailed review was not returned.</p>')+
+   '<button class="good section" onclick="returnToDashboard()">Return to dashboard</button>';
+
+  // Clear the completed attempt from local exam state.
+  attemptId=null;
+  qs=[];
+  answers={};
+  left=0;
+  progressDirty=false;
+
+  await loadStudent();
+
+ }catch(e){
+  submitInFlight=false;
+
+  if(btn)btn.disabled=false;
+
+  if($('saveState')){
+   $('saveState').textContent='Submission not confirmed. Your answers are preserved; tap Submit examination to retry.';
+  }
+
+  showToast('Submission failed: '+e.message+'. Your examination has NOT been closed. Retry submission when the connection is available.');
+ }
+}
+
+async function bookmark(i){
+ if(!sb)return;
+ const {error}=await sb.rpc('toggle_question_bookmark',{p_question_id:qs[i].id});
+ showToast(error?'Bookmark unavailable: '+error.message:'Bookmark updated.');
 }
 
 async function reportQuestion(i){
-  const reason=prompt('Describe the issue: wrong answer, typo, duplicate or unclear question');
+ const reason=prompt('Describe the issue: wrong answer, typo, duplicate or unclear question');
+ if(!reason)return;
 
-  if(!reason)return;
+ const {error}=await sb.rpc('report_question_issue',{
+  p_question_id:qs[i].id,
+  p_reason:reason
+ });
 
-  const {error}=await sb.rpc('report_question_issue',{
-    p_question_id:qs[i].id,
-    p_reason:reason
-  });
-
-  showToast(error?error.message:'Report sent to admin.');
+ showToast(error?error.message:'Report sent to admin.');
 }
 
 async function reviewAttempt(id){
-  const {data,error}=await sb.rpc('get_exam_review',{
-    p_attempt_id:id
-  });
+ const {data,error}=await sb.rpc('get_exam_review',{p_attempt_id:id});
+ if(error)return showToast(error.message);
 
-  if(error)return showToast(error.message);
+ const items=Array.isArray(data)?data:(data?.questions||data?.review||[]);
 
-  const questions=Array.isArray(data)?data:(data?.questions||[]);
-
-  if(!questions.length){
-    $('historyList').textContent='No review questions were returned for this examination.';
-    return;
-  }
-
-  $('historyList').innerHTML=questions.map((q,i)=>
-    `<div class="card section">
-      <b>${i+1}. ${safe(q.question_text||q.question||'Question')}</b>
-      <p>Your answer: ${safe(q.selected_answer??q.student_answer??'Not answered')} · Correct: ${safe(q.correct_answer)}</p>
-      <p>${safe(q.explanation||'Explanation pending.')}</p>
-    </div>`
-  ).join('');
+ $('historyList').innerHTML='<h3>Complete exam review</h3>'+
+  (items.length?items.map((q,i)=>renderQuestionReview(q,i)).join(''):'<p>No review questions were returned for this attempt.</p>');
 }
 
 async function loadSaved(mode){
-  const {data,error}=await sb.rpc('get_my_revision_list',{
-    p_mode:mode
-  });
+ const {data,error}=await sb.rpc('get_my_revision_list',{p_mode:mode});
 
-  $('savedList').innerHTML=error?safe(error.message):
-    (data||[]).map(q=>
-      `<div class="card section">
-        <b>${safe(q.question_text)}</b>
-        <p>${safe(q.subject)} · ${safe(q.topic)}</p>
-        ${safe(q.explanation)}
-      </div>`
-    ).join('')||'No saved questions.';
+ $('savedList').innerHTML=error?safe(error.message):
+  (data||[]).map(q=>`<div class="card section"><b>${safe(q.question_text)}</b><p>${safe(q.subject)} · ${safe(q.topic)}</p>${safe(q.explanation)}</div>`).join('')||
+  'No saved questions.';
 }
 
-
-/* DAILY CHALLENGE */
-
 async function loadDaily(){
-  if(!sb)return;
+ if(!sb)return;
 
-  const area=$('dailyArea');
-  area.classList.remove('hidden');
-  area.textContent='Loading challenge…';
+ const area=$('dailyArea');
+ area.classList.remove('hidden');
+ area.textContent='Loading challenge…';
 
-  const {data,error}=await sb.rpc('get_current_daily_challenge');
+ const {data,error}=await sb.rpc('get_current_daily_challenge');
 
-  if(error){
-    area.textContent='Daily Challenge is not available: '+error.message;
-    return;
-  }
+ if(error){
+  area.textContent='Daily Challenge is not available: '+error.message;
+  return;
+ }
 
-  if(!data){
-    area.textContent='No challenge has been published for today yet.';
-    return;
-  }
+ if(!data){
+  area.textContent='No challenge has been published for today yet.';
+  return;
+ }
 
-  area.innerHTML=`
-    <h3>${safe(data.subject)} Daily Challenge</h3>
-    <p>${safe(data.topic||'Mixed questions')} · ${safe(data.question_count||'')} questions · ${safe(data.duration_minutes||'')} minutes</p>
-    <button onclick="startDailyExam()">Start challenge</button>
-  `;
+ dailyChallengeSubject=data.subject||'';
+
+ area.innerHTML=`<h3>${safe(data.subject)} Daily Challenge</h3>
+ <p>${safe(data.topic||'Mixed questions')} · ${safe(data.question_count||'')} questions · ${safe(data.duration_minutes||'')} minutes</p>
+ <button onclick="showDailyChallengeWarning()">Start challenge</button>`;
+}
+
+function showDailyChallengeWarning(){
+ if(active)return showToast('Finish or exit your current examination before starting another.');
+ $('dailyConfirmModal').classList.remove('hidden');
+}
+
+function cancelDailyChallenge(){
+ $('dailyConfirmModal').classList.add('hidden');
+}
+
+async function confirmDailyChallenge(){
+ $('dailyConfirmModal').classList.add('hidden');
+ await startDailyExam();
 }
 
 async function startDailyExam(){
-  kind='daily';
+ if(!sb)return;
+ if(active)return showToast('An examination is already in progress.');
 
-  if(!sb)return;
+ const {data,error}=await sb.rpc('start_daily_challenge_attempt');
 
-  const {data,error}=await sb.rpc('start_daily_challenge_attempt');
+ if(error)return showToast(error.message);
 
-  if(error)return showToast(error.message);
+ const newQuestions=data?.questions||[];
+ const newAttemptId=data?.attempt_id||null;
 
-  qs=data?.questions||[];
-  attemptId=data?.attempt_id||null;
+ if(!newQuestions.length||!newAttemptId){
+  return showToast('No challenge questions or attempt ID were returned.');
+ }
 
-  if(!qs.length||!attemptId){
-    return showToast('No challenge questions were returned.');
-  }
+ qs=newQuestions;
+ attemptId=newAttemptId;
+ kind='daily';
+ answers={};
+ left=Number(data.time_remaining_seconds??data.duration_seconds??900);
+ active=true;
+ submitInFlight=false;
+ progressDirty=false;
 
-  answers={};
-  left=Number(data.duration_seconds||900);
-  active=true;
+ if(dailyChallengeSubject)$('subject').value=dailyChallengeSubject;
 
-  enterStudentScreen('examScreen');
-  renderExam();
+ renderExam();
+ $('dailyArea').classList.add('hidden');
 
-  $('dailyArea').classList.add('hidden');
+ history.pushState({exam:true},'','#exam');
 
-  timer=setInterval(()=>{
-    left--;
-    tick();
-    if(left<=0)submitExam(true);
-  },1000);
-
-  tick();
-  addEventListener('beforeunload',beforeUnload);
+ saveLocalBackup();
+ await saveExamProgress();
+ startExamClock();
+ tick();
+ addEventListener('beforeunload',beforeUnload);
 }
-
-
-/* PROFILE */
 
 async function saveProfile(){
-  const full_name=$('profileName').value.trim();
+ const full_name=$('profileName').value.trim();
 
-  if(!full_name)return showToast('Full name cannot be empty.');
+ if(!full_name)return showToast('Full name cannot be empty.');
 
-  const {error}=await sb.rpc('update_my_profile',{
-    p_full_name:full_name
-  });
+ const {error}=await sb.rpc('update_my_profile',{p_full_name:full_name});
 
-  if(error)return showToast(error.message);
+ if(error)return showToast(error.message);
 
-  profile.full_name=full_name;
-  $('who').textContent=full_name;
-
-  showToast('Profile updated.');
+ profile.full_name=full_name;
+ $('who').textContent=full_name;
+ showToast('Profile updated.');
 }
 
-
-/* COLLECTOR WORKSPACE */
-
 async function loadCollector(){
-  const {data,error}=await sb.rpc('get_my_collector_dashboard');
+ const {data,error}=await sb.rpc('get_my_collector_dashboard');
 
-  if(error){
-    $('collectorSubjects').textContent='Setup needed';
-    $('collectorHistory').textContent=error.message;
-    return;
-  }
+ if(error){
+  $('collectorSubjects').textContent='Setup needed';
+  $('collectorHistory').textContent=error.message;
+  return;
+ }
 
-  $('collectorSubjects').textContent=(data.assigned_subjects||[]).join(', ');
-  $('collectorBatches').textContent=data.batch_count??0;
-  $('collectorApproved').textContent=data.approved_question_count??0;
-  $('collectorHistory').textContent=JSON.stringify(data.submissions||[],null,2);
+ $('collectorSubjects').textContent=(data.assigned_subjects||[]).join(', ');
+ $('collectorBatches').textContent=data.batch_count??0;
+ $('collectorApproved').textContent=data.approved_question_count??0;
+ $('collectorHistory').textContent=JSON.stringify(data.submissions||[],null,2);
 }
 
 function csvParse(s){
-  let out=[],r=[],v='',q=false;
+ let out=[],r=[],v='',q=false;
 
-  for(let i=0;i<s.length;i++){
-    let c=s[i];
+ for(let i=0;i<s.length;i++){
+  let c=s[i];
 
-    if(c==='"'&&q&&s[i+1]==='"'){
-      v+='"';
-      i++;
-    }else if(c==='"'){
-      q=!q;
-    }else if(c===','&&!q){
-      r.push(v);
-      v='';
-    }else if((c==='\n'||c==='\r')&&!q){
-      if(c==='\r'&&s[i+1]==='\n')i++;
-      r.push(v);
-      if(r.some(x=>x.trim()))out.push(r);
-      r=[];
-      v='';
-    }else{
-      v+=c;
-    }
+  if(c==='"'&&q&&s[i+1]==='"'){
+   v+='"';
+   i++;
+  }else if(c==='"'){
+   q=!q;
+  }else if(c===','&&!q){
+   r.push(v);
+   v='';
+  }else if((c==='\n'||c==='\r')&&!q){
+   if(c==='\r'&&s[i+1]==='\n')i++;
+   r.push(v);
+   if(r.some(x=>x.trim()))out.push(r);
+   r=[];
+   v='';
+  }else{
+   v+=c;
   }
+ }
 
-  r.push(v);
-  if(r.some(x=>x.trim()))out.push(r);
-
-  return out;
+ r.push(v);
+ if(r.some(x=>x.trim()))out.push(r);
+ return out;
 }
 
 function norm(s){
-  return String(s||'').toLowerCase().replace(/[^a-z0-9]/g,'');
+ return String(s||'').toLowerCase().replace(/[^a-z0-9]/g,'');
 }
 
 function mapQ(h,r){
-  const a={
-    subject:['subject'],
-    topic:['topic','chapter'],
-    question_text:['question','questiontext'],
-    option_a:['a','optiona','option1'],
-    option_b:['b','optionb','option2'],
-    option_c:['c','optionc','option3'],
-    option_d:['d','optiond','option4'],
-    correct_answer:['answer','correctanswer','correctoption','key'],
-    explanation:['explanation','solution']
-  };
+ const a={
+  subject:['subject'],
+  topic:['topic','chapter'],
+  question_text:['question','questiontext'],
+  option_a:['a','optiona','option1'],
+  option_b:['b','optionb','option2'],
+  option_c:['c','optionc','option3'],
+  option_d:['d','optiond','option4'],
+  correct_answer:['answer','correctanswer','correctoption','key'],
+  explanation:['explanation','solution']
+ };
 
-  const o={};
+ const o={};
 
-  for(const k in a){
-    const i=h.findIndex(x=>a[k].includes(norm(x)));
-    o[k]=i<0?'':String(r[i]??'').trim();
-  }
+ for(const k in a){
+  const i=h.findIndex(x=>a[k].includes(norm(x)));
+  o[k]=i<0?'':String(r[i]??'').trim();
+ }
 
-  return o;
+ return o;
 }
 
 async function previewBulk(){
-  try{
-    const f=$('bulkFile').files[0];
+ try{
+  const f=$('bulkFile').files[0];
 
-    if(!f)return showToast('Choose a file.');
+  if(!f)return showToast('Choose a file.');
 
-    let rows;
+  let rows;
 
-    if(f.name.toLowerCase().endsWith('.csv')){
-      rows=csvParse(await f.text());
-    }else{
-      if(!window.XLSX)return showToast('Excel parser unavailable; try CSV.');
+  if(f.name.toLowerCase().endsWith('.csv')){
+   rows=csvParse(await f.text());
+  }else{
+   if(!window.XLSX)return showToast('Excel parser unavailable; try CSV.');
 
-      const w=XLSX.read(await f.arrayBuffer(),{type:'array'});
-
-      rows=XLSX.utils.sheet_to_json(
-        w.Sheets[w.SheetNames[0]],
-        {header:1,defval:''}
-      );
-    }
-
-    if(!rows.length)return showToast('The file is empty.');
-
-    const seen=new Set();
-
-    staged=rows.slice(1).map((r,i)=>{
-      const q=mapQ(rows[0],r);
-      const issues=[];
-
-      if(!subjects.includes(q.subject))issues.push('Invalid subject');
-      if(!q.topic)issues.push('Missing topic');
-      if(!q.question_text)issues.push('Missing question');
-
-      ['option_a','option_b','option_c','option_d'].forEach(k=>{
-        if(!q[k])issues.push('Missing option '+k.slice(-1));
-      });
-
-      q.correct_answer=q.correct_answer.toUpperCase();
-
-      if(!['A','B','C','D'].includes(q.correct_answer)){
-        issues.push('Missing/invalid answer');
-      }
-
-      const fp=(q.subject+'|'+q.question_text).toLowerCase().replace(/\s+/g,' ').trim();
-
-      if(seen.has(fp))issues.push('Duplicate within this file');
-      seen.add(fp);
-
-      q.issues=issues;
-      q.row=i+2;
-
-      return q;
-    });
-
-    const good=staged.filter(x=>!x.issues.length).length;
-
-    $('importSummary').textContent=
-      `${staged.length} rows · ${good} valid · ${staged.length-good} need correction. Answers are never guessed.`;
-
-    $('importPreview').innerHTML=
-      '<table class="table"><tr><th>Row</th><th>Subject/topic</th><th>Question</th><th>Answer</th><th>Validation</th></tr>'+
-      staged.slice(0,50).map(q=>
-        `<tr>
-          <td>${q.row}</td>
-          <td>${safe(q.subject)}<br>${safe(q.topic)}</td>
-          <td>${safe(q.question_text)}</td>
-          <td>${safe(q.correct_answer)}</td>
-          <td>${safe(q.issues.join(', ')||'Ready')}</td>
-        </tr>`
-      ).join('')+
-      '</table>';
-
-    $('submitBatch').classList.toggle('hidden',!good);
-
-  }catch(e){
-    showToast('Could not read file: '+e.message);
+   const w=XLSX.read(await f.arrayBuffer(),{type:'array'});
+   rows=XLSX.utils.sheet_to_json(w.Sheets[w.SheetNames[0]],{header:1,defval:''});
   }
+
+  if(!rows.length)return showToast('The file is empty.');
+
+  const seen=new Set();
+
+  staged=rows.slice(1).map((r,i)=>{
+   const q=mapQ(rows[0],r);
+   const issues=[];
+
+   if(!subjects.includes(q.subject))issues.push('Invalid subject');
+   if(!q.topic)issues.push('Missing topic');
+   if(!q.question_text)issues.push('Missing question');
+
+   ['option_a','option_b','option_c','option_d'].forEach(k=>{
+    if(!q[k])issues.push('Missing option '+k.slice(-1));
+   });
+
+   q.correct_answer=q.correct_answer.toUpperCase();
+
+   if(!['A','B','C','D'].includes(q.correct_answer))issues.push('Missing/invalid answer');
+
+   const fp=(q.subject+'|'+q.question_text).toLowerCase().replace(/\s+/g,' ').trim();
+
+   if(seen.has(fp))issues.push('Duplicate within this file');
+   seen.add(fp);
+
+   q.issues=issues;
+   q.row=i+2;
+
+   return q;
+  });
+
+  const good=staged.filter(x=>!x.issues.length).length;
+
+  $('importSummary').textContent=
+   `${staged.length} rows · ${good} valid · ${staged.length-good} need correction. Answers are never guessed.`;
+
+  $('importPreview').innerHTML=
+   '<table class="table"><tr><th>Row</th><th>Subject/topic</th><th>Question</th><th>Answer</th><th>Validation</th></tr>'+
+   staged.slice(0,50).map(q=>
+    `<tr><td>${q.row}</td><td>${safe(q.subject)}<br>${safe(q.topic)}</td><td>${safe(q.question_text)}</td><td>${safe(q.correct_answer)}</td><td>${safe(q.issues.join(', ')||'Ready')}</td></tr>`
+   ).join('')+'</table>';
+
+  $('submitBatch').classList.toggle('hidden',!good);
+
+ }catch(e){
+  showToast('Could not read file: '+e.message);
+ }
 }
 
 async function submitBatch(){
-  if(!sb)return showToast('Backend not configured.');
+ if(!sb)return showToast('Backend not configured.');
 
-  const valid=staged.filter(q=>!q.issues.length);
+ const valid=staged.filter(q=>!q.issues.length);
 
-  if(!valid.length)return showToast('There are no valid rows to submit.');
+ if(!valid.length)return showToast('There are no valid rows to submit.');
 
-  const btn=$('submitBatch');
-  btn.disabled=true;
+ const btn=$('submitBatch');
+ btn.disabled=true;
 
-  try{
-    const {error}=await sb.rpc('create_question_submission',{
-      p_questions:valid
-    });
+ try{
+  // Send only the question fields expected by the backend.
+  // Frontend-only fields such as "issues" and "row" are excluded.
+  const payload=valid.map(q=>({
+   subject:q.subject,
+   topic:q.topic,
+   question_text:q.question_text,
+   option_a:q.option_a,
+   option_b:q.option_b,
+   option_c:q.option_c,
+   option_d:q.option_d,
+   correct_answer:q.correct_answer,
+   explanation:q.explanation
+  }));
 
-    if(error)throw error;
+  const {error}=await sb.rpc('create_question_submission',{
+   p_questions:payload
+  });
 
-    showToast('Batch submitted for review.');
+  if(error)throw error;
 
-    staged=[];
-    $('importPreview').innerHTML='';
-    btn.classList.add('hidden');
+  showToast('Batch submitted for review.');
+  staged=[];
+  $('importPreview').innerHTML='';
+  $('importSummary').textContent='';
+  btn.classList.add('hidden');
 
-    await loadCollector();
+  await loadCollector();
 
-  }catch(e){
-    showToast('Batch was not confirmed: '+e.message);
-  }finally{
-    btn.disabled=false;
-  }
+ }catch(e){
+  showToast('Batch was not confirmed: '+e.message);
+ }finally{
+  btn.disabled=false;
+ }
 }
 
 function downloadTemplate(){
-  const s=
-    'subject,topic,question,option_a,option_b,option_c,option_d,correct_answer,explanation\n'+
-    'Physics,Motion,What is speed?,Distance/time,Mass/time,Force/time,Work/time,A,Distance divided by time\n';
+ const s='subject,topic,question,option_a,option_b,option_c,option_d,correct_answer,explanation\nPhysics,Motion,What is speed?,Distance/time,Mass/time,Force/time,Work/time,A,Distance divided by time\n';
 
-  const a=document.createElement('a');
-  a.href=URL.createObjectURL(new Blob([s],{type:'text/csv'}));
-  a.download='KG_JAMB_Question_Template.csv';
-  a.click();
+ const a=document.createElement('a');
+ const url=URL.createObjectURL(new Blob([s],{type:'text/csv'}));
 
-  URL.revokeObjectURL(a.href);
+ a.href=url;
+ a.download='KG_JAMB_Question_Template.csv';
+ a.click();
+
+ setTimeout(()=>URL.revokeObjectURL(url),1000);
 }
-
-
-/* ADMIN QUESTION IMPORTER */
-
-function validateAdminQuestion(q){
-  const issues=[];
-
-  if(!subjects.includes(q.subject))issues.push('Choose a valid subject');
-  if(!String(q.topic||'').trim())issues.push('Missing topic');
-  if(!String(q.question_text||'').trim())issues.push('Missing question');
-
-  ['option_a','option_b','option_c','option_d'].forEach(k=>{
-    if(!String(q[k]||'').trim()){
-      issues.push('Missing option '+k.slice(-1).toUpperCase());
-    }
-  });
-
-  if(!['A','B','C','D'].includes(String(q.correct_answer||'').trim().toUpperCase())){
-    issues.push('Choose correct answer A, B, C or D');
-  }
-
-  return issues;
-}
-
-function refreshAdminValidation(){
-  const seen=new Set();
-
-  adminStaged.forEach(q=>{
-    q.subject=String(q.subject||'').trim();
-    q.correct_answer=String(q.correct_answer||'').trim().toUpperCase();
-    q.issues=validateAdminQuestion(q);
-
-    const fingerprint=(q.subject+'|'+String(q.question_text||'')).toLowerCase().replace(/\s+/g,' ').trim();
-
-    if(fingerprint!=='|'&&seen.has(fingerprint)){
-      q.issues.push('Duplicate within this import');
-    }
-
-    if(fingerprint!=='|')seen.add(fingerprint);
-  });
-
-  const valid=adminStaged.filter(q=>!q.issues.length).length;
-  const invalid=adminStaged.length-valid;
-
-  const summary=
-    `${adminStaged.length} questions prepared · ${valid} valid · ${invalid} need correction.`;
-
-  $('adminImportSummary').textContent=summary;
-  $('adminImportSummaryBottom').textContent=summary;
-
-  $('adminImportButton').classList.toggle('hidden',valid===0);
-  $('adminImportButtonBottom').classList.toggle('hidden',valid===0);
-
-  renderAdminImportPreview();
-}
-
-function updateAdminDraft(index,field,value){
-  if(!adminStaged[index])return;
-
-  adminStaged[index][field]=value;
-  refreshAdminValidation();
-}
-
-function renderAdminImportPreview(){
-  const host=$('adminImportPreview');
-  const bottom=$('adminImportPreviewBottom');
-
-  if(!adminStaged.length){
-    host.innerHTML='<p class="small muted">No file questions loaded.</p>';
-    bottom.innerHTML='<p class="small muted">Add questions manually or upload a file to see them here.</p>';
-    return;
-  }
-
-  const html=adminStaged.map((q,i)=>{
-    const subjectOptions=subjects.map(s=>
-      `<option value="${s}" ${q.subject===s?'selected':''}>${s}</option>`
-    ).join('');
-
-    const answerOptions=['A','B','C','D'].map(a=>
-      `<option value="${a}" ${q.correct_answer===a?'selected':''}>${a}</option>`
-    ).join('');
-
-    return `
-      <div class="admin-question-card">
-        <div class="between">
-          <b>Question ${i+1}</b>
-          <button class="danger" onclick="removeAdminDraft(${i})">Remove</button>
-        </div>
-
-        <div class="grid">
-          <div>
-            <label>Subject</label>
-            <select onchange="updateAdminDraft(${i},'subject',this.value)">${subjectOptions}</select>
-          </div>
-          <div>
-            <label>Topic</label>
-            <input value="${safe(q.topic)}" oninput="updateAdminDraft(${i},'topic',this.value)">
-          </div>
-        </div>
-
-        <label>Question</label>
-        <textarea oninput="updateAdminDraft(${i},'question_text',this.value)">${safe(q.question_text)}</textarea>
-
-        <div class="grid">
-          <div><label>Option A</label><input value="${safe(q.option_a)}" oninput="updateAdminDraft(${i},'option_a',this.value)"></div>
-          <div><label>Option B</label><input value="${safe(q.option_b)}" oninput="updateAdminDraft(${i},'option_b',this.value)"></div>
-          <div><label>Option C</label><input value="${safe(q.option_c)}" oninput="updateAdminDraft(${i},'option_c',this.value)"></div>
-          <div><label>Option D</label><input value="${safe(q.option_d)}" oninput="updateAdminDraft(${i},'option_d',this.value)"></div>
-        </div>
-
-        <div class="grid">
-          <div>
-            <label>Correct answer</label>
-            <select onchange="updateAdminDraft(${i},'correct_answer',this.value)">
-              <option value="">Choose answer</option>
-              ${answerOptions}
-            </select>
-          </div>
-          <div>
-            <label>Explanation (optional)</label>
-            <textarea oninput="updateAdminDraft(${i},'explanation',this.value)">${safe(q.explanation)}</textarea>
-          </div>
-        </div>
-
-        <p class="${q.issues.length?'admin-issue':'admin-ready'}">
-          ${q.issues.length?'⚠ '+safe(q.issues.join(' · ')):'✓ Ready to import'}
-        </p>
-      </div>
-    `;
-  }).join('');
-
-  host.innerHTML=html;
-  bottom.innerHTML=html;
-}
-
-async function previewAdminBulk(){
-  try{
-    const f=$('adminBulkFile').files[0];
-
-    if(!f)return showToast('Choose a CSV or Excel file first.');
-
-    let rows;
-
-    if(f.name.toLowerCase().endsWith('.csv')){
-      rows=csvParse(await f.text());
-    }else{
-      if(!window.XLSX)return showToast('Excel reader unavailable. Try a CSV file.');
-
-      const workbook=XLSX.read(await f.arrayBuffer(),{type:'array'});
-      const sheet=workbook.Sheets[workbook.SheetNames[0]];
-
-      rows=XLSX.utils.sheet_to_json(sheet,{header:1,defval:''});
-    }
-
-    if(!rows||rows.length<2){
-      return showToast('The file has no question rows. Check that the first row contains headings.');
-    }
-
-    adminStaged=rows.slice(1)
-      .filter(r=>r.some(x=>String(x??'').trim()))
-      .map((r,i)=>{
-        const q=mapQ(rows[0],r);
-
-        return {
-          ...q,
-          correct_answer:String(q.correct_answer||'').toUpperCase(),
-          source_row:i+2
-        };
-      });
-
-    refreshAdminValidation();
-
-    showToast('File loaded. Review and correct the questions before importing.');
-
-  }catch(e){
-    showToast('Could not read the file: '+e.message);
-  }
-}
-
-function addManualAdminQuestion(){
-  const q={
-    subject:$('adminManualSubject').value,
-    topic:$('adminManualTopic').value.trim(),
-    question_text:$('adminManualQuestion').value.trim(),
-    option_a:$('adminManualA').value.trim(),
-    option_b:$('adminManualB').value.trim(),
-    option_c:$('adminManualC').value.trim(),
-    option_d:$('adminManualD').value.trim(),
-    correct_answer:$('adminManualAnswer').value,
-    explanation:$('adminManualExplanation').value.trim()
-  };
-
-  const issues=validateAdminQuestion(q);
-
-  if(issues.length){
-    showToast('Please complete the required fields: '+issues.join(', '));
-    return;
-  }
-
-  adminStaged.push(q);
-
-  [
-    'adminManualTopic',
-    'adminManualQuestion',
-    'adminManualA',
-    'adminManualB',
-    'adminManualC',
-    'adminManualD',
-    'adminManualExplanation'
-  ].forEach(id=>$(id).value='');
-
-  $('adminManualAnswer').value='';
-
-  refreshAdminValidation();
-
-  showToast('Question added to the preview. It has not been imported yet.');
-}
-
-function removeAdminDraft(index){
-  adminStaged.splice(index,1);
-  refreshAdminValidation();
-}
-
-function clearAdminImport(){
-  adminStaged=[];
-  $('adminBulkFile').value='';
-  refreshAdminValidation();
-}
-
-async function importAdminQuestions(){
-  if(!sb)return showToast('Backend is not connected.');
-
-  if(!profile||profile.role!=='admin'||profile.is_active===false){
-    return showToast('Administrator access is required.');
-  }
-
-  refreshAdminValidation();
-
-  const valid=adminStaged.filter(q=>!q.issues.length).map(q=>({
-    subject:q.subject,
-    topic:q.topic,
-    question_text:q.question_text,
-    option_a:q.option_a,
-    option_b:q.option_b,
-    option_c:q.option_c,
-    option_d:q.option_d,
-    correct_answer:q.correct_answer,
-    explanation:q.explanation||''
-  }));
-
-  if(!valid.length)return showToast('There are no valid questions to import.');
-
-  if(!confirm(`Import ${valid.length} valid question(s) directly into the approved question bank?`)){
-    return;
-  }
-
-  const buttons=[$('adminImportButton'),$('adminImportButtonBottom')];
-  buttons.forEach(b=>b.disabled=true);
-
-  try{
-    const {data,error}=await sb.rpc('admin_import_questions',{
-      p_questions:valid
-    });
-
-    if(error)throw error;
-
-    const result=Array.isArray(data)?data[0]:data;
-
-    const inserted=Number(result?.inserted??0);
-    const duplicates=Number(result?.duplicates_skipped??0);
-    const submitted=Number(result?.submitted??valid.length);
-
-    adminStaged=[];
-    $('adminBulkFile').value='';
-
-    refreshAdminValidation();
-
-    showToast(
-      `Import completed. ${inserted} question(s) added to the approved question bank. ${duplicates} duplicate(s) skipped. ${submitted} valid question(s) were submitted.`
-    );
-
-    await loadAdmin();
-
-  }catch(e){
-    showToast('Import was not confirmed: '+e.message+'. Your preview is still available; no success is being assumed.');
-  }finally{
-    buttons.forEach(b=>b.disabled=false);
-  }
-}
-
-
-/* ADMIN DASHBOARD */
 
 async function loadAdmin(){
-  const {data,error}=await sb.rpc('get_admin_dashboard');
+ const {data,error}=await sb.rpc('get_admin_dashboard');
 
-  if(error)return showToast('Admin backend setup required: '+error.message);
+ if(error)return showToast('Admin backend setup required: '+error.message);
 
-  $('mStudents').textContent=data.students??0;
-  $('mCollectors').textContent=data.collectors??0;
-  $('mQuestions').textContent=data.approved_questions??0;
-  $('mPending').textContent=data.pending_batches??0;
+ $('mStudents').textContent=data.students??0;
+ $('mCollectors').textContent=data.collectors??0;
+ $('mQuestions').textContent=data.approved_questions??0;
+ $('mPending').textContent=data.pending_batches??0;
 
-  for(const [id,key] of [
-    ['studentsTable','students_preview'],
-    ['collectorsTable','collectors_preview'],
-    ['bankTable','question_bank_preview'],
-    ['reviewQueue','pending_submissions'],
-    ['reportsList','reports'],
-    ['auditList','audit_log']
-  ]){
-    $(id).textContent=JSON.stringify(data[key]||[],null,2);
-  }
+ for(const [id,key] of [
+  ['studentsTable','students_preview'],
+  ['collectorsTable','collectors_preview'],
+  ['bankTable','question_bank_preview'],
+  ['reviewQueue','pending_submissions'],
+  ['reportsList','reports'],
+  ['auditList','audit_log']
+ ]){
+  $(id).textContent=JSON.stringify(data[key]||[],null,2);
+ }
 }
 
 function adminPage(p,b){
-  document.querySelectorAll('.adminpage').forEach(x=>x.classList.add('hidden'));
-  $('admin-'+p).classList.remove('hidden');
+ document.querySelectorAll('.adminpage').forEach(x=>x.classList.add('hidden'));
+ $('admin-'+p).classList.remove('hidden');
 
-  document.querySelectorAll('#adminTabs button').forEach(x=>x.classList.remove('active'));
-  b.classList.add('active');
+ document.querySelectorAll('#adminTabs button').forEach(x=>x.classList.remove('active'));
+ b.classList.add('active');
 }
 
 async function publishChallenge(){
-  const p={
-    challenge_date:$('challengeDate').value,
-    subject:$('challengeSubject').value,
-    topic:$('challengeTopic').value||null,
-    question_count:Number($('challengeCount').value),
-    duration_minutes:Number($('challengeTime').value),
-    fallback_deadline:$('challengeDeadline').value||null
-  };
+ if(!sb)return showToast('Backend not configured.');
 
+ const p={
+  challenge_date:$('challengeDate').value,
+  subject:$('challengeSubject').value,
+  topic:$('challengeTopic').value||null,
+  question_count:Number($('challengeCount').value),
+  duration_minutes:Number($('challengeTime').value),
+  fallback_deadline:$('challengeDeadline').value||null
+ };
+
+ if(!p.challenge_date)return showToast('Choose a challenge date.');
+
+ const btn=document.querySelector('#admin-challenge button[onclick="publishChallenge()"]');
+ if(btn)btn.disabled=true;
+
+ try{
   const {data,error}=await sb.rpc('admin_publish_daily_challenge',{
-    p_challenge:p
+   p_challenge:p
   });
 
-  $('challengeStatus').textContent=error
-    ?'Could not publish: '+error.message
-    :'Challenge publication request confirmed: '+JSON.stringify(data||'');
+  if(error)throw error;
+
+  $('challengeStatus').textContent='Challenge publication request confirmed: '+JSON.stringify(data||'');
+ }catch(e){
+  $('challengeStatus').textContent='Could not publish: '+e.message;
+ }finally{
+  if(btn)btn.disabled=false;
+ }
 }
 
 addEventListener('DOMContentLoaded',init);
 </script>
-
 </body>
 </html>
