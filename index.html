@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -14,7 +13,6 @@
 .qopt:has(input:checked){border-color:var(--b);background:#eef7ff}
 .qopt input{accent-color:var(--b)}
 button:disabled{opacity:.55;cursor:not-allowed}
-
 :root{--n:#102a43;--b:#1769aa;--ink:#172b4d;--muted:#62748a;--line:#dce5ee;--bg:#f4f7fb}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,Arial}
@@ -53,7 +51,6 @@ label{display:block;font-weight:650;margin:10px 0 5px}
 .modalback{position:fixed;inset:0;background:#061525b8;display:grid;place-items:center;padding:18px;z-index:20}
 .modal{background:white;max-width:450px;width:100%;padding:22px;border-radius:14px}
 .footer{text-align:center;color:var(--muted);padding:24px;font-size:12px}
-
 .admin-question-card{border:1px solid var(--line);border-radius:10px;padding:13px;margin:12px 0;background:#fff}
 .admin-question-card .grid{grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:9px}
 .admin-question-card label{font-size:12px;margin-top:6px}
@@ -62,56 +59,23 @@ label{display:block;font-weight:650;margin:10px 0 5px}
 .admin-ready{color:#16794b;font-size:12px;font-weight:650}
 .admin-preview-head{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center}
 .admin-import-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-
-/* Dedicated examination screens */
-.exam-screen{
-  min-height:calc(100vh - 80px);
-  background:white;
-  border:1px solid var(--line);
-  border-radius:14px;
-  padding:18px;
-  margin:12px 0;
-}
-.exam-screen-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:12px;
-  flex-wrap:wrap;
-  border-bottom:1px solid var(--line);
-  padding-bottom:14px;
-  margin-bottom:18px;
-}
-.exam-setup-card{
-  max-width:750px;
-  margin:20px auto;
-}
+.exam-screen{min-height:calc(100vh - 80px);background:white;border:1px solid var(--line);border-radius:14px;padding:18px;margin:12px 0}
+.exam-screen-header{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:14px;margin-bottom:18px}
+.exam-setup-card{max-width:750px;margin:20px auto}
 .exam-setup-card .grid{margin-top:12px}
-.exam-setup-actions{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-  margin-top:20px;
-}
-.exam-question{
-  border-bottom:1px solid var(--line);
-  padding:12px 0 18px;
-}
+.exam-setup-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+.exam-question{border-bottom:1px solid var(--line);padding:12px 0 18px}
 .exam-question:last-of-type{border-bottom:0}
 .exam-question-title{font-weight:700;margin-bottom:10px}
-.exam-toolbar{
-  position:sticky;
-  top:0;
-  z-index:5;
-  background:white;
-  padding:10px 0;
-  border-bottom:1px solid var(--line);
-}
-.exam-clock{
-  font-size:22px;
-  font-weight:850;
-  color:var(--b);
-}
+.exam-toolbar{position:sticky;top:0;z-index:5;background:white;padding:10px 0;border-bottom:1px solid var(--line)}
+.exam-clock{font-size:22px;font-weight:850;color:var(--b)}
+.review-question{border:1px solid var(--line);border-radius:10px;padding:14px;margin:14px 0}
+.review-option{padding:9px 11px;border:1px solid var(--line);border-radius:8px;margin:7px 0}
+.review-option.correct{border-color:#16794b;background:#edf8f1}
+.review-option.selected-wrong{border-color:#b42318;background:#fff1f0}
+.review-status{font-weight:750;margin:8px 0}
+.review-correct{color:#16794b}
+.review-wrong{color:#b42318}
 @media(max-width:600px){
   .wrap{margin:12px auto}
   .panel,.card{padding:13px}
@@ -120,7 +84,6 @@ label{display:block;font-weight:650;margin:10px 0 5px}
 }
 </style>
 </head>
-
 <body>
 
 <header class="top">
@@ -134,38 +97,28 @@ label{display:block;font-weight:650;margin:10px 0 5px}
 </header>
 
 <main class="wrap">
-
 <section id="auth" class="panel" style="max-width:540px;margin:35px auto">
   <h1>Welcome to KG JAMB STUDY</h1>
   <p class="muted">Sign in or create your student account.</p>
-
   <div class="tabs">
     <button id="loginTab" class="active" onclick="authMode('login')">Sign in</button>
     <button id="signupTab" onclick="authMode('signup')">Create account</button>
   </div>
-
   <p id="authMsg" class="notice hidden"></p>
   <p id="connectionStatus" class="connection-banner">Checking secure backend connection…</p>
-
   <label id="nameLabel" class="hidden">Full name</label>
   <input id="fullName" class="hidden" placeholder="Your full name">
-
   <label>Email</label>
   <input id="email" type="email">
-
   <label>Password</label>
   <input id="password" type="password">
-
   <button id="authBtn" style="width:100%;margin-top:14px" onclick="authenticate()">Sign in</button>
-
   <p class="small muted">This form creates student accounts only. Staff roles must be assigned securely by an administrator.</p>
   <p class="small muted">Your account session is securely restored when you return. Backend configuration is managed by KG JAMB STUDY.</p>
 </section>
 
-
 <!-- STUDENT APPLICATION -->
 <section id="studentApp" class="hidden">
-
   <div class="between">
     <div>
       <h1 id="greeting">Student dashboard</h1>
@@ -173,26 +126,12 @@ label{display:block;font-weight:650;margin:10px 0 5px}
     </div>
     <span class="pill">STUDENT</span>
   </div>
-
   <div class="grid">
-    <div class="card">
-      <div class="small muted">Shared Topic + Custom free uses</div>
-      <div class="metric" id="usage">—</div>
-    </div>
-    <div class="card">
-      <div class="small muted">Full Subject Exams</div>
-      <div class="metric">Unlimited</div>
-    </div>
-    <div class="card">
-      <div class="small muted">Study streak</div>
-      <div class="metric" id="streak">—</div>
-    </div>
-    <div class="card">
-      <div class="small muted">Membership</div>
-      <div class="metric" id="membership">Free</div>
-    </div>
+    <div class="card"><div class="small muted">Shared Topic + Custom free uses</div><div class="metric" id="usage">—</div></div>
+    <div class="card"><div class="small muted">Full Subject Exams</div><div class="metric">Unlimited</div></div>
+    <div class="card"><div class="small muted">Study streak</div><div class="metric" id="streak">—</div></div>
+    <div class="card"><div class="small muted">Membership</div><div class="metric" id="membership">Free</div></div>
   </div>
-
   <nav class="tabs" id="studentTabs">
     <button class="active" onclick="studentPage('learn',this)">Learn & practise</button>
     <button onclick="studentPage('progress',this)">Progress</button>
@@ -201,52 +140,26 @@ label{display:block;font-weight:650;margin:10px 0 5px}
     <button onclick="studentPage('friends',this)">Friends & leaderboard</button>
     <button onclick="studentPage('profile',this)">Profile</button>
   </nav>
-
   <div id="student-learn" class="panel studentpage">
     <h2>Start practising</h2>
-
     <div class="grid">
-      <div class="card">
-        <h3>Topic Practice</h3>
-        <p class="small muted">Practise a selected topic.</p>
-        <button onclick="startExam('topic')">Start practice</button>
-      </div>
-
-      <div class="card">
-        <h3>Custom Examination</h3>
-        <p class="small muted">Choose subject, topic and question count.</p>
-        <button onclick="startExam('custom')">Create exam</button>
-      </div>
-
-      <div class="card">
-        <h3>Full Subject Exam</h3>
-        <p class="small muted">Unlimited free access.</p>
-        <button onclick="startExam('full')">Start full exam</button>
-      </div>
-
-      <div class="card">
-        <h3>Daily Challenge</h3>
-        <p class="small muted">Same challenge for all students.</p>
-        <button onclick="loadDaily()">View challenge</button>
-      </div>
+      <div class="card"><h3>Topic Practice</h3><p class="small muted">Practise a selected topic.</p><button onclick="startExam('topic')">Start practice</button></div>
+      <div class="card"><h3>Custom Examination</h3><p class="small muted">Choose subject, topic and question count.</p><button onclick="startExam('custom')">Create exam</button></div>
+      <div class="card"><h3>Full Subject Exam</h3><p class="small muted">Unlimited free access.</p><button onclick="startExam('full')">Start full exam</button></div>
+      <div class="card"><h3>Daily Challenge</h3><p class="small muted">Same challenge for all students.</p><button onclick="loadDaily()">View challenge</button></div>
     </div>
-
     <div id="dailyArea" class="card section hidden"></div>
   </div>
-
   <div id="student-progress" class="panel studentpage hidden">
     <h2>Weakness Detector & achievements</h2>
     <p class="muted">Topic insights are calculated from server-validated exam history.</p>
     <div id="weaknessList">Analytics backend required.</div>
     <h3>Achievements</h3>
     <div id="achievements" class="grid">
-      <div class="card">🔥 Study streak</div>
-      <div class="card">🏆 Perfect score</div>
-      <div class="card">📚 Topic master</div>
-      <div class="card">⚡ Comeback</div>
+      <div class="card">🔥 Study streak</div><div class="card">🏆 Perfect score</div>
+      <div class="card">📚 Topic master</div><div class="card">⚡ Comeback</div>
     </div>
   </div>
-
   <div id="student-saved" class="panel studentpage hidden">
     <h2>Revision list</h2>
     <div class="tabs">
@@ -255,176 +168,85 @@ label{display:block;font-weight:650;margin:10px 0 5px}
     </div>
     <div id="savedList">Revision backend required.</div>
   </div>
-
   <div id="student-history" class="panel studentpage hidden">
     <h2>Exam history & review</h2>
     <div id="historyList">History backend required.</div>
   </div>
-
   <div id="student-friends" class="panel studentpage hidden">
     <h2>Friends & leaderboard</h2>
     <div class="notice">Friend requests and rankings require protected database access and verified exam scores.</div>
     <div class="grid section">
-      <div class="card">
-        <h3>Find friends</h3>
-        <input id="friendSearch" placeholder="Student username">
-        <button class="secondary section" onclick="showToast('Friend search backend is not configured.')">Search</button>
-      </div>
-      <div class="card">
-        <h3>Leaderboard</h3>
-        <p class="small muted">Monthly rankings use verified results.</p>
-        <button class="secondary" onclick="showToast('Leaderboard backend is not configured.')">View leaderboard</button>
-      </div>
+      <div class="card"><h3>Find friends</h3><input id="friendSearch" placeholder="Student username"><button class="secondary section" onclick="showToast('Friend search backend is not configured.')">Search</button></div>
+      <div class="card"><h3>Leaderboard</h3><p class="small muted">Monthly rankings use verified results.</p><button class="secondary" onclick="showToast('Leaderboard backend is not configured.')">View leaderboard</button></div>
     </div>
   </div>
-
   <div id="student-profile" class="panel studentpage hidden">
     <h2>My profile</h2>
-    <label>Full name</label>
-    <input id="profileName">
-    <label>Email</label>
-    <input id="profileEmail" disabled>
+    <label>Full name</label><input id="profileName">
+    <label>Email</label><input id="profileEmail" disabled>
     <button onclick="saveProfile()">Save profile</button>
   </div>
 
-  <!-- DEDICATED EXAM SETUP SCREEN -->
+  <!-- EXAM SETUP -->
   <div id="examSetupScreen" class="exam-screen hidden">
-
     <div class="exam-screen-header">
-      <div>
-        <h2>Examination Setup</h2>
-        <p class="small muted">Configure your examination before starting.</p>
-      </div>
+      <div><h2>Examination Setup</h2><p class="small muted">Configure your examination before starting.</p></div>
       <button class="secondary" onclick="closeExamSetup()">Back to dashboard</button>
     </div>
-
     <div class="exam-setup-card">
       <h2 id="setupTitle">Custom Examination</h2>
       <p class="muted">Choose your examination settings.</p>
-
       <label>Subject</label>
-      <select id="subject">
-        <option>English</option>
-        <option>Physics</option>
-        <option>Chemistry</option>
-        <option>Biology</option>
-      </select>
-
-      <div id="topicSetupField">
-        <label>Topic</label>
-        <input id="topic" placeholder="e.g. Motion, Ecology">
-      </div>
-
+      <select id="subject"><option>English</option><option>Physics</option><option>Chemistry</option><option>Biology</option></select>
+      <div id="topicSetupField"><label>Topic</label><input id="topic" placeholder="e.g. Motion, Ecology"></div>
       <div class="grid">
-        <div>
-          <label>Number of questions</label>
-          <select id="count">
-            <option>10</option>
-            <option>20</option>
-            <option>30</option>
-            <option>40</option>
-            <option>60</option>
-            <option>100</option>
-          </select>
-        </div>
-
-        <div>
-          <label>Duration (minutes)</label>
-          <select id="duration">
-            <option>15</option>
-            <option>30</option>
-            <option>45</option>
-            <option>60</option>
-            <option>90</option>
-          </select>
-        </div>
+        <div><label>Number of questions</label><select id="count"><option>10</option><option>20</option><option>30</option><option>40</option><option>60</option><option>100</option></select></div>
+        <div><label>Duration (minutes)</label><select id="duration"><option>15</option><option>30</option><option>45</option><option>60</option><option>90</option></select></div>
       </div>
-
-      <div class="notice section">
-        Your examination timer starts when the questions load.
-      </div>
-
-      <div class="exam-setup-actions">
-        <button onclick="beginExam()">Start Examination</button>
-        <button class="secondary" onclick="closeExamSetup()">Cancel</button>
-      </div>
+      <div class="notice section">Your examination timer starts when the questions load.</div>
+      <div class="exam-setup-actions"><button onclick="beginExam()">Start Examination</button><button class="secondary" onclick="closeExamSetup()">Cancel</button></div>
     </div>
   </div>
 
-  <!-- DEDICATED EXAMINATION SCREEN -->
+  <!-- EXAMINATION SCREEN -->
   <div id="examScreen" class="exam-screen hidden">
-    <div class="exam-screen-header">
-      <div>
-        <h2>Examination in Progress</h2>
-        <p class="small muted">Answer the questions and submit when finished.</p>
-      </div>
-    </div>
+    <div class="exam-screen-header"><div><h2>Examination in Progress</h2><p class="small muted">Answer the questions and submit when finished.</p></div></div>
     <div id="examArea"></div>
   </div>
-
 </section>
-
 
 <!-- COLLECTOR APPLICATION -->
 <section id="collectorApp" class="hidden">
-  <div class="between">
-    <div>
-      <h1>Question Collector Workspace</h1>
-      <p class="muted">Prepare and submit question batches.</p>
-    </div>
-    <span class="pill">COLLECTOR</span>
-  </div>
-
+  <div class="between"><div><h1>Question Collector Workspace</h1><p class="muted">Prepare and submit question batches.</p></div><span class="pill">COLLECTOR</span></div>
   <div class="notice">Collectors cannot publish questions or approve their own submissions.</div>
-
   <div class="grid section">
     <div class="card">Assigned subjects<div class="metric" id="collectorSubjects">—</div></div>
     <div class="card">Submitted batches<div class="metric" id="collectorBatches">—</div></div>
     <div class="card">Approved questions<div class="metric" id="collectorApproved">—</div></div>
   </div>
-
   <div class="panel section">
     <h2>Smart bulk question importer</h2>
     <p class="small muted">CSV and Excel (.xlsx/.xls). Required: subject, topic, question, options A–D, correct answer. Missing answers are flagged, never guessed.</p>
-    <label>Question file</label>
-    <input type="file" id="bulkFile" accept=".csv,.xlsx,.xls">
-    <div class="row section">
-      <button onclick="previewBulk()">Preview & arrange</button>
-      <button class="secondary" onclick="downloadTemplate()">CSV template</button>
-    </div>
-    <div id="importSummary"></div>
-    <div id="importPreview"></div>
+    <label>Question file</label><input type="file" id="bulkFile" accept=".csv,.xlsx,.xls">
+    <div class="row section"><button onclick="previewBulk()">Preview & arrange</button><button class="secondary" onclick="downloadTemplate()">CSV template</button></div>
+    <div id="importSummary"></div><div id="importPreview"></div>
     <button id="submitBatch" class="good hidden section" onclick="submitBatch()">Submit for review</button>
   </div>
-
-  <div class="panel section">
-    <h2>Submission history</h2>
-    <div id="collectorHistory">Backend required.</div>
-  </div>
+  <div class="panel section"><h2>Submission history</h2><div id="collectorHistory">Backend required.</div></div>
 </section>
-
 
 <!-- ADMIN APPLICATION -->
 <section id="adminApp" class="hidden">
-
   <div class="between">
-    <div>
-      <h1>Admin Control Centre</h1>
-      <p class="muted">Platform operations and quality control.</p>
-    </div>
-    <div class="row">
-      <span class="pill">ADMIN</span>
-      <button class="danger" onclick="signOut()">Sign out</button>
-    </div>
+    <div><h1>Admin Control Centre</h1><p class="muted">Platform operations and quality control.</p></div>
+    <div class="row"><span class="pill">ADMIN</span><button class="danger" onclick="signOut()">Sign out</button></div>
   </div>
-
   <div class="grid">
     <div class="card">Students<div class="metric" id="mStudents">—</div></div>
     <div class="card">Collectors<div class="metric" id="mCollectors">—</div></div>
     <div class="card">Approved questions<div class="metric" id="mQuestions">—</div></div>
     <div class="card">Pending batches<div class="metric" id="mPending">—</div></div>
   </div>
-
   <nav class="tabs" id="adminTabs">
     <button class="active" onclick="adminPage('overview',this)">Overview</button>
     <button onclick="adminPage('students',this)">Students</button>
@@ -435,187 +257,55 @@ label{display:block;font-weight:650;margin:10px 0 5px}
     <button onclick="adminPage('reports',this)">Reports</button>
     <button onclick="adminPage('audit',this)">Activity log</button>
   </nav>
-
-  <div id="admin-overview" class="panel adminpage">
-    <h2>Administration overview</h2>
-    <div class="notice">Submission approval is handled by authorized administrators. The current backend supports one administrator approval; dual-founder approval is not yet implemented.</div>
-  </div>
-
-  <div id="admin-students" class="panel adminpage hidden">
-    <h2>Student management</h2>
-    <div id="studentsTable">Admin RPC required.</div>
-  </div>
-
+  <div id="admin-overview" class="panel adminpage"><h2>Administration overview</h2><div class="notice">Submission approval is handled by authorized administrators. The current backend supports one administrator approval; dual-founder approval is not yet implemented.</div></div>
+  <div id="admin-students" class="panel adminpage hidden"><h2>Student management</h2><div id="studentsTable">Admin RPC required.</div></div>
   <div id="admin-collectors" class="panel adminpage hidden">
-    <h2>Collector management</h2>
-    <p class="small muted">Create/disable collector accounts and assign subjects through a trusted server function, never a browser service-role key.</p>
-    <div id="collectorsTable">Admin RPC required.</div>
+    <h2>Collector management</h2><p class="small muted">Create/disable collector accounts and assign subjects through a trusted server function, never a browser service-role key.</p><div id="collectorsTable">Admin RPC required.</div>
   </div>
 
-  <!-- ADMIN QUESTION BANK AND IMPORTER -->
   <div id="admin-bank" class="panel adminpage hidden">
-    <h2>Question bank</h2>
-    <p class="muted">Import questions directly into the approved question bank or add them individually.</p>
-
+    <h2>Question bank</h2><p class="muted">Import questions directly into the approved question bank or add them individually.</p>
     <div class="card section">
-      <h3>Bulk question importer</h3>
-      <p class="small muted">Upload a CSV or Excel file (.csv, .xlsx, .xls). The first row must contain column headings. Review and edit every question before importing. Correct answers are never guessed.</p>
-
-      <label>Choose question file</label>
-      <input type="file" id="adminBulkFile" accept=".csv,.xlsx,.xls">
-
-      <div class="admin-import-actions">
-        <button onclick="previewAdminBulk()">Preview file</button>
-        <button class="secondary" onclick="downloadTemplate()">Download CSV template</button>
-      </div>
-
-      <div id="adminImportSummary" class="section"></div>
-      <div id="adminImportPreview"></div>
-
+      <h3>Bulk question importer</h3><p class="small muted">Upload a CSV or Excel file (.csv, .xlsx, .xls). The first row must contain column headings. Review and edit every question before importing. Correct answers are never guessed.</p>
+      <label>Choose question file</label><input type="file" id="adminBulkFile" accept=".csv,.xlsx,.xls">
+      <div class="admin-import-actions"><button onclick="previewAdminBulk()">Preview file</button><button class="secondary" onclick="downloadTemplate()">Download CSV template</button></div>
+      <div id="adminImportSummary" class="section"></div><div id="adminImportPreview"></div>
       <button id="adminImportButton" class="good hidden section" onclick="importAdminQuestions()">Import valid questions into question bank</button>
     </div>
-
     <div class="card section">
-      <h3>Add a question manually</h3>
-      <p class="small muted">Complete the fields below. The question will be added to the preview first, not saved immediately.</p>
-
+      <h3>Add a question manually</h3><p class="small muted">Complete the fields below. The question will be added to the preview first, not saved immediately.</p>
       <div class="grid">
-        <div>
-          <label>Subject</label>
-          <select id="adminManualSubject">
-            <option>English</option>
-            <option>Physics</option>
-            <option>Chemistry</option>
-            <option>Biology</option>
-          </select>
-        </div>
-        <div>
-          <label>Topic</label>
-          <input id="adminManualTopic" placeholder="e.g. Motion">
-        </div>
+        <div><label>Subject</label><select id="adminManualSubject"><option>English</option><option>Physics</option><option>Chemistry</option><option>Biology</option></select></div>
+        <div><label>Topic</label><input id="adminManualTopic" placeholder="e.g. Motion"></div>
       </div>
-
-      <label>Question</label>
-      <textarea id="adminManualQuestion" rows="3" placeholder="Enter the full question"></textarea>
-
+      <label>Question</label><textarea id="adminManualQuestion" rows="3" placeholder="Enter the full question"></textarea>
       <div class="grid">
-        <div><label>Option A</label><input id="adminManualA"></div>
-        <div><label>Option B</label><input id="adminManualB"></div>
-        <div><label>Option C</label><input id="adminManualC"></div>
-        <div><label>Option D</label><input id="adminManualD"></div>
+        <div><label>Option A</label><input id="adminManualA"></div><div><label>Option B</label><input id="adminManualB"></div>
+        <div><label>Option C</label><input id="adminManualC"></div><div><label>Option D</label><input id="adminManualD"></div>
       </div>
-
       <div class="grid">
-        <div>
-          <label>Correct answer</label>
-          <select id="adminManualAnswer">
-            <option value="">Choose correct answer</option>
-            <option>A</option><option>B</option><option>C</option><option>D</option>
-          </select>
-        </div>
-        <div>
-          <label>Explanation (optional)</label>
-          <input id="adminManualExplanation" placeholder="Explain the correct answer">
-        </div>
+        <div><label>Correct answer</label><select id="adminManualAnswer"><option value="">Choose correct answer</option><option>A</option><option>B</option><option>C</option><option>D</option></select></div>
+        <div><label>Explanation (optional)</label><input id="adminManualExplanation" placeholder="Explain the correct answer"></div>
       </div>
-
       <button onclick="addManualAdminQuestion()">Add to preview</button>
     </div>
-
     <div class="card section">
-      <div class="admin-preview-head">
-        <div>
-          <h3>Question import preview</h3>
-          <p class="small muted">Review and edit the questions here before importing.</p>
-        </div>
-        <button class="secondary" onclick="clearAdminImport()">Clear preview</button>
-      </div>
-
-      <div id="adminImportSummaryBottom" class="small muted">No questions prepared yet.</div>
-      <div id="adminImportPreviewBottom"></div>
-
+      <div class="admin-preview-head"><div><h3>Question import preview</h3><p class="small muted">Review and edit the questions here before importing.</p></div><button class="secondary" onclick="clearAdminImport()">Clear preview</button></div>
+      <div id="adminImportSummaryBottom" class="small muted">No questions prepared yet.</div><div id="adminImportPreviewBottom"></div>
       <button id="adminImportButtonBottom" class="good hidden section" onclick="importAdminQuestions()">Import valid questions into question bank</button>
     </div>
-
-    <div class="section">
-      <h3>Existing question bank records</h3>
-      <div id="bankTable">Admin RPC required.</div>
-    </div>
+    <div class="section"><h3>Existing question bank records</h3><div id="bankTable">Admin RPC required.</div></div>
   </div>
 
-  <div id="admin-review" class="panel adminpage hidden">
-    <h2>Submission review</h2>
-    <div id="reviewQueue">Secure review RPC required.</div>
-  </div>
-
+  <div id="admin-review" class="panel adminpage hidden"><h2>Submission review</h2><div id="reviewQueue">Secure review RPC required.</div></div>
   <div id="admin-challenge" class="panel adminpage hidden">
     <h2>Configure Daily Challenge</h2>
-
     <div class="grid">
       <div><label>Date</label><input id="challengeDate" type="date"></div>
-      <div>
-        <label>Subject</label>
-        <select id="challengeSubject">
-          <option>English</option><option>Physics</option><option>Chemistry</option><option>Biology</option>
-        </select>
-      </div>
+      <div><label>Subject</label><select id="challengeSubject"><option>English</option><option>Physics</option><option>Chemistry</option><option>Biology</option></select></div>
       <div><label>Topic</label><input id="challengeTopic"></div>
-      <div>
-        <label>Question count</label>
-        <select id="challengeCount">
-          <option>10</option><option>15</option><option>20</option><option>30</option>
-        </select>
-      </div>
-      <div>
-        <label>Duration</label>
-        <select id="challengeTime">
-          <option>10</option><option>15</option><option>20</option><option>30</option>
-        </select>
-      </div>
-      <div><label>Fallback deadline</label><input id="challengeDeadline" type="datetime-local"></div>
-    </div>
-
-    <p class="notice">A scheduled server job must publish an approved random question set if no challenge is published by the deadline. It must be identical for all students.</p>
-    <button onclick="publishChallenge()">Save / publish</button>
-    <p id="challengeStatus" class="small muted"></p>
-  </div>
-
-  <div id="admin-reports" class="panel adminpage hidden">
-    <h2>Student reports & corrections</h2>
-    <div id="reportsList">Admin RPC required.</div>
-  </div>
-
-  <div id="admin-audit" class="panel adminpage hidden">
-    <h2>Admin activity log</h2>
-    <div id="auditList">Audit-log RPC required.</div>
-  </div>
-
-</section>
-</main>
-
-
-<div id="exitModal" class="modalback hidden">
-  <div class="modal">
-    <h2>Are you sure you want to quit this examination?</h2>
-    <p>Your examination is still in progress. If you exit, your attempt may be marked incomplete. Your answers should be preserved where possible.</p>
-    <div class="row">
-      <button class="secondary" onclick="continueExam()">Continue exam</button>
-      <button class="danger" onclick="confirmExit()">Exit exam</button>
-    </div>
-  </div>
-</div>
-
-<div id="toast" class="modalback hidden" style="z-index:30">
-  <div class="modal">
-    <p id="toastText"></p>
-    <button onclick="$('toast').classList.add('hidden')">OK</button>
-  </div>
-</div>
-
-<footer class="footer">KG JAMB STUDY · KG JAMB STUDY · Secure learning platform</footer>
-
-
-<script>
+      <div><label>Question count</label><select id="challengeCount"><option>10</option><option>15</option><option>20</option><option>30</option></select></div>
+      <div><label>Duration</lab<script>
 // Public browser configuration only. Never put server secrets in this file.
 const SUPABASE_URL = 'https://aycckgtshuzpexhupbmf.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_xuSYHzsR23gMFIu-rVw6lg_2hV3I3EH';
@@ -623,6 +313,9 @@ const SUPABASE_ANON_KEY = 'sb_publishable_xuSYHzsR23gMFIu-rVw6lg_2hV3I3EH';
 let sb=null,user=null,profile=null,mode='login',kind='custom',qs=[],answers={},active=false,timer=null,left=0,staged=[],attemptId=null,submitInFlight=false,autosaveTimer=null;
 let adminStaged=[];
 let studentViewSnapshot=[];
+let examSubject='English';
+let examTitle='Examination';
+let saveQueue=Promise.resolve();
 
 const $=id=>document.getElementById(id);
 const subjects=['English','Physics','Chemistry','Biology'];
@@ -658,7 +351,7 @@ function init(){
   }
 
   if(!SUPABASE_URL.startsWith('https://')||SUPABASE_URL.includes('ADD_')||SUPABASE_ANON_KEY.includes('ADD_')){
-    $('connectionStatus').textContent='Supabase connection is not configured. Add the existing project URL and anon/public key in the configuration section of this file.';
+    $('connectionStatus').textContent='Supabase connection is not configured. Check the project URL and public key in this file.';
     return;
   }
 
@@ -694,7 +387,7 @@ function routeToAuth(){
 }
 
 async function authenticate(){
-  if(!$('email').value.trim() || !$('password').value){
+  if(!$('email').value.trim()||!$('password').value){
     $('authMsg').textContent='Please enter your email and password.';
     $('authMsg').classList.remove('hidden');
     return;
@@ -714,13 +407,9 @@ async function authenticate(){
   $('authMsg').classList.add('hidden');
 
   try{
-    const r = mode === 'signup'
-      ? await sb.auth.signUp({
-          email,
-          password,
-          options:{data:{full_name:name}}
-        })
-      : await sb.auth.signInWithPassword({email,password});
+    const r=mode==='signup'
+      ?await sb.auth.signUp({email,password,options:{data:{full_name:name}}})
+      :await sb.auth.signInWithPassword({email,password});
 
     if(r.error)throw r.error;
 
@@ -731,7 +420,6 @@ async function authenticate(){
 
     user=r.data.user;
     await loadProfile();
-
   }catch(e){
     setAuthMessage('Could not complete sign-in: '+e.message);
   }finally{
@@ -783,7 +471,6 @@ async function loadProfile(){
 
 function route(){
   ['auth','studentApp','collectorApp','adminApp'].forEach(x=>$(x).classList.add('hidden'));
-
   $('who').textContent=profile.full_name||user.email;
   $('topOut').classList.remove('hidden');
 
@@ -795,15 +482,12 @@ function route(){
     $('membership').textContent=profile.membership_type||'Free';
     loadStudent();
     resumeActiveExam();
-
   }else if(profile.role==='collector'){
     $('collectorApp').classList.remove('hidden');
     loadCollector();
-
   }else if(profile.role==='admin'){
     $('adminApp').classList.remove('hidden');
     loadAdmin();
-
   }else{
     showToast('Unrecognized account role. Contact an administrator.');
   }
@@ -854,11 +538,9 @@ function studentPage(p,b){
 
   document.querySelectorAll('.studentpage').forEach(x=>x.classList.add('hidden'));
   $('student-'+p).classList.remove('hidden');
-
   document.querySelectorAll('#studentTabs button').forEach(x=>x.classList.remove('active'));
   b.classList.add('active');
 }
-
 
 /* DEDICATED EXAMINATION NAVIGATION */
 
@@ -867,8 +549,7 @@ function enterStudentScreen(screenId){
 
   if(!studentViewSnapshot.length){
     studentViewSnapshot=Array.from(app.children).map(el=>({
-      el,
-      hidden:el.classList.contains('hidden')
+      el,hidden:el.classList.contains('hidden')
     }));
   }
 
@@ -906,13 +587,13 @@ function returnToDashboard(){
   attemptId=null;
   qs=[];
   answers={};
+  examTitle='Examination';
 }
 
 function startExam(k){
   if(active)return showToast('An examination is already in progress.');
 
   kind=k;
-
   enterStudentScreen('examSetupScreen');
 
   $('setupTitle').textContent=
@@ -924,17 +605,12 @@ function startExam(k){
   $('topic').disabled=k==='full';
   $('count').disabled=k==='full';
 
-  if(k==='topic'){
-    $('count').value='20';
-  }else if(k==='full'){
-    $('count').value='100';
-  }else{
-    $('count').value='10';
-  }
+  if(k==='topic')$('count').value='20';
+  else if(k==='full')$('count').value='100';
+  else $('count').value='10';
 
   $('topic').value='';
 }
-
 
 /* EXAMINATION START */
 
@@ -943,16 +619,18 @@ async function beginExam(){
   if(active)return showToast('An examination is already in progress.');
 
   const topic=kind==='full'?null:$('topic').value.trim()||null;
-
   if(kind==='topic'&&!topic)return showToast('Enter a topic.');
 
   const btn=document.querySelector('#examSetupScreen button[onclick="beginExam()"]');
   if(btn)btn.disabled=true;
 
   try{
+    examSubject=$('subject').value;
+    examTitle=examSubject+' Examination';
+
     const {data,error}=await sb.rpc('start_student_exam',{
       p_exam_type:kind,
-      p_subject:$('subject').value,
+      p_subject:examSubject,
       p_topic:topic,
       p_question_count:kind==='full'?null:Number($('count').value)
     });
@@ -962,13 +640,8 @@ async function beginExam(){
     qs=data?.questions||data?.attempt?.questions||data||[];
     attemptId=data?.attempt_id||data?.attempt?.id||null;
 
-    if(!Array.isArray(qs)||!qs.length){
-      throw new Error('There are not enough approved questions for this exam.');
-    }
-
-    if(!attemptId){
-      throw new Error('The server did not return an examination ID.');
-    }
+    if(!Array.isArray(qs)||!qs.length)throw new Error('There are not enough approved questions for this exam.');
+    if(!attemptId)throw new Error('The server did not return an examination ID.');
 
     const selectedDuration=Number($('duration').value);
 
@@ -983,16 +656,15 @@ async function beginExam(){
     }
 
     answers={};
+    active=true;
+    submitInFlight=false;
+    saveQueue=Promise.resolve();
+    left=selectedDuration*60;
 
     $('examSetupScreen').classList.add('hidden');
     $('examScreen').classList.remove('hidden');
 
-    active=true;
-    submitInFlight=false;
-    left=selectedDuration*60;
-
     renderExam();
-
     history.pushState({exam:true},'','#exam');
     saveLocalBackup();
     await saveExamProgress();
@@ -1005,14 +677,13 @@ async function beginExam(){
 
     tick();
     addEventListener('beforeunload',beforeUnload);
-
   }catch(e){
+    active=false;
     showToast('Could not start examination: '+e.message);
   }finally{
     if(btn)btn.disabled=false;
   }
 }
-
 
 /* EXAMINATION DISPLAY */
 
@@ -1020,7 +691,7 @@ function renderExam(){
   let h=`
     <div class="exam-toolbar">
       <div class="between">
-        <h2>${safe($('subject').value)} examination</h2>
+        <h2>${safe(examTitle)}</h2>
         <div id="clock" class="exam-clock"></div>
       </div>
       <p class="small muted">Your answers are saved as you work. If your connection drops, keep this page open until it reconnects.</p>
@@ -1062,13 +733,13 @@ function renderExam(){
 }
 
 function setAnswer(i,a){
+  if(!active||submitInFlight)return;
   answers[i]=a;
   saveLocalBackup();
 
   $('saveState').textContent='Saving answer…';
-
   if(autosaveTimer)clearTimeout(autosaveTimer);
-  autosaveTimer=setTimeout(saveExamProgress,450);
+  autosaveTimer=setTimeout(()=>saveExamProgress(),450);
 }
 
 function saveLocalBackup(){
@@ -1076,35 +747,46 @@ function saveLocalBackup(){
 
   try{
     localStorage.setItem('kg_exam_backup_'+attemptId,JSON.stringify({
-      attemptId,
-      answers,
-      updatedAt:Date.now()
+      attemptId,answers,updatedAt:Date.now(),timeRemaining:left
     }));
   }catch(e){}
 }
 
-async function saveExamProgress(){
-  if(!sb||!attemptId||!active)return;
+/*
+ * Saves are serialized. Each queued save reads the latest answers and timer
+ * when it actually runs, preventing an older overlapping request from
+ * finishing after and overwriting a newer save.
+ */
+function saveExamProgress(){
+  if(!sb||!attemptId||!active)return Promise.resolve();
 
-  try{
-    const {error}=await sb.rpc('save_exam_progress',{
-      p_attempt_id:attemptId,
-      p_answers:qs.map((q,i)=>({
-        question_id:q.id,
-        answer:answers[i]||null
-      })),
-      p_time_remaining_seconds:left
-    });
+  saveQueue=saveQueue.catch(()=>{}).then(async()=>{
+    if(!active||!attemptId)return;
 
-    if(error)throw error;
+    const answersSnapshot=qs.map((q,i)=>({
+      question_id:q.id,
+      answer:answers[i]||null
+    }));
+    const timeSnapshot=left;
 
-    if($('saveState'))$('saveState').textContent='Answers saved to your account.';
+    try{
+      const {error}=await sb.rpc('save_exam_progress',{
+        p_attempt_id:attemptId,
+        p_answers:answersSnapshot,
+        p_time_remaining_seconds:timeSnapshot
+      });
 
-  }catch(e){
-    if($('saveState'))$('saveState').textContent='Offline backup saved on this device. Server sync will retry.';
-  }
+      if(error)throw error;
+
+      if($('saveState'))$('saveState').textContent='Answers saved to your account.';
+    }catch(e){
+      if($('saveState'))$('saveState').textContent='Offline backup saved on this device. Server sync will retry.';
+      throw e;
+    }
+  });
+
+  return saveQueue;
 }
-
 
 /* RESUME EXAMINATION */
 
@@ -1113,48 +795,53 @@ async function resumeActiveExam(){
 
   try{
     const {data,error}=await sb.rpc('get_my_active_exam');
-
     if(error||!data||!data.attempt_id)return;
 
     attemptId=data.attempt_id;
     qs=data.questions||[];
-
     if(!qs.length)return;
 
     const backup=localStorage.getItem('kg_exam_backup_'+attemptId);
-
     answers=data.answers||{};
 
     if(backup){
-      const b=JSON.parse(backup);
-      answers={...answers,...b.answers};
+      try{
+        const b=JSON.parse(backup);
+        answers={...answers,...(b.answers||{})};
+      }catch(e){}
     }
 
     kind=data.exam_type||'custom';
-    $('subject').value=data.subject||'English';
+    examSubject=data.subject||'English';
+    $('subject').value=examSubject;
+    examTitle=kind==='daily_challenge'?'Daily Challenge':examSubject+' Examination';
 
-    left=Number(data.time_remaining_seconds||0);
-
-    if(left<=0)left=Number(data.duration_seconds||900);
+    // Do not use || here: zero is a valid remaining time.
+    left=Number(data.time_remaining_seconds??data.duration_seconds??900);
+    if(!Number.isFinite(left)||left<0)left=0;
 
     active=true;
+    submitInFlight=false;
+    saveQueue=Promise.resolve();
 
     enterStudentScreen('examScreen');
     renderExam();
-
     history.pushState({exam:true},'','#exam');
-
-    timer=setInterval(()=>{
-      left--;
-      tick();
-      if(left<=0)submitExam(true);
-    },1000);
 
     tick();
     addEventListener('beforeunload',beforeUnload);
 
-    showToast('Your unfinished examination has been restored.');
-
+    if(left<=0){
+      showToast('Your examination time has expired. Your attempt is being submitted.');
+      submitExam(true);
+    }else{
+      timer=setInterval(()=>{
+        left--;
+        tick();
+        if(left<=0)submitExam(true);
+      },1000);
+      showToast('Your unfinished examination has been restored.');
+    }
   }catch(e){
     console.warn('Resume exam:',e);
   }
@@ -1162,8 +849,8 @@ async function resumeActiveExam(){
 
 function tick(){
   if($('clock')){
-    $('clock').textContent=
-      Math.floor(left/60)+':'+String(left%60).padStart(2,'0');
+    const safeLeft=Math.max(0,Number(left)||0);
+    $('clock').textContent=Math.floor(safeLeft/60)+':'+String(safeLeft%60).padStart(2,'0');
   }
 }
 
@@ -1188,6 +875,11 @@ async function confirmExit(){
   $('exitModal').classList.add('hidden');
 
   try{
+    if(autosaveTimer){
+      clearTimeout(autosaveTimer);
+      autosaveTimer=null;
+    }
+
     await saveExamProgress();
 
     const {error}=await sb.rpc('abandon_student_exam',{
@@ -1196,10 +888,10 @@ async function confirmExit(){
 
     if(error)throw error;
 
+    if(attemptId)localStorage.removeItem('kg_exam_backup_'+attemptId);
+
     finishLocalExam();
-
-    showToast('Your attempt was saved as incomplete. You can resume if the backend permits it.');
-
+    showToast('This examination attempt has been permanently abandoned. You cannot resume it.');
   }catch(e){
     showToast('Could not confirm exit: '+e.message+'. Your answers remain on this device; the exam is still open.');
   }
@@ -1208,16 +900,15 @@ async function confirmExit(){
 function finishLocalExam(){
   active=false;
   clearInterval(timer);
+  timer=null;
 
   if(autosaveTimer)clearTimeout(autosaveTimer);
+  autosaveTimer=null;
 
   removeEventListener('beforeunload',beforeUnload);
-
   $('examArea').classList.add('hidden');
   $('examArea').innerHTML='';
-
   history.replaceState({},'',location.pathname);
-
   restoreStudentDashboard();
 }
 
@@ -1228,6 +919,45 @@ onpopstate=()=>{
   }
 };
 
+/* EXAMINATION REVIEW DISPLAY */
+
+function renderQuestionReview(items){
+  if(!Array.isArray(items)||!items.length){
+    return '<p class="muted">No detailed review was returned for this examination.</p>';
+  }
+
+  return items.map((q,i)=>{
+    const selected=String(q.selected_answer??q.student_answer??'').toUpperCase();
+    const correct=String(q.correct_answer??'').toUpperCase();
+    const isCorrect=q.is_correct===true||(selected!==''&&selected===correct);
+
+    const options=['A','B','C','D'].map(letter=>{
+      const value=q['option_'+letter.toLowerCase()]??q['option_'+letter]??'';
+      const isRight=letter===correct;
+      const isChosen=letter===selected;
+      const cls=isRight?'correct':(isChosen?'selected-wrong':'');
+
+      return `<div class="review-option ${cls}">
+        <b>${letter}.</b> ${safe(value)}
+        ${isRight?' <b class="review-correct">✓ Correct answer</b>':''}
+        ${isChosen&&!isRight?' <b class="review-wrong">← Your answer</b>':''}
+        ${isChosen&&isRight?' <b class="review-correct">← Your answer</b>':''}
+      </div>`;
+    }).join('');
+
+    return `<div class="review-question">
+      <h3>Question ${i+1}</h3>
+      <p><b>${safe(q.question_text||q.question||'Question text unavailable')}</b></p>
+      ${options}
+      <p class="review-status ${isCorrect?'review-correct':'review-wrong'}">
+        ${isCorrect?'✓ Correct':'✗ Incorrect'}
+        · Your answer: ${safe(selected||'Not answered')}
+        · Correct answer: ${safe(correct||'Not provided')}
+      </p>
+      <p><b>Explanation:</b> ${safe(q.explanation||'Explanation pending.')}</p>
+    </div>`;
+  }).join('');
+}
 
 /* EXAMINATION SUBMISSION */
 
@@ -1236,13 +966,18 @@ async function submitExam(auto=false){
 
   submitInFlight=true;
 
+  if(autosaveTimer){
+    clearTimeout(autosaveTimer);
+    autosaveTimer=null;
+  }
+
   const btn=$('submitExamBtn');
   if(btn)btn.disabled=true;
-
   if($('saveState'))$('saveState').textContent='Submitting securely…';
 
   try{
-    await saveExamProgress();
+    // Wait for any earlier save, then save the newest answer set.
+    try{await saveExamProgress();}catch(e){}
 
     const {data,error}=await sb.rpc('submit_student_exam',{
       p_attempt_id:attemptId,
@@ -1257,44 +992,18 @@ async function submitExam(auto=false){
 
     active=false;
     clearInterval(timer);
-
+    timer=null;
     removeEventListener('beforeunload',beforeUnload);
 
-    if(attemptId){
-      localStorage.removeItem('kg_exam_backup_'+attemptId);
-    }
+    if(attemptId)localStorage.removeItem('kg_exam_backup_'+attemptId);
+
+    const review=data?.review||[];
 
     $('examArea').innerHTML=
-      '<h2>Examination submitted</h2>'+
-      '<p>Result confirmed and saved by the server.</p>'+
-      (data?.score!==undefined
-        ?`<div class="metric">${safe(data.score)} / ${safe(data.total||qs.length)}</div>`
-        :'')+
-      (data?.review||[]).map((x,i)=>
-        `<div class="section">
-          <b>${i+1}. Correct answer: ${safe(x.correct_answer)}</b>
-          <p>${safe(x.explanation||'Explanation pending.')}</p>
-        </div>`
-      ).join('')+
-      '<button class="section" onclick="returnToDashboard()">Return to Dashboard</button>';
-
-    await loadStudent();
-
-  }catch(e){
-    submitInFlight=false;
-
-    if(btn)btn.disabled=false;
-
-    if($('saveState')){
-      $('saveState').textContent='Submission not confirmed. Your answers are preserved; retry when connected.';
-    }
-
-    showToast('Submission failed: '+e.message+'. Your examination has NOT been closed. Retry submission when the connection is available.');
-  }
-}
-
-
-/* BOOKMARKS AND REPORTS */
+      `<h2>${safe(examTitle)} submitted</h2>
+      <p>Result confirmed and saved by the server.</p>
+      ${data?.score!==undefined
+        ?`<div class="metric">${sa/* BOOKMARKS AND REPORTS */
 
 async function bookmark(i){
   if(!sb)return;
@@ -1308,7 +1017,6 @@ async function bookmark(i){
 
 async function reportQuestion(i){
   const reason=prompt('Describe the issue: wrong answer, typo, duplicate or unclear question');
-
   if(!reason)return;
 
   const {error}=await sb.rpc('report_question_issue',{
@@ -1333,13 +1041,13 @@ async function reviewAttempt(id){
     return;
   }
 
-  $('historyList').innerHTML=questions.map((q,i)=>
-    `<div class="card section">
-      <b>${i+1}. ${safe(q.question_text||q.question||'Question')}</b>
-      <p>Your answer: ${safe(q.selected_answer??q.student_answer??'Not answered')} · Correct: ${safe(q.correct_answer)}</p>
-      <p>${safe(q.explanation||'Explanation pending.')}</p>
-    </div>`
-  ).join('');
+  $('historyList').innerHTML=`
+    <div class="between">
+      <h3>Detailed examination review</h3>
+      <button class="secondary" onclick="loadStudent()">Back to history</button>
+    </div>
+    ${renderQuestionReview(questions)}
+  `;
 }
 
 async function loadSaved(mode){
@@ -1356,7 +1064,6 @@ async function loadSaved(mode){
       </div>`
     ).join('')||'No saved questions.';
 }
-
 
 /* DAILY CHALLENGE */
 
@@ -1382,51 +1089,88 @@ async function loadDaily(){
   area.innerHTML=`
     <h3>${safe(data.subject)} Daily Challenge</h3>
     <p>${safe(data.topic||'Mixed questions')} · ${safe(data.question_count||'')} questions · ${safe(data.duration_minutes||'')} minutes</p>
+    <div class="notice section">
+      <b>Important: One attempt only.</b>
+      You can take today's Daily Challenge only once. Once you start, you cannot restart it or take it again after submitting or abandoning it. Make sure you are ready before continuing.
+    </div>
     <button onclick="startDailyExam()">Start challenge</button>
   `;
 }
 
 async function startDailyExam(){
-  kind='daily';
-
   if(!sb)return;
+  if(active)return showToast('An examination is already in progress.');
 
-  const {data,error}=await sb.rpc('start_daily_challenge_attempt');
+  const ready=confirm(
+    "DAILY CHALLENGE — ONE ATTEMPT ONLY\n\n"+
+    "You can take today's challenge only once. Once you start, you cannot restart it or retake it after submitting or abandoning it.\n\n"+
+    "Make sure you have enough time and a stable internet connection.\n\n"+
+    "Are you ready to start?"
+  );
 
-  if(error)return showToast(error.message);
+  if(!ready)return;
 
-  qs=data?.questions||[];
-  attemptId=data?.attempt_id||null;
+  const startButton=document.querySelector('#dailyArea button');
+  if(startButton)startButton.disabled=true;
 
-  if(!qs.length||!attemptId){
-    return showToast('No challenge questions were returned.');
-  }
+  try{
+    const {data,error}=await sb.rpc('start_daily_challenge_attempt');
+    if(error)throw error;
 
-  answers={};
-  left=Number(data.duration_seconds||900);
-  active=true;
+    qs=data?.questions||[];
+    attemptId=data?.attempt_id||null;
 
-  enterStudentScreen('examScreen');
-  renderExam();
+    if(!qs.length||!attemptId){
+      throw new Error('No challenge questions were returned.');
+    }
 
-  $('dailyArea').classList.add('hidden');
+    answers={};
+    kind='daily_challenge';
+    examSubject=data?.subject||'Daily Challenge';
+    examTitle='Daily Challenge';
+    left=Number(data.time_remaining_seconds??data.duration_seconds??900);
 
-  timer=setInterval(()=>{
-    left--;
+    if(!Number.isFinite(left)||left<0)left=0;
+
+    active=true;
+    submitInFlight=false;
+    saveQueue=Promise.resolve();
+
+    enterStudentScreen('examScreen');
+    renderExam();
+
+    $('dailyArea').classList.add('hidden');
+
+    history.pushState({exam:true},'','#exam');
+    saveLocalBackup();
+
+    // Save the initial Daily Challenge state immediately.
+    await saveExamProgress();
+
     tick();
-    if(left<=0)submitExam(true);
-  },1000);
+    addEventListener('beforeunload',beforeUnload);
 
-  tick();
-  addEventListener('beforeunload',beforeUnload);
+    if(left<=0){
+      showToast('The challenge timer has expired. Your attempt is being submitted.');
+      submitExam(true);
+    }else{
+      timer=setInterval(()=>{
+        left--;
+        tick();
+        if(left<=0)submitExam(true);
+      },1000);
+    }
+  }catch(e){
+    active=false;
+    if(startButton)startButton.disabled=false;
+    showToast('Could not start Daily Challenge: '+e.message);
+  }
 }
-
 
 /* PROFILE */
 
 async function saveProfile(){
   const full_name=$('profileName').value.trim();
-
   if(!full_name)return showToast('Full name cannot be empty.');
 
   const {error}=await sb.rpc('update_my_profile',{
@@ -1437,10 +1181,10 @@ async function saveProfile(){
 
   profile.full_name=full_name;
   $('who').textContent=full_name;
+  $('greeting').textContent='Welcome, '+full_name;
 
   showToast('Profile updated.');
 }
-
 
 /* COLLECTOR WORKSPACE */
 
@@ -1486,7 +1230,6 @@ function csvParse(s){
 
   r.push(v);
   if(r.some(x=>x.trim()))out.push(r);
-
   return out;
 }
 
@@ -1520,7 +1263,6 @@ function mapQ(h,r){
 async function previewBulk(){
   try{
     const f=$('bulkFile').files[0];
-
     if(!f)return showToast('Choose a file.');
 
     let rows;
@@ -1531,11 +1273,7 @@ async function previewBulk(){
       if(!window.XLSX)return showToast('Excel parser unavailable; try CSV.');
 
       const w=XLSX.read(await f.arrayBuffer(),{type:'array'});
-
-      rows=XLSX.utils.sheet_to_json(
-        w.Sheets[w.SheetNames[0]],
-        {header:1,defval:''}
-      );
+      rows=XLSX.utils.sheet_to_json(w.Sheets[w.SheetNames[0]],{header:1,defval:''});
     }
 
     if(!rows.length)return showToast('The file is empty.');
@@ -1567,7 +1305,6 @@ async function previewBulk(){
 
       q.issues=issues;
       q.row=i+2;
-
       return q;
     });
 
@@ -1590,7 +1327,6 @@ async function previewBulk(){
       '</table>';
 
     $('submitBatch').classList.toggle('hidden',!good);
-
   }catch(e){
     showToast('Could not read file: '+e.message);
   }
@@ -1600,7 +1336,6 @@ async function submitBatch(){
   if(!sb)return showToast('Backend not configured.');
 
   const valid=staged.filter(q=>!q.issues.length);
-
   if(!valid.length)return showToast('There are no valid rows to submit.');
 
   const btn=$('submitBatch');
@@ -1614,13 +1349,10 @@ async function submitBatch(){
     if(error)throw error;
 
     showToast('Batch submitted for review.');
-
     staged=[];
     $('importPreview').innerHTML='';
     btn.classList.add('hidden');
-
     await loadCollector();
-
   }catch(e){
     showToast('Batch was not confirmed: '+e.message);
   }finally{
@@ -1637,10 +1369,8 @@ function downloadTemplate(){
   a.href=URL.createObjectURL(new Blob([s],{type:'text/csv'}));
   a.download='KG_JAMB_Question_Template.csv';
   a.click();
-
   URL.revokeObjectURL(a.href);
 }
-
 
 /* ADMIN QUESTION IMPORTER */
 
@@ -1683,13 +1413,10 @@ function refreshAdminValidation(){
 
   const valid=adminStaged.filter(q=>!q.issues.length).length;
   const invalid=adminStaged.length-valid;
-
-  const summary=
-    `${adminStaged.length} questions prepared · ${valid} valid · ${invalid} need correction.`;
+  const summary=`${adminStaged.length} questions prepared · ${valid} valid · ${invalid} need correction.`;
 
   $('adminImportSummary').textContent=summary;
   $('adminImportSummaryBottom').textContent=summary;
-
   $('adminImportButton').classList.toggle('hidden',valid===0);
   $('adminImportButtonBottom').classList.toggle('hidden',valid===0);
 
@@ -1698,7 +1425,6 @@ function refreshAdminValidation(){
 
 function updateAdminDraft(index,field,value){
   if(!adminStaged[index])return;
-
   adminStaged[index][field]=value;
   refreshAdminValidation();
 }
@@ -1728,45 +1454,23 @@ function renderAdminImportPreview(){
           <b>Question ${i+1}</b>
           <button class="danger" onclick="removeAdminDraft(${i})">Remove</button>
         </div>
-
         <div class="grid">
-          <div>
-            <label>Subject</label>
-            <select onchange="updateAdminDraft(${i},'subject',this.value)">${subjectOptions}</select>
-          </div>
-          <div>
-            <label>Topic</label>
-            <input value="${safe(q.topic)}" oninput="updateAdminDraft(${i},'topic',this.value)">
-          </div>
+          <div><label>Subject</label><select onchange="updateAdminDraft(${i},'subject',this.value)">${subjectOptions}</select></div>
+          <div><label>Topic</label><input value="${safe(q.topic)}" oninput="updateAdminDraft(${i},'topic',this.value)"></div>
         </div>
-
         <label>Question</label>
         <textarea oninput="updateAdminDraft(${i},'question_text',this.value)">${safe(q.question_text)}</textarea>
-
         <div class="grid">
           <div><label>Option A</label><input value="${safe(q.option_a)}" oninput="updateAdminDraft(${i},'option_a',this.value)"></div>
           <div><label>Option B</label><input value="${safe(q.option_b)}" oninput="updateAdminDraft(${i},'option_b',this.value)"></div>
           <div><label>Option C</label><input value="${safe(q.option_c)}" oninput="updateAdminDraft(${i},'option_c',this.value)"></div>
           <div><label>Option D</label><input value="${safe(q.option_d)}" oninput="updateAdminDraft(${i},'option_d',this.value)"></div>
         </div>
-
         <div class="grid">
-          <div>
-            <label>Correct answer</label>
-            <select onchange="updateAdminDraft(${i},'correct_answer',this.value)">
-              <option value="">Choose answer</option>
-              ${answerOptions}
-            </select>
-          </div>
-          <div>
-            <label>Explanation (optional)</label>
-            <textarea oninput="updateAdminDraft(${i},'explanation',this.value)">${safe(q.explanation)}</textarea>
-          </div>
+          <div><label>Correct answer</label><select onchange="updateAdminDraft(${i},'correct_answer',this.value)"><option value="">Choose answer</option>${answerOptions}</select></div>
+          <div><label>Explanation (optional)</label><textarea oninput="updateAdminDraft(${i},'explanation',this.value)">${safe(q.explanation)}</textarea></div>
         </div>
-
-        <p class="${q.issues.length?'admin-issue':'admin-ready'}">
-          ${q.issues.length?'⚠ '+safe(q.issues.join(' · ')):'✓ Ready to import'}
-        </p>
+        <p class="${q.issues.length?'admin-issue':'admin-ready'}">${q.issues.length?'⚠ '+safe(q.issues.join(' · ')):'✓ Ready to import'}</p>
       </div>
     `;
   }).join('');
@@ -1778,7 +1482,6 @@ function renderAdminImportPreview(){
 async function previewAdminBulk(){
   try{
     const f=$('adminBulkFile').files[0];
-
     if(!f)return showToast('Choose a CSV or Excel file first.');
 
     let rows;
@@ -1790,7 +1493,6 @@ async function previewAdminBulk(){
 
       const workbook=XLSX.read(await f.arrayBuffer(),{type:'array'});
       const sheet=workbook.Sheets[workbook.SheetNames[0]];
-
       rows=XLSX.utils.sheet_to_json(sheet,{header:1,defval:''});
     }
 
@@ -1802,18 +1504,11 @@ async function previewAdminBulk(){
       .filter(r=>r.some(x=>String(x??'').trim()))
       .map((r,i)=>{
         const q=mapQ(rows[0],r);
-
-        return {
-          ...q,
-          correct_answer:String(q.correct_answer||'').toUpperCase(),
-          source_row:i+2
-        };
+        return {...q,correct_answer:String(q.correct_answer||'').toUpperCase(),source_row:i+2};
       });
 
     refreshAdminValidation();
-
     showToast('File loaded. Review and correct the questions before importing.');
-
   }catch(e){
     showToast('Could not read the file: '+e.message);
   }
@@ -1833,7 +1528,6 @@ function addManualAdminQuestion(){
   };
 
   const issues=validateAdminQuestion(q);
-
   if(issues.length){
     showToast('Please complete the required fields: '+issues.join(', '));
     return;
@@ -1841,20 +1535,10 @@ function addManualAdminQuestion(){
 
   adminStaged.push(q);
 
-  [
-    'adminManualTopic',
-    'adminManualQuestion',
-    'adminManualA',
-    'adminManualB',
-    'adminManualC',
-    'adminManualD',
-    'adminManualExplanation'
-  ].forEach(id=>$(id).value='');
-
+  ['adminManualTopic','adminManualQuestion','adminManualA','adminManualB','adminManualC','adminManualD','adminManualExplanation'].forEach(id=>$(id).value='');
   $('adminManualAnswer').value='';
 
   refreshAdminValidation();
-
   showToast('Question added to the preview. It has not been imported yet.');
 }
 
@@ -1907,22 +1591,16 @@ async function importAdminQuestions(){
     if(error)throw error;
 
     const result=Array.isArray(data)?data[0]:data;
-
     const inserted=Number(result?.inserted??0);
     const duplicates=Number(result?.duplicates_skipped??0);
     const submitted=Number(result?.submitted??valid.length);
 
     adminStaged=[];
     $('adminBulkFile').value='';
-
     refreshAdminValidation();
 
-    showToast(
-      `Import completed. ${inserted} question(s) added to the approved question bank. ${duplicates} duplicate(s) skipped. ${submitted} valid question(s) were submitted.`
-    );
-
+    showToast(`Import completed. ${inserted} question(s) added to the approved question bank. ${duplicates} duplicate(s) skipped. ${submitted} valid question(s) were submitted.`);
     await loadAdmin();
-
   }catch(e){
     showToast('Import was not confirmed: '+e.message+'. Your preview is still available; no success is being assumed.');
   }finally{
@@ -1930,12 +1608,10 @@ async function importAdminQuestions(){
   }
 }
 
-
 /* ADMIN DASHBOARD */
 
 async function loadAdmin(){
   const {data,error}=await sb.rpc('get_admin_dashboard');
-
   if(error)return showToast('Admin backend setup required: '+error.message);
 
   $('mStudents').textContent=data.students??0;
@@ -1958,7 +1634,6 @@ async function loadAdmin(){
 function adminPage(p,b){
   document.querySelectorAll('.adminpage').forEach(x=>x.classList.add('hidden'));
   $('admin-'+p).classList.remove('hidden');
-
   document.querySelectorAll('#adminTabs button').forEach(x=>x.classList.remove('active'));
   b.classList.add('active');
 }
