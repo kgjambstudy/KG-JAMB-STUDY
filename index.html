@@ -1,252 +1,1322 @@
+
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#102a43"><title>KG JAMB STUDY</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#102a43">
+<title>KG JAMB STUDY</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <style>
-.connection-banner{margin:12px 0;padding:12px;border-radius:9px;background:#fff7e6;border:1px solid #f1d59b;color:#704900}.status-line{font-size:12px;color:var(--muted);margin-top:8px}.qopt:has(input:checked){border-color:var(--b);background:#eef7ff}.qopt input{accent-color:var(--b)}.record-list{display:grid;gap:12px;margin-top:12px}.record-card{border:1px solid var(--line);border-radius:10px;padding:13px;background:#fff;min-width:0}.record-card h3{margin:0 0 8px;font-size:15px}.record-fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px}.record-field{min-width:0;padding:7px 9px;background:#f6f9fc;border-radius:7px;overflow-wrap:anywhere}.record-field b{display:block;font-size:11px;color:var(--muted);text-transform:capitalize;margin-bottom:2px}.record-field span{white-space:pre-wrap}.record-empty{padding:14px;border:1px dashed var(--line);border-radius:9px;color:var(--muted)}.topic-subject-card{width:100%;text-align:left;background:#f7faff;color:var(--ink);border:1px solid var(--line);padding:15px;border-radius:11px}.topic-subject-card:hover,.topic-browser-item:hover{border-color:var(--b);background:#eef7ff}.topic-subject-card strong{display:block;font-size:16px}.topic-subject-card span{display:block;color:var(--muted);font-size:12px;font-weight:500;margin-top:4px}.topic-browser-item{display:flex;align-items:center;justify-content:space-between;gap:12px;border:1px solid var(--line);border-radius:10px;padding:12px;background:#fff}.topic-browser-item strong{display:block}.topic-browser-item small{color:var(--muted)}.topic-browser-item button{flex-shrink:0}.bank-controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin:12px 0}.bank-question{border:1px solid var(--line);border-radius:11px;padding:14px;margin:12px 0;background:#fff}.bank-question h3{font-size:15px;margin:0 0 8px}.bank-options{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:7px}.bank-option{padding:8px;background:#f6f9fc;border-radius:7px}.bank-meta{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}.bank-pagination{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:14px 0}.bank-pagination button{min-width:90px}.import-panel{border:1px solid var(--line);border-radius:11px;padding:14px;margin:14px 0;background:#f9fbfd}.import-panel h3{margin:0 0 6px}.import-preview{max-height:360px;overflow:auto;margin-top:10px}.record-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}button:disabled{opacity:.55;cursor:not-allowed}
-:root{--n:#102a43;--b:#1769aa;--ink:#172b4d;--muted:#62748a;--line:#dce5ee;--bg:#f4f7fb}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,Arial}button,input,select,textarea{font:inherit}button{border:0;border-radius:9px;padding:10px 14px;background:var(--b);color:white;font-weight:650;cursor:pointer}button.secondary{background:#e8eef5;color:var(--ink)}button.danger{background:#b42318}button.good{background:#16794b}input,select,textarea{width:100%;padding:11px;border:1px solid #cbd6e2;border-radius:8px;background:white;color:var(--ink)}label{display:block;font-weight:650;margin:10px 0 5px}.hidden{display:none!important}.top{background:var(--n);color:white;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.brand{font-size:19px;font-weight:850}.brand small{display:block;font-size:11px;font-weight:500;opacity:.75}.wrap{max-width:1160px;margin:22px auto;padding:0 14px}.panel,.card{background:white;border:1px solid var(--line);border-radius:13px;padding:16px;box-shadow:0 3px 12px #102a4309}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:13px}.row,.between{display:flex;gap:9px;align-items:center;flex-wrap:wrap}.between{justify-content:space-between}.muted{color:var(--muted)}.small{font-size:12px}.metric{font-size:26px;font-weight:850}.pill{display:inline-block;padding:3px 9px;border-radius:20px;background:#e8f5ff;color:#13558a;font-size:12px;font-weight:700}.notice{padding:12px;border-radius:9px;background:#fff7e6;border:1px solid #f1d59b;color:#704900}.tabs{display:flex;gap:7px;flex-wrap:wrap;margin:15px 0}.tabs button{background:#e8eef5;color:var(--ink)}.tabs button.active{background:var(--n);color:white}.section{margin:16px 0}.table{width:100%;border-collapse:collapse;font-size:13px}.table th,.table td{padding:9px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}.table th{background:#f6f9fc}.qopt{display:block;border:1px solid var(--line);padding:10px;border-radius:8px;margin:8px 0;font-weight:500}.qopt input{width:auto;margin-right:8px}.bar{height:8px;background:#e7edf4;border-radius:20px;overflow:hidden}.bar span{display:block;height:100%;background:var(--b)}.modalback{position:fixed;inset:0;background:#061525b8;display:grid;place-items:center;padding:18px;z-index:20}.modal{background:white;max-width:450px;width:100%;padding:22px;border-radius:14px}.footer{text-align:center;color:var(--muted);padding:24px;font-size:12px}@media(max-width:600px){.wrap{margin:12px auto}.panel,.card{padding:13px}.table{display:block;overflow-x:auto}}
-</style></head><body>
-<header class="top"><div class="brand">KG JAMB STUDY<small>Learn smarter. Practise better. Achieve more.</small></div><div class="row"><span id="who" class="small"></span><button id="topOut" class="secondary hidden" onclick="signOut()">Sign out</button></div></header>
+.connection-banner{margin:12px 0;padding:12px;border-radius:9px;background:#fff7e6;border:1px solid #f1d59b;color:#704900}
+.status-line{font-size:12px;color:var(--muted);margin-top:8px}
+.qopt:has(input:checked){border-color:var(--b);background:#eef7ff}
+.qopt input{accent-color:var(--b)}
+.record-list{display:grid;gap:12px;margin-top:12px}
+.record-card{border:1px solid var(--line);border-radius:10px;padding:13px;background:#fff;min-width:0}
+.record-card h3{margin:0 0 8px;font-size:15px}
+.record-fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px}
+.record-field{min-width:0;padding:7px 9px;background:#f6f9fc;border-radius:7px;overflow-wrap:anywhere}
+.record-field b{display:block;font-size:11px;color:var(--muted);text-transform:capitalize;margin-bottom:2px}
+.record-field span{white-space:pre-wrap}
+.record-empty{padding:14px;border:1px dashed var(--line);border-radius:9px;color:var(--muted)}
+.topic-subject-card{width:100%;text-align:left;background:#f7faff;color:var(--ink);border:1px solid var(--line);padding:15px;border-radius:11px}
+.topic-subject-card:hover,.topic-browser-item:hover{border-color:var(--b);background:#eef7ff}
+.topic-subject-card strong{display:block;font-size:16px}
+.topic-subject-card span{display:block;color:var(--muted);font-size:12px;font-weight:500;margin-top:4px}
+.topic-browser-item{display:flex;align-items:center;justify-content:space-between;gap:12px;border:1px solid var(--line);border-radius:10px;padding:12px;background:#fff}
+.topic-browser-item strong{display:block}
+.topic-browser-item small{color:var(--muted)}
+.topic-browser-item button{flex-shrink:0}
+.topic-browser-item.selected{border-color:var(--b);background:#eef7ff}
+.custom-selection-chip{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 10px;border:1px solid var(--line);border-radius:8px;background:#fff}
+.custom-selection-chip span{font-size:13px}
+.custom-selection-chip button{padding:6px 10px}
+.bank-controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin:12px 0}
+.bank-question{border:1px solid var(--line);border-radius:11px;padding:14px;margin:12px 0;background:#fff}
+.bank-question h3{font-size:15px;margin:0 0 8px}
+.bank-options{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:7px}
+.bank-option{padding:8px;background:#f6f9fc;border-radius:7px}
+.bank-meta{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
+.bank-pagination{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:14px 0}
+.bank-pagination button{min-width:90px}
+.import-panel{border:1px solid var(--line);border-radius:11px;padding:14px;margin:14px 0;background:#f9fbfd}
+.import-panel h3{margin:0 0 6px}
+.import-preview{max-height:360px;overflow:auto;margin-top:10px}
+.record-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+button:disabled{opacity:.55;cursor:not-allowed}
+:root{--n:#102a43;--b:#1769aa;--ink:#172b4d;--muted:#62748a;--line:#dce5ee;--bg:#f4f7fb}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,Arial}
+button,input,select,textarea{font:inherit}
+button{border:0;border-radius:9px;padding:10px 14px;background:var(--b);color:white;font-weight:650;cursor:pointer}
+button.secondary{background:#e8eef5;color:var(--ink)}
+button.danger{background:#b42318}
+button.good{background:#16794b}
+input,select,textarea{width:100%;padding:11px;border:1px solid #cbd6e2;border-radius:8px;background:white;color:var(--ink)}
+label{display:block;font-weight:650;margin:10px 0 5px}
+.hidden{display:none!important}
+.top{background:var(--n);color:white;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.brand{font-size:19px;font-weight:850}
+.brand small{display:block;font-size:11px;font-weight:500;opacity:.75}
+.wrap{max-width:1160px;margin:22px auto;padding:0 14px}
+.panel,.card{background:white;border:1px solid var(--line);border-radius:13px;padding:16px;box-shadow:0 3px 12px #102a4309}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:13px}
+.row,.between{display:flex;gap:9px;align-items:center;flex-wrap:wrap}
+.between{justify-content:space-between}
+.muted{color:var(--muted)}
+.small{font-size:12px}
+.metric{font-size:26px;font-weight:850}
+.pill{display:inline-block;padding:3px 9px;border-radius:20px;background:#e8f5ff;color:#13558a;font-size:12px;font-weight:700}
+.notice{padding:12px;border-radius:9px;background:#fff7e6;border:1px solid #f1d59b;color:#704900}
+.tabs{display:flex;gap:7px;flex-wrap:wrap;margin:15px 0}
+.tabs button{background:#e8eef5;color:var(--ink)}
+.tabs button.active{background:var(--n);color:white}
+.section{margin:16px 0}
+.table{width:100%;border-collapse:collapse;font-size:13px}
+.table th,.table td{padding:9px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+.table th{background:#f6f9fc}
+.qopt{display:block;border:1px solid var(--line);padding:10px;border-radius:8px;margin:8px 0;font-weight:500}
+.qopt input{width:auto;margin-right:8px}
+.bar{height:8px;background:#e7edf4;border-radius:20px;overflow:hidden}
+.bar span{display:block;height:100%;background:var(--b)}
+.modalback{position:fixed;inset:0;background:#061525b8;display:grid;place-items:center;padding:18px;z-index:20}
+.modal{background:white;max-width:450px;width:100%;padding:22px;border-radius:14px}
+.footer{text-align:center;color:var(--muted);padding:24px;font-size:12px}
+@media(max-width:600px){.wrap{margin:12px auto}.panel,.card{padding:13px}.table{display:block;overflow-x:auto}}
+</style>
+</head>
+<body>
+
+<header class="top">
+<div class="brand">KG JAMB STUDY<small>Learn smarter. Practise better. Achieve more.</small></div>
+<div class="row"><span id="who" class="small"></span><button id="topOut" class="secondary hidden" onclick="signOut()">Sign out</button></div>
+</header>
+
 <main class="wrap">
-<section id="auth" class="panel" style="max-width:540px;margin:35px auto"><h1>Welcome to KG JAMB STUDY</h1><p class="muted">Sign in or create your student account.</p><div class="tabs"><button id="loginTab" class="active" onclick="authMode('login')">Sign in</button><button id="signupTab" onclick="authMode('signup')">Create account</button></div><p id="authMsg" class="notice hidden"></p><p id="connectionStatus" class="connection-banner">Checking secure backend connection…</p><label id="nameLabel" class="hidden">Full name</label><input id="fullName" class="hidden" placeholder="Your full name"><label>Email</label><input id="email" type="email"><label>Password</label><input id="password" type="password"><button id="authBtn" style="width:100%;margin-top:14px" onclick="authenticate()">Sign in</button><p class="small muted">This form creates student accounts only. Staff roles must be assigned securely by an administrator.</p><p class="small muted">Your account session is securely restored when you return. Backend configuration is managed by KG JAMB STUDY.</p></section>
-<section id="studentApp" class="hidden"><div class="between"><div><h1 id="greeting">Student dashboard</h1><p class="muted">Your JAMB preparation workspace.</p></div><span class="pill">STUDENT</span></div>
-<div class="grid"><div class="card"><div class="small muted">Shared Topic + Custom free uses</div><div class="metric" id="usage">—</div></div><div class="card"><div class="small muted">Full Subject Exams</div><div class="metric">Unlimited</div></div><div class="card"><div class="small muted">Study streak</div><div class="metric" id="streak">—</div></div><div class="card"><div class="small muted">Membership</div><div class="metric" id="membership">Free</div></div></div>
-<nav class="tabs" id="studentTabs"><button class="active" onclick="studentPage('learn',this)">Learn & practise</button><button onclick="studentPage('progress',this)">Progress</button><button onclick="studentPage('saved',this)">Saved questions</button><button onclick="studentPage('history',this)">Exam history</button><button onclick="studentPage('friends',this)">Friends & leaderboard</button><button onclick="studentPage('profile',this)">Profile</button></nav>
-<div id="student-learn" class="panel studentpage"><h2>Start practising</h2><div class="grid"><div class="card"><h3>Topic Practice</h3><p class="small muted">Practise a selected topic.</p><button onclick="startExam('topic')">Start practice</button></div><div class="card"><h3>Custom Examination</h3><p class="small muted">Choose subject, topic and question count.</p><button onclick="startExam('custom')">Create exam</button></div><div class="card"><h3>Full Subject Exam</h3><p class="small muted">Unlimited free access.</p><button onclick="startExam('full')">Start full exam</button></div><div class="card"><h3>Daily Challenge</h3><p class="small muted">Same challenge for all students.</p><button onclick="loadDaily()">View challenge</button></div></div>
-<div id="topicBrowser" class="card section hidden">
- <div class="between"><div><h3 id="topicBrowserTitle">Browse subjects</h3><p id="topicBrowserHint" class="small muted">Choose a subject to see its approved topics.</p></div><button id="topicBrowserBack" class="secondary" onclick="topicBrowserBack()">Back</button></div>
- <div id="topicBrowserSubjects" class="grid section"></div>
- <div id="topicBrowserSearchWrap" class="hidden"><label for="topicBrowserSearch">Search topics (optional)</label><input id="topicBrowserSearch" type="search" placeholder="Try SHM, motion, acids…" oninput="renderTopicBrowserTopics()"></div>
- <div id="topicBrowserList" class="record-list"></div>
+
+<section id="auth" class="panel" style="max-width:540px;margin:35px auto">
+<h1>Welcome to KG JAMB STUDY</h1>
+<p class="muted">Sign in or create your student account.</p>
+<div class="tabs">
+<button id="loginTab" class="active" onclick="authMode('login')">Sign in</button>
+<button id="signupTab" onclick="authMode('signup')">Create account</button>
 </div>
-<div id="setup" class="card section hidden"><h3 id="setupTitle">Exam setup</h3><div class="grid"><div><label>Subject</label><select id="subject"><option>English</option><option>Physics</option><option>Chemistry</option><option>Biology</option></select></div><div><label>Topic</label><input id="topic" placeholder="e.g. Motion, Ecology"></div><div><label>Question count</label><select id="count"><option>10</option><option>20</option><option>30</option><option>40</option><option>60</option><option>100</option></select></div><div><label>Duration (minutes)</label><select id="duration"><option>15</option><option>30</option><option>45</option><option>60</option><option>90</option></select></div></div><button onclick="beginExam()">Load questions</button><button class="secondary" onclick="$('setup').classList.add('hidden')">Cancel</button></div><div id="examArea" class="card section hidden"></div><div id="dailyArea" class="card section hidden"></div></div>
-<div id="student-progress" class="panel studentpage hidden"><h2>Weakness Detector & achievements</h2><p class="muted">Topic insights are calculated from server-validated exam history.</p><div id="weaknessList">Analytics backend required.</div><h3>Achievements</h3><div id="achievements" class="grid"><div class="card">🔥 Study streak</div><div class="card">🏆 Perfect score</div><div class="card">📚 Topic master</div><div class="card">⚡ Comeback</div></div></div>
-<div id="student-saved" class="panel studentpage hidden"><h2>Revision list</h2><div class="tabs"><button onclick="loadSaved('bookmarks')">Bookmarks</button><button onclick="loadSaved('wrong')">Questions I got wrong</button></div><div id="savedList">Revision backend required.</div></div>
-<div id="student-history" class="panel studentpage hidden"><h2>Exam history & review</h2><div id="historyList">History backend required.</div></div>
-<div id="student-friends" class="panel studentpage hidden"><h2>Friends & leaderboard</h2><div class="notice">Friend requests and rankings require protected database access and verified exam scores.</div><div class="grid section"><div class="card"><h3>Find friends</h3><input id="friendSearch" placeholder="Student username"><button class="secondary section" onclick="showToast('Friend search backend is not configured.')">Search</button></div><div class="card"><h3>Leaderboard</h3><p class="small muted">Monthly rankings use verified results.</p><button class="secondary" onclick="showToast('Leaderboard backend is not configured.')">View leaderboard</button></div></div></div>
-<div id="student-profile" class="panel studentpage hidden"><h2>My profile</h2><label>Full name</label><input id="profileName"><label>Email</label><input id="profileEmail" disabled><button onclick="saveProfile()">Save profile</button></div></section>
-<section id="collectorApp" class="hidden"><div class="between"><div><h1>Question Collector Workspace</h1><p class="muted">Prepare and submit question batches.</p></div><span class="pill">COLLECTOR</span></div><div class="notice">Collectors cannot publish questions or approve their own submissions.</div><div class="grid section"><div class="card">Assigned subjects<div class="metric" id="collectorSubjects">—</div></div><div class="card">Submitted batches<div class="metric" id="collectorBatches">—</div></div><div class="card">Approved questions<div class="metric" id="collectorApproved">—</div></div></div><div class="panel section"><h2>Smart bulk question importer</h2><p class="small muted">CSV and Excel (.xlsx/.xls). Required: subject, topic, question, options A–D, correct answer. Missing answers are flagged, never guessed.</p><label>Question file</label><input type="file" id="bulkFile" accept=".csv,.xlsx,.xls"><div class="row section"><button onclick="previewBulk()">Preview & arrange</button><button class="secondary" onclick="downloadTemplate()">CSV template</button></div><div id="importSummary"></div><div id="importPreview"></div><button id="submitBatch" class="good hidden section" onclick="submitBatch()">Submit for review</button></div><div class="panel section"><h2>Submission history</h2><div id="collectorHistory">Backend required.</div></div></section>
-<section id="adminApp" class="hidden"><div class="between"><div><h1>Admin Control Centre</h1><p class="muted">Platform operations and quality control.</p></div><div class="row"><span class="pill">ADMIN</span><button class="danger" onclick="signOut()">Sign out</button></div></div><div class="grid"><div class="card">Students<div class="metric" id="mStudents">—</div></div><div class="card">Collectors<div class="metric" id="mCollectors">—</div></div><div class="card">Approved questions<div class="metric" id="mQuestions">—</div></div><div class="card">Pending batches<div class="metric" id="mPending">—</div></div></div>
-<nav class="tabs" id="adminTabs"><button class="active" onclick="adminPage('overview',this)">Overview</button><button onclick="adminPage('students',this)">Students</button><button onclick="adminPage('collectors',this)">Collectors</button><button onclick="adminPage('bank',this)">Question bank</button><button onclick="adminPage('review',this)">Review queue</button><button onclick="adminPage('challenge',this)">Daily Challenge</button><button onclick="adminPage('reports',this)">Reports</button><button onclick="adminPage('audit',this)">Activity log</button></nav>
-<div id="admin-overview" class="panel adminpage"><h2>Administration overview</h2><div class="notice">Current setup: an active administrator can import questions directly into the approved Question Bank. Collector submissions continue through the existing review process.</div></div><div id="admin-students" class="panel adminpage hidden"><h2>Student management</h2><div id="studentsTable">Admin RPC required.</div></div><div id="admin-collectors" class="panel adminpage hidden"><h2>Collector management</h2><p class="small muted">Create/disable collector accounts and assign subjects through a trusted server function, never a browser service-role key.</p><div id="collectorsTable">Admin RPC required.</div></div><div id="admin-bank" class="panel adminpage hidden"><h2>Question bank</h2><p class="small muted">Browse every question across all subjects. Search and status filters apply to the full database, with pagination.</p><div class="import-panel"><h3>Admin bulk question importer</h3><p class="small muted">Import CSV or Excel files directly into the approved Question Bank. Required columns: subject, topic, question, option_a, option_b, option_c, option_d, correct_answer. Explanations are optional. Maximum 500 questions per import. Only an active administrator can complete an import.</p><label for="adminBulkFile">Question file</label><input type="file" id="adminBulkFile" accept=".csv,.xlsx,.xls"><div class="row section"><button onclick="previewAdminBulk()">Preview & validate</button><button class="secondary" onclick="downloadTemplate()">Download CSV template</button></div><div id="adminImportSummary" class="small muted"></div><div id="adminImportPreview" class="import-preview"></div><button id="adminImportSubmit" class="good hidden section" onclick="submitAdminImport()">Import approved questions</button></div><div class="bank-controls"><div><label for="adminQuestionSearch">Search questions</label><input id="adminQuestionSearch" type="search" placeholder="Search question text" oninput="scheduleAdminQuestionSearch()"></div><div><label for="adminQuestionStatus">Status</label><select id="adminQuestionStatus" onchange="loadAdminQuestionBank(0)"><option value="all">All statuses</option><option value="approved">Approved</option><option value="draft">Draft</option><option value="archived">Archived</option></select></div></div><div id="bankTable"><p class="muted">Question archive has not been loaded yet.</p></div><div id="bankPagination" class="bank-pagination"></div></div><div id="admin-review" class="panel adminpage hidden"><h2>Submission review</h2><div id="reviewQueue">Secure review RPC required.</div></div>
-<div id="admin-challenge" class="panel adminpage hidden"><h2>Configure Daily Challenge</h2><div class="grid"><div><label>Date</label><input id="challengeDate" type="date"></div><div><label>Subject</label><select id="challengeSubject"><option>English</option><option>Physics</option><option>Chemistry</option><option>Biology</option></select></div><div><label>Topic</label><input id="challengeTopic"></div><div><label>Question count</label><select id="challengeCount"><option>10</option><option>15</option><option>20</option><option>30</option></select></div><div><label>Duration</label><select id="challengeTime"><option>10</option><option>15</option><option>20</option><option>30</option></select></div><div><label>Fallback deadline</label><input id="challengeDeadline" type="datetime-local"></div></div><p class="notice">A scheduled server job must publish an approved random question set if no challenge is published by the deadline. It must be identical for all students.</p><button onclick="publishChallenge()">Save / publish</button><p id="challengeStatus" class="small muted"></p></div><div id="admin-reports" class="panel adminpage hidden"><h2>Student reports & corrections</h2><div id="reportsList">Admin RPC required.</div></div><div id="admin-audit" class="panel adminpage hidden"><h2>Admin activity log</h2><div id="auditList">Audit-log RPC required.</div></div></section></main>
-<div id="dailyConfirmModal" class="modalback hidden"><div class="modal"><h2>Important: Daily Challenge</h2><p>You can only take today's Daily Challenge once. Once you submit, you cannot retake it. Are you ready to begin?</p><div class="row"><button class="secondary" onclick="cancelDailyChallenge()">Cancel</button><button class="good" onclick="confirmDailyChallenge()">Start Challenge</button></div></div></div><div id="exitModal" class="modalback hidden"><div class="modal"><h2>Are you sure you want to quit this examination?</h2><p>Your examination is still in progress. Exiting marks this attempt as abandoned, and it cannot be resumed.</p><div class="row"><button class="secondary" onclick="continueExam()">Continue exam</button><button class="danger" onclick="confirmExit()">Exit exam</button></div></div></div><div id="toast" class="modalback hidden" style="z-index:30"><div class="modal"><p id="toastText"></p><button onclick="$('toast').classList.add('hidden')">OK</button></div></div>
+<p id="authMsg" class="notice hidden"></p>
+<p id="connectionStatus" class="connection-banner">Checking secure backend connection…</p>
+<label id="nameLabel" class="hidden">Full name</label>
+<input id="fullName" class="hidden" placeholder="Your full name">
+<label>Email</label><input id="email" type="email">
+<label>Password</label><input id="password" type="password">
+<button id="authBtn" style="width:100%;margin-top:14px" onclick="authenticate()">Sign in</button>
+<p class="small muted">This form creates student accounts only. Staff roles must be assigned securely by an administrator.</p>
+<p class="small muted">Your account session is securely restored when you return. Backend configuration is managed by KG JAMB STUDY.</p>
+</section>
+
+<section id="studentApp" class="hidden">
+<div class="between">
+<div><h1 id="greeting">Student dashboard</h1><p class="muted">Your JAMB preparation workspace.</p></div>
+<span class="pill">STUDENT</span>
+</div>
+<div class="grid">
+<div class="card"><div class="small muted">Shared Topic + Custom free uses</div><div class="metric" id="usage">—</div></div>
+<div class="card"><div class="small muted">Full Subject Exams</div><div class="metric">Unlimited</div></div>
+<div class="card"><div class="small muted">Study streak</div><div class="metric" id="streak">—</div></div>
+<div class="card"><div class="small muted">Membership</div><div class="metric" id="membership">Free</div></div>
+</div>
+<nav class="tabs" id="studentTabs">
+<button class="active" onclick="studentPage('learn',this)">Learn & practise</button>
+<button onclick="studentPage('progress',this)">Progress</button>
+<button onclick="studentPage('saved',this)">Saved questions</button>
+<button onclick="studentPage('history',this)">Exam history</button>
+<button onclick="studentPage('friends',this)">Friends & leaderboard</button>
+<button onclick="studentPage('profile',this)">Profile</button>
+</nav>
+
+<div id="student-learn" class="panel studentpage">
+<h2>Start practising</h2>
+<div class="grid">
+<div class="card"><h3>Topic Practice</h3><p class="small muted">Practise a selected topic.</p><button onclick="startExam('topic')">Start practice</button></div>
+<div class="card"><h3>Custom Examination</h3><p class="small muted">Choose multiple topics, including topics from different subjects.</p><button onclick="startExam('custom')">Create exam</button></div>
+<div class="card"><h3>Full Subject Exam</h3><p class="small muted">Unlimited free access.</p><button onclick="startExam('full')">Start full exam</button></div>
+<div class="card"><h3>Daily Challenge</h3><p class="small muted">Same challenge for all students.</p><button onclick="loadDaily()">View challenge</button></div>
+</div>
+
+<div id="topicBrowser" class="card section hidden">
+<div class="between">
+<div><h3 id="topicBrowserTitle">Browse subjects</h3><p id="topicBrowserHint" class="small muted">Choose a subject to see its approved topics.</p></div>
+<button id="topicBrowserBack" class="secondary" onclick="topicBrowserBack()">Back</button>
+</div>
+<div id="topicBrowserSubjects" class="grid section"></div>
+<div id="topicBrowserSearchWrap" class="hidden">
+<label for="topicBrowserSearch">Search topics (optional)</label>
+<input id="topicBrowserSearch" type="search" placeholder="Try SHM, motion, acids…" oninput="renderTopicBrowserTopics()">
+</div>
+
+<div id="customSelectionPanel" class="import-panel hidden">
+<div class="between">
+<div>
+<b id="customSelectionCount">0 topics selected</b>
+<p class="small muted">Select topics across any subjects. Your choices stay selected as you browse.</p>
+</div>
+<button id="customContinueBtn" onclick="finishCustomTopicSelection()" disabled>Continue to exam setup</button>
+</div>
+<div id="customSelectedList" class="record-list"></div>
+</div>
+
+<div id="topicBrowserList" class="record-list"></div>
+</div>
+
+<div id="setup" class="card section hidden">
+<h3 id="setupTitle">Exam setup</h3>
+<div id="customSetupSummary" class="notice hidden"></div>
+<div class="grid">
+<div id="subjectField">
+<label>Subject</label>
+<select id="subject"><option>English</option><option>Physics</option><option>Chemistry</option><option>Biology</option></select>
+</div>
+<div id="topicField">
+<label>Topic</label>
+<input id="topic" placeholder="e.g. Motion, Ecology">
+</div>
+<div>
+<label>Question count</label>
+<select id="count">
+<option>10</option><option>20</option><option>30</option><option>40</option><option>60</option><option>100</option>
+</select>
+</div>
+<div>
+<label>Duration (minutes)</label>
+<select id="duration">
+<option>15</option><option>30</option><option>45</option><option>60</option><option>90</option>
+</select>
+</div>
+</div>
+<button onclick="beginExam()">Load questions</button>
+<button class="secondary" onclick="cancelExamSetup()">Cancel</button>
+</div>
+
+<div id="examArea" class="card section hidden"></div>
+<div id="dailyArea" class="card section hidden"></div>
+</div>
+
+<div id="student-progress" class="panel studentpage hidden">
+<h2>Weakness Detector & achievements</h2>
+<p class="muted">Topic insights are calculated from server-validated exam history.</p>
+<div id="weaknessList">Analytics backend required.</div>
+<h3>Achievements</h3>
+<div id="achievements" class="grid">
+<div class="card">🔥 Study streak</div><div class="card">🏆 Perfect score</div><div class="card">📚 Topic master</div><div class="card">⚡ Comeback</div>
+</div>
+</div>
+
+<div id="student-saved" class="panel studentpage hidden">
+<h2>Revision list</h2>
+<div class="tabs">
+<button onclick="loadSaved('bookmarks')">Bookmarks</button>
+<button onclick="loadSaved('wrong')">Questions I got wrong</button>
+</div>
+<div id="savedList">Revision backend required.</div>
+</div>
+
+<div id="student-history" class="panel studentpage hidden">
+<h2>Exam history & review</h2><div id="historyList">History backend required.</div>
+</div>
+
+<div id="student-friends" class="panel studentpage hidden">
+<h2>Friends & leaderboard</h2>
+<div class="notice">Friend requests and rankings require protected database access and verified exam scores.</div>
+<div class="grid section">
+<div class="card"><h3>Find friends</h3><input id="friendSearch" placeholder="Student username"><button class="secondary section" onclick="showToast('Friend search backend is not configured.')">Search</button></div>
+<div class="card"><h3>Leaderboard</h3><p class="small muted">Monthly rankings use verified results.</p><button class="secondary" onclick="showToast('Leaderboard backend is not configured.')">View leaderboard</button></div>
+</div>
+</div>
+
+<div id="student-profile" class="panel studentpage hidden">
+<h2>My profile</h2>
+<label>Full name</label><input id="profileName">
+<label>Email</label><input id="profileEmail" disabled>
+<button onclick="saveProfile()">Save profile</button>
+</div>
+</section>
+
+<section id="collectorApp" class="hidden">
+<div class="between"><div><h1>Question Collector Workspace</h1><p class="muted">Prepare and submit question batches.</p></div><span class="pill">COLLECTOR</span></div>
+<div class="notice">Collectors cannot publish questions or approve their own submissions.</div>
+<div class="grid section">
+<div class="card">Assigned subjects<div class="metric" id="collectorSubjects">—</div></div>
+<div class="card">Submitted batches<div class="metric" id="collectorBatches">—</div></div>
+<div class="card">Approved questions<div class="metric" id="collectorApproved">—</div></div>
+</div>
+<div class="panel section">
+<h2>Smart bulk question importer</h2>
+<p class="small muted">CSV and Excel (.xlsx/.xls). Required: subject, topic, question, options A–D, correct answer. Missing answers are flagged, never guessed.</p>
+<label>Question file</label><input type="file" id="bulkFile" accept=".csv,.xlsx,.xls">
+<div class="row section"><button onclick="previewBulk()">Preview & arrange</button><button class="secondary" onclick="downloadTemplate()">CSV template</button></div>
+<div id="importSummary"></div><div id="importPreview"></div>
+<button id="submitBatch" class="good hidden section" onclick="submitBatch()">Submit for review</button>
+</div>
+<div class="panel section"><h2>Submission history</h2><div id="collectorHistory">Backend required.</div></div>
+</section>
+
+<section id="adminApp" class="hidden">
+<div class="between"><div><h1>Admin Control Centre</h1><p class="muted">Platform operations and quality control.</p></div><div class="row"><span class="pill">ADMIN</span><button class="danger" onclick="signOut()">Sign out</button></div></div>
+<div class="grid">
+<div class="card">Students<div class="metric" id="mStudents">—</div></div>
+<div class="card">Collectors<div class="metric" id="mCollectors">—</div></div>
+<div class="card">Approved questions<div class="metric" id="mQuestions">—</div></div>
+<div class="card">Pending batches<div class="metric" id="mPending">—</div></div>
+</div>
+<nav class="tabs" id="adminTabs">
+<button class="active" onclick="adminPage('overview',this)">Overview</button>
+<button onclick="adminPage('students',this)">Students</button>
+<button onclick="adminPage('collectors',this)">Collectors</button>
+<button onclick="adminPage('bank',this)">Question bank</button>
+<button onclick="adminPage('review',this)">Review queue</button>
+<button onclick="adminPage('challenge',this)">Daily Challenge</button>
+<button onclick="adminPage('reports',this)">Reports</button>
+<button onclick="adminPage('audit',this)">Activity log</button>
+</nav>
+<div id="admin-overview" class="panel adminpage"><h2>Administration overview</h2><div class="notice">Current setup: an active administrator can import questions directly into the approved Question Bank. Collector submissions continue through the existing review process.</div></div>
+<div id="admin-students" class="panel adminpage hidden"><h2>Student management</h2><div id="studentsTable">Admin RPC required.</div></div>
+<div id="admin-collectors" class="panel adminpage hidden"><h2>Collector management</h2><p class="small muted">Create/disable collector accounts and assign subjects through a trusted server function, never a browser service-role key.</p><div id="collectorsTable">Admin RPC required.</div></div>
+<div id="admin-bank" class="panel adminpage hidden">
+<h2>Question bank</h2>
+<p class="small muted">Browse every question across all subjects. Search and status filters apply to the full database, with pagination.</p>
+<div class="import-panel">
+<h3>Admin bulk question importer</h3>
+<p class="small muted">Import CSV or Excel files directly into the approved Question Bank. Required columns: subject, topic, question, option_a, option_b, option_c, option_d, correct_answer. Explanations are optional. Maximum 500 questions per import. Only an active administrator can complete an import.</p>
+<label for="adminBulkFile">Question file</label><input type="file" id="adminBulkFile" accept=".csv,.xlsx,.xls">
+<div class="row section"><button onclick="previewAdminBulk()">Preview & validate</button><button class="secondary" onclick="downloadTemplate()">Download CSV template</button></div>
+<div id="adminImportSummary" class="small muted"></div><div id="adminImportPreview" class="import-preview"></div>
+<button id="adminImportSubmit" class="good hidden section" onclick="submitAdminImport()">Import approved questions</button>
+</div>
+<div class="bank-controls">
+<div><label for="adminQuestionSearch">Search questions</label><input id="adminQuestionSearch" type="search" placeholder="Search question text" oninput="scheduleAdminQuestionSearch()"></div>
+<div><label for="adminQuestionStatus">Status</label><select id="adminQuestionStatus" onchange="loadAdminQuestionBank(0)"><option value="all">All statuses</option><option value="approved">Approved</option><option value="draft">Draft</option><option value="archived">Archived</option></select></div>
+</div>
+<div id="bankTable"><p class="muted">Question archive has not been loaded yet.</p></div>
+<div id="bankPagination" class="bank-pagination"></div>
+</div>
+<div id="admin-review" class="panel adminpage hidden"><h2>Submission review</h2><div id="reviewQueue">Secure review RPC required.</div></div>
+<div id="admin-challenge" class="panel adminpage hidden">
+<h2>Configure Daily Challenge</h2>
+<div class="grid">
+<div><label>Date</label><input id="challengeDate" type="date"></div>
+<div><label>Subject</label><select id="challengeSubject"><option>English</option><option>Physics</option><option>Chemistry</option><option>Biology</option></select></div>
+<div><label>Topic</label><input id="challengeTopic"></div>
+<div><label>Question count</label><select id="challengeCount"><option>10</option><option>15</option><option>20</option><option>30</option></select></div>
+<div><label>Duration</label><select id="challengeTime"><option>10</option><option>15</option><option>20</option><option>30</option></select></div>
+<div><label>Fallback deadline</label><input id="challengeDeadline" type="datetime-local"></div>
+</div>
+<p class="notice">A scheduled server job must publish an approved random question set if no challenge is published by the deadline. It must be identical for all students.</p>
+<button onclick="publishChallenge()">Save / publish</button><p id="challengeStatus" class="small muted"></p>
+</div>
+<div id="admin-reports" class="panel adminpage hidden"><h2>Student reports & corrections</h2><div id="reportsList">Admin RPC required.</div></div>
+<div id="admin-audit" class="panel adminpage hidden"><h2>Admin activity log</h2><div id="auditList">Audit-log RPC required.</div></div>
+</section>
+</main>
+
+<div id="dailyConfirmModal" class="modalback hidden">
+<div class="modal"><h2>Important: Daily Challenge</h2><p>You can only take today's Daily Challenge once. Once you submit, you cannot retake it. Are you ready to begin?</p><div class="row"><button class="secondary" onclick="cancelDailyChallenge()">Cancel</button><button class="good" onclick="confirmDailyChallenge()">Start Challenge</button></div></div>
+</div>
+<div id="exitModal" class="modalback hidden">
+<div class="modal"><h2>Are you sure you want to quit this examination?</h2><p>Your examination is still in progress. Exiting marks this attempt as abandoned, and it cannot be resumed.</p><div class="row"><button class="secondary" onclick="continueExam()">Continue exam</button><button class="danger" onclick="confirmExit()">Exit exam</button></div></div>
+</div>
+<div id="toast" class="modalback hidden" style="z-index:30"><div class="modal"><p id="toastText"></p><button onclick="$('toast').classList.add('hidden')">OK</button></div></div>
 <footer class="footer">KG JAMB STUDY · KG JAMB STUDY · Secure learning platform</footer>
+
 <script>
-// Public browser configuration only. Add the project's Supabase URL and anon/publishable key here.
-// NEVER place a service-role key, database password, JWT secret, or other server secret in this file.
-// KG JAMB STUDY — Supabase connection
-// Replace these two values with the EXISTING project's Project URL and
-// anon/public (publishable) key from Supabase Settings > API.
-// Never put a service_role/secret key in this public website.
-const SUPABASE_URL = 'https://aycckgtshuzpexhupbmf.supabase.co';
-const SUPABASE_ANON_KEY = 'sb_publishable_xuSYHzsR23gMFIu-rVw6lg_2hV3I3EH';
+// Public browser configuration only. Never place a service-role key here.
+const SUPABASE_URL='https://aycckgtshuzpexhupbmf.supabase.co';
+const SUPABASE_ANON_KEY='sb_publishable_xuSYHzsR23gMFIu-rVw6lg_2hV3I3EH';
+
 let sb=null,user=null,profile=null,mode='login',kind='custom',qs=[],answers={},active=false,timer=null,left=0,staged=[],adminStaged=[],attemptId=null,submitInFlight=false,autosaveTimer=null,progressSaving=false,progressSavePromise=null,progressDirty=false,dailyChallengeSubject='',adminQuestionBankRows=[],adminQuestionPage=0,adminQuestionTotal=0,adminQuestionPageSize=20,adminQuestionSearchTimer=null,adminQuestionLoading=false;
-const $=id=>document.getElementById(id),subjects=['English','Physics','Chemistry','Biology'];
+
+const $=id=>document.getElementById(id);
+const subjects=['English','Physics','Chemistry','Biology'];
+
 let availableTopics=[],topicBrowserSubject='',topicBrowserMode='subjects',topicBrowserLoading=false;
-const topicAliases={'simpleharmonicmotion':['shm','simple harmonic oscillation'],'lawsofmotion':['newton laws','newtons laws'],'electromagneticwaves':['em waves'],'periodictable':['periodic classification'],'chemicalbonding':['bonding'],'organicchemistry':['organic compounds']};
+let selectedCustomTopics=[];
+
+const topicAliases={
+'simpleharmonicmotion':['shm','simple harmonic oscillation'],
+'lawsofmotion':['newton laws','newtons laws'],
+'electromagneticwaves':['em waves'],
+'periodictable':['periodic classification'],
+'chemicalbonding':['bonding'],
+'organicchemistry':['organic compounds']
+};
+
 function safe(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function showToast(t){$('toastText').textContent=t;$('toast').classList.remove('hidden')}
 function setAuthMessage(t){$('authMsg').textContent=t;$('authMsg').classList.remove('hidden')}
-function authMode(m){mode=m;$('loginTab').classList.toggle('active',m==='login');$('signupTab').classList.toggle('active',m==='signup');$('fullName').classList.toggle('hidden',m==='login');$('nameLabel').classList.toggle('hidden',m==='login');$('authBtn').textContent=m==='login'?'Sign in':'Create student account'}
+
+function authMode(m){
+ mode=m;
+ $('loginTab').classList.toggle('active',m==='login');
+ $('signupTab').classList.toggle('active',m==='signup');
+ $('fullName').classList.toggle('hidden',m==='login');
+ $('nameLabel').classList.toggle('hidden',m==='login');
+ $('authBtn').textContent=m==='login'?'Sign in':'Create student account';
+}
+
 function init(){
-  if(!window.supabase){$('connectionStatus').textContent='The Supabase library could not load. Check your internet connection and reload.';return}
-  if(!SUPABASE_URL.startsWith('https://')||SUPABASE_URL.includes('ADD_')||SUPABASE_ANON_KEY.includes('ADD_')){$('connectionStatus').textContent='Supabase connection is not configured. Add the existing project URL and anon/public key in the configuration section of this file.';return}
-  try{
-    sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
-    $('connectionStatus').textContent='Secure backend configured. Checking your saved sign-in…';
-    sb.auth.onAuthStateChange((_event,session)=>{if(session?.user){user=session.user;setTimeout(loadProfile,0)}else if(!session&&profile){user=null;profile=null;routeToAuth()}});
-    checkSession();
-  }catch(e){$('connectionStatus').textContent='Could not initialise backend: '+e.message}
+ if(!window.supabase){$('connectionStatus').textContent='The Supabase library could not load. Check your internet connection and reload.';return}
+ if(!SUPABASE_URL.startsWith('https://')||SUPABASE_URL.includes('ADD_')||SUPABASE_ANON_KEY.includes('ADD_')){$('connectionStatus').textContent='Supabase connection is not configured.';return}
+ try{
+  sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+  $('connectionStatus').textContent='Secure backend configured. Checking your saved sign-in…';
+  sb.auth.onAuthStateChange((_event,session)=>{if(session?.user){user=session.user;setTimeout(loadProfile,0)}else if(!session&&profile){user=null;profile=null;routeToAuth()}});
+  checkSession();
+ }catch(e){$('connectionStatus').textContent='Could not initialise backend: '+e.message}
 }
-function routeToAuth(){['studentApp','collectorApp','adminApp'].forEach(x=>$(x).classList.add('hidden'));$('auth').classList.remove('hidden');$('topOut').classList.add('hidden');$('who').textContent=''}
+
+function routeToAuth(){
+ ['studentApp','collectorApp','adminApp'].forEach(x=>$(x).classList.add('hidden'));
+ $('auth').classList.remove('hidden');
+ $('topOut').classList.add('hidden');
+ $('who').textContent='';
+}
+
 async function authenticate(){
-  if(!$('email').value.trim() || !$('password').value){
-    $('authMsg').textContent='Please enter your email and password.';
-    $('authMsg').classList.remove('hidden');
-    return;
-  }
-  if(!sb)return setAuthMessage('The website backend has not been configured yet. Please try again after setup is completed.');
-  const email=$('email').value.trim(),password=$('password').value,name=$('fullName').value.trim();
-  if(!email||!password)return setAuthMessage('Enter your email and password.');
-  if(mode==='signup'&&!name)return setAuthMessage('Enter your full name.');
-  $('authBtn').disabled=true;
-  try{
-    const r=mode==='signup'?await sb.auth.signUp({email,password,options:{data:{full_name:name}}}):await sb.auth.signInWithPassword({email,password});
-    if(r.error)return setAuthMessage(r.error.message);
-    if(mode==='signup'&&!r.data.session){setAuthMessage('Account created. Confirm your email if required, then sign in.');return}
-    user=r.data.user;await loadProfile();
-  }catch(e){setAuthMessage('Connection problem: '+e.message)}finally{$('authBtn').disabled=false}
+ if(!$('email').value.trim()||!$('password').value){$('authMsg').textContent='Please enter your email and password.';$('authMsg').classList.remove('hidden');return}
+ if(!sb)return setAuthMessage('The website backend has not been configured yet.');
+ const email=$('email').value.trim(),password=$('password').value,name=$('fullName').value.trim();
+ if(mode==='signup'&&!name)return setAuthMessage('Enter your full name.');
+ $('authBtn').disabled=true;
+ try{
+  const r=mode==='signup'?await sb.auth.signUp({email,password,options:{data:{full_name:name}}}):await sb.auth.signInWithPassword({email,password});
+  if(r.error)return setAuthMessage(r.error.message);
+  if(mode==='signup'&&!r.data.session){setAuthMessage('Account created. Confirm your email if required, then sign in.');return}
+  user=r.data.user;await loadProfile();
+ }catch(e){setAuthMessage('Connection problem: '+e.message)}finally{$('authBtn').disabled=false}
 }
-async function checkSession(){if(!sb)return;try{const {data,error}=await sb.auth.getSession();if(error)throw error;if(data.session){user=data.session.user;await loadProfile()}else $('connectionStatus').textContent='Backend connected. Sign in or create your student account.'}catch(e){$('connectionStatus').textContent='Could not restore sign-in: '+e.message}}
-async function loadProfile(){if(!sb||!user)return;try{const {data,error}=await sb.from('profiles').select('id,full_name,role,membership_type,is_active').eq('id',user.id).maybeSingle();if(error||!data){setAuthMessage('Your profile could not be loaded. Please contact support.');return}if(data.is_active===false){await signOut();setAuthMessage('This account is currently disabled. Contact support.');return}profile=data;route()}catch(e){setAuthMessage('Profile loading failed: '+e.message)}}
-function route(){['auth','studentApp','collectorApp','adminApp'].forEach(x=>$(x).classList.add('hidden'));$('who').textContent=profile.full_name||user.email;$('topOut').classList.remove('hidden');if(profile.role==='student'){$('studentApp').classList.remove('hidden');$('greeting').textContent='Welcome, '+(profile.full_name||'Student');$('profileName').value=profile.full_name||'';$('profileEmail').value=user.email||'';$('membership').textContent=profile.membership_type||'Free';loadStudent();resumeActiveExam()}else if(profile.role==='collector'){$('collectorApp').classList.remove('hidden');loadCollector()}else if(profile.role==='admin'){$('adminApp').classList.remove('hidden');loadAdmin()}else showToast('Unrecognized account role. Contact an administrator.')}
-async function signOut(){if(active){showToast('Submit or exit your active examination before signing out.');return}if(sb)await sb.auth.signOut();user=null;profile=null;routeToAuth()}
-async function loadStudent(){if(!sb)return;const {data,error}=await sb.rpc('get_my_student_dashboard');if(error){$('historyList').textContent='Dashboard is temporarily unavailable: '+error.message;return}if(data){$('usage').textContent=data.remaining_shared_uses??'—';$('streak').textContent=data.study_streak??'—';$('historyList').innerHTML=(data.recent_attempts||[]).map(x=>`<p>${safe(x.subject)} · ${safe(x.score)} · <button class="secondary" onclick="reviewAttempt('${safe(x.id)}')">Review</button></p>`).join('')||'No attempts yet.';$('weaknessList').innerHTML=(data.topic_performance||[]).map(x=>`<p><b>${safe(x.subject)} — ${safe(x.topic)}: ${safe(x.average_percent)}%</b><div class="bar"><span style="width:${Math.max(0,Math.min(100,Number(x.average_percent)||0))}%"></span></div>${safe(x.recommendation||'Keep practising.')}</p>`).join('')||'Complete practice exams to build your topic analysis.'}}
-function studentPage(p,b){document.querySelectorAll('.studentpage').forEach(x=>x.classList.add('hidden'));$('student-'+p).classList.remove('hidden');document.querySelectorAll('#studentTabs button').forEach(x=>x.classList.remove('active'));b.classList.add('active')}
+
+async function checkSession(){
+ if(!sb)return;
+ try{
+  const {data,error}=await sb.auth.getSession();
+  if(error)throw error;
+  if(data.session){user=data.session.user;await loadProfile()}
+  else $('connectionStatus').textContent='Backend connected. Sign in or create your student account.';
+ }catch(e){$('connectionStatus').textContent='Could not restore sign-in: '+e.message}
+}
+
+async function loadProfile(){
+ if(!sb||!user)return;
+ try{
+  const {data,error}=await sb.from('profiles').select('id,full_name,role,membership_type,is_active').eq('id',user.id).maybeSingle();
+  if(error||!data){setAuthMessage('Your profile could not be loaded. Please contact support.');return}
+  if(data.is_active===false){await signOut();setAuthMessage('This account is currently disabled. Contact support.');return}
+  profile=data;route();
+ }catch(e){setAuthMessage('Profile loading failed: '+e.message)}
+}
+
+function route(){
+ ['auth','studentApp','collectorApp','adminApp'].forEach(x=>$(x).classList.add('hidden'));
+ $('who').textContent=profile.full_name||user.email;
+ $('topOut').classList.remove('hidden');
+ if(profile.role==='student'){
+  $('studentApp').classList.remove('hidden');
+  $('greeting').textContent='Welcome, '+(profile.full_name||'Student');
+  $('profileName').value=profile.full_name||'';
+  $('profileEmail').value=user.email||'';
+  $('membership').textContent=profile.membership_type||'Free';
+  loadStudent();resumeActiveExam();
+ }else if(profile.role==='collector'){
+  $('collectorApp').classList.remove('hidden');loadCollector();
+ }else if(profile.role==='admin'){
+  $('adminApp').classList.remove('hidden');loadAdmin();
+ }else showToast('Unrecognized account role. Contact an administrator.');
+}
+
+async function signOut(){
+ if(active)return showToast('Submit or exit your active examination before signing out.');
+ if(sb)await sb.auth.signOut();
+ user=null;profile=null;routeToAuth();
+}
+
+async function loadStudent(){
+ if(!sb)return;
+ const {data,error}=await sb.rpc('get_my_student_dashboard');
+ if(error){$('historyList').textContent='Dashboard is temporarily unavailable: '+error.message;return}
+ if(data){
+  $('usage').textContent=data.remaining_shared_uses??'—';
+  $('streak').textContent=data.study_streak??'—';
+  $('historyList').innerHTML=(data.recent_attempts||[]).map(x=>`<p>${safe(x.subject)} · ${safe(x.score)} · <button class="secondary" onclick="reviewAttempt('${safe(x.id)}')">Review</button></p>`).join('')||'No attempts yet.';
+  $('weaknessList').innerHTML=(data.topic_performance||[]).map(x=>`<p><b>${safe(x.subject)} — ${safe(x.topic)}: ${safe(x.average_percent)}%</b><div class="bar"><span style="width:${Math.max(0,Math.min(100,Number(x.average_percent)||0))}%"></span></div>${safe(x.recommendation||'Keep practising.')}</p>`).join('')||'Complete practice exams to build your topic analysis.';
+ }
+}
+
+function studentPage(p,b){
+ document.querySelectorAll('.studentpage').forEach(x=>x.classList.add('hidden'));
+ $('student-'+p).classList.remove('hidden');
+ document.querySelectorAll('#studentTabs button').forEach(x=>x.classList.remove('active'));
+ b.classList.add('active');
+}
+
+// ---------------- EXAM SELECTION ----------------
+
 function startExam(k){
- kind=k;$('setup').classList.add('hidden');$('topicBrowser').classList.add('hidden');
- if(k==='topic'){$('topicBrowser').classList.remove('hidden');topicBrowserMode='subjects';topicBrowserSubject='';loadAvailableTopics();return}
- $('setup').classList.remove('hidden');$('setupTitle').textContent=k==='full'?'Full Subject Examination':'Custom Examination';$('topic').disabled=k==='full';$('count').disabled=k==='full';if(k==='full')$('count').value='100';
+ if(active)return showToast('Finish or exit your current examination first.');
+
+ kind=k;
+ $('setup').classList.add('hidden');
+ $('topicBrowser').classList.add('hidden');
+ $('examArea').classList.add('hidden');
+ $('dailyArea').classList.add('hidden');
+
+ selectedCustomTopics=[];
+ renderCustomSelectionPanel();
+
+ if(k==='topic'||k==='custom'){
+  $('topicBrowser').classList.remove('hidden');
+  $('customSelectionPanel').classList.toggle('hidden',k!=='custom');
+  topicBrowserMode='subjects';
+  topicBrowserSubject='';
+  $('topicBrowserSearch').value='';
+  $('topicBrowserTitle').textContent=k==='custom'?'Build your custom examination':'Browse subjects';
+  $('topicBrowserHint').textContent=k==='custom'?'Choose subjects and add as many topics as you want, including topics from different subjects.':'Choose a subject to see its available approved topics.';
+  loadAvailableTopics();
+  return;
+ }
+
+ if(k==='full'){
+  configureExamSetup('full');
+ }
 }
+
+function configureExamSetup(k){
+ $('setup').classList.remove('hidden');
+
+ $('subjectField').classList.toggle('hidden',k==='custom');
+ $('topicField').classList.toggle('hidden',k==='custom'||k==='full');
+ $('customSetupSummary').classList.toggle('hidden',k!=='custom');
+
+ if(k==='custom'){
+  $('setupTitle').textContent='Custom Examination';
+  $('topic').value='';
+  $('topic').disabled=true;
+  $('count').disabled=false;
+  updateCustomSetupSummary();
+ }else if(k==='full'){
+  $('setupTitle').textContent='Full Subject Examination';
+  $('topic').value='';
+  $('topic').disabled=true;
+  $('count').disabled=true;
+  $('count').value='100';
+ }else{
+  $('setupTitle').textContent='Topic Practice — '+$('topic').value;
+  $('topic').disabled=false;
+  $('count').disabled=false;
+ }
+}
+
+function cancelExamSetup(){
+ $('setup').classList.add('hidden');
+ if(kind==='custom'||kind==='topic')$('topicBrowser').classList.remove('hidden');
+}
+
 async function loadAvailableTopics(){
  if(!sb){$('topicBrowserList').innerHTML='<div class="record-empty">The secure backend is not connected. Please reload and try again.</div>';return}
- if(topicBrowserLoading)return;topicBrowserLoading=true;
- $('topicBrowserSubjects').innerHTML='';$('topicBrowserList').innerHTML='<div class="record-empty">Loading approved topics…</div>';
+ if(topicBrowserLoading)return;
+
+ topicBrowserLoading=true;
+ $('topicBrowserSubjects').innerHTML='';
+ $('topicBrowserList').innerHTML='<div class="record-empty">Loading approved topics…</div>';
+
  try{
-  const {data,error}=await sb.rpc('get_available_topics');if(error)throw error;
+  const {data,error}=await sb.rpc('get_available_topics');
+  if(error)throw error;
   availableTopics=Array.isArray(data)?data:[];
-  if(topicBrowserMode==='subjects')renderTopicBrowserSubjects();else renderTopicBrowserTopics();
- }catch(e){$('topicBrowserSubjects').innerHTML='';$('topicBrowserList').innerHTML=`<div class="record-empty">Could not load topics: ${safe(e.message)}<div class="section"><button class="secondary" onclick="loadAvailableTopics()">Try again</button></div></div>`}
- finally{topicBrowserLoading=false}
+  if(topicBrowserMode==='subjects')renderTopicBrowserSubjects();
+  else renderTopicBrowserTopics();
+  renderCustomSelectionPanel();
+ }catch(e){
+  $('topicBrowserSubjects').innerHTML='';
+  $('topicBrowserList').innerHTML=`<div class="record-empty">Could not load topics: ${safe(e.message)}<div class="section"><button class="secondary" onclick="loadAvailableTopics()">Try again</button></div></div>`;
+ }finally{topicBrowserLoading=false}
 }
+
 function renderTopicBrowserSubjects(){
- topicBrowserMode='subjects';$('topicBrowserTitle').textContent='Browse by subject';$('topicBrowserHint').textContent='Choose a subject to see all its available approved topics.';$('topicBrowserBack').textContent='Close';$('topicBrowserSearchWrap').classList.add('hidden');$('topicBrowserList').innerHTML='';
- $('topicBrowserSubjects').innerHTML=subjects.map(subject=>{const rows=availableTopics.filter(x=>String(x.subject||'').toLowerCase()===subject.toLowerCase());const topicCount=new Set(rows.map(x=>String(x.topic||'').trim()).filter(Boolean)).size;const questionCount=rows.reduce((n,x)=>n+(Number(x.question_count)||0),0);return `<button class="topic-subject-card" onclick="openTopicBrowserSubject(${safe(JSON.stringify(subject))})"><strong>${safe(subject)}</strong><span>${topicCount} topics · ${questionCount} approved questions</span></button>`}).join('');
+ topicBrowserMode='subjects';
+ $('topicBrowserTitle').textContent=kind==='custom'?'Choose a subject':'Browse by subject';
+ $('topicBrowserHint').textContent=kind==='custom'?'Open a subject, then add topics. You can return and choose topics from other subjects.':'Choose a subject to see all its available approved topics.';
+ $('topicBrowserBack').textContent='Close';
+ $('topicBrowserSearchWrap').classList.add('hidden');
+ $('topicBrowserList').innerHTML='';
+
+ $('topicBrowserSubjects').innerHTML=subjects.map(subject=>{
+  const rows=availableTopics.filter(x=>String(x.subject||'').toLowerCase()===subject.toLowerCase());
+  const topicCount=new Set(rows.map(x=>String(x.topic||'').trim()).filter(Boolean)).size;
+  const questionCount=rows.reduce((n,x)=>n+(Number(x.question_count)||0),0);
+  return `<button class="topic-subject-card" onclick="openTopicBrowserSubject(${safe(JSON.stringify(subject))})"><strong>${safe(subject)}</strong><span>${topicCount} topics · ${questionCount} approved questions</span></button>`;
+ }).join('');
 }
+
 function openTopicBrowserSubject(subject){
- topicBrowserSubject=subject;topicBrowserMode='topics';$('topicBrowserSearch').value='';$('topicBrowserSubjects').innerHTML='';$('topicBrowserTitle').textContent=subject+' topics';$('topicBrowserHint').textContent='Choose a topic to continue to exam setup. Question counts include approved questions only.';$('topicBrowserBack').textContent='Back to subjects';$('topicBrowserSearchWrap').classList.remove('hidden');renderTopicBrowserTopics();
+ topicBrowserSubject=subject;
+ topicBrowserMode='topics';
+ $('topicBrowserSearch').value='';
+ $('topicBrowserSubjects').innerHTML='';
+ $('topicBrowserTitle').textContent=subject+' topics';
+ $('topicBrowserHint').textContent=kind==='custom'?'Tap Add to include a topic in your custom examination. Your previous selections will be kept.':'Choose a topic to continue to exam setup.';
+ $('topicBrowserBack').textContent='Back to subjects';
+ $('topicBrowserSearchWrap').classList.remove('hidden');
+ renderTopicBrowserTopics();
 }
+
+function isCustomTopicSelected(subject,topic){
+ return selectedCustomTopics.some(x=>x.subject.toLowerCase()===subject.toLowerCase()&&x.topic.toLowerCase()===topic.toLowerCase());
+}
+
 function renderTopicBrowserTopics(){
  if(topicBrowserMode!=='topics')return;
- const query=norm($('topicBrowserSearch').value),rows=availableTopics.filter(x=>String(x.subject||'').toLowerCase()===topicBrowserSubject.toLowerCase()).filter(x=>{
+
+ const query=norm($('topicBrowserSearch').value);
+ const rows=availableTopics
+ .filter(x=>String(x.subject||'').toLowerCase()===topicBrowserSubject.toLowerCase())
+ .filter(x=>{
   const topic=String(x.topic||'').trim(),key=norm(topic),aliases=topicAliases[key]||[];
   return !query||key.includes(query)||aliases.some(alias=>norm(alias).includes(query));
- }).sort((a,b)=>String(a.topic||'').localeCompare(String(b.topic||'')));
- if(!rows.length){$('topicBrowserList').innerHTML='<div class="record-empty">'+(query?'No matching topics found. Try another search.':'No approved topics are available for this subject yet.')+'</div>';return}
- $('topicBrowserList').innerHTML=rows.map(x=>`<div class="topic-browser-item"><div><strong>${safe(x.topic)}</strong><small>${Number(x.question_count)||0} approved questions</small></div><button onclick="selectBrowserTopic(${safe(JSON.stringify(String(x.topic||'')))})">Choose</button></div>`).join('');
+ })
+ .sort((a,b)=>String(a.topic||'').localeCompare(String(b.topic||'')));
+
+ if(!rows.length){
+  $('topicBrowserList').innerHTML='<div class="record-empty">'+(query?'No matching topics found. Try another search.':'No approved topics are available for this subject yet.')+'</div>';
+  return;
+ }
+
+ $('topicBrowserList').innerHTML=rows.map(x=>{
+  const topic=String(x.topic||'');
+  const selected=isCustomTopicSelected(topicBrowserSubject,topic);
+  if(kind==='custom'){
+   return `<div class="topic-browser-item ${selected?'selected':''}">
+    <div><strong>${safe(topic)}</strong><small>${Number(x.question_count)||0} approved questions</small></div>
+    <button class="${selected?'secondary':''}" onclick="toggleCustomTopic(${safe(JSON.stringify(topicBrowserSubject))},${safe(JSON.stringify(topic))})">${selected?'Remove':'Add'}</button>
+   </div>`;
+  }
+  return `<div class="topic-browser-item">
+   <div><strong>${safe(topic)}</strong><small>${Number(x.question_count)||0} approved questions</small></div>
+   <button onclick="selectBrowserTopic(${safe(JSON.stringify(topic))})">Choose</button>
+  </div>`;
+ }).join('');
 }
-function selectBrowserTopic(topic){
- if(!topic)return;$('subject').value=topicBrowserSubject;$('topic').value=topic;$('count').value='20';$('topic').disabled=false;$('count').disabled=false;kind='topic';$('topicBrowser').classList.add('hidden');$('setupTitle').textContent='Topic Practice — '+topic;$('setup').classList.remove('hidden');
+
+function toggleCustomTopic(subject,topic){
+ const index=selectedCustomTopics.findIndex(x=>x.subject.toLowerCase()===subject.toLowerCase()&&x.topic.toLowerCase()===topic.toLowerCase());
+
+ if(index>=0)selectedCustomTopics.splice(index,1);
+ else selectedCustomTopics.push({subject,topic});
+
+ renderTopicBrowserTopics();
+ renderCustomSelectionPanel();
 }
-function topicBrowserBack(){
- if(topicBrowserMode==='topics'){topicBrowserMode='subjects';topicBrowserSubject='';$('topicBrowserSearch').value='';renderTopicBrowserSubjects();return}
+
+function renderCustomSelectionPanel(){
+ if(!$('customSelectionPanel'))return;
+
+ const count=selectedCustomTopics.length;
+ $('customSelectionCount').textContent=count+' topic'+(count===1?'':'s')+' selected';
+ $('customContinueBtn').disabled=count===0;
+
+ if(!count){
+  $('customSelectedList').innerHTML='<div class="record-empty">No topics selected yet. Choose a subject and add topics.</div>';
+  return;
+ }
+
+ $('customSelectedList').innerHTML=selectedCustomTopics.map((x,i)=>`
+  <div class="custom-selection-chip">
+   <span><b>${safe(x.subject)}</b> · ${safe(x.topic)}</span>
+   <button class="secondary" onclick="removeCustomTopic(${i})">Remove</button>
+  </div>
+ `).join('');
+}
+
+function removeCustomTopic(index){
+ selectedCustomTopics.splice(index,1);
+ renderCustomSelectionPanel();
+ renderTopicBrowserTopics();
+}
+
+function updateCustomSetupSummary(){
+ const count=selectedCustomTopics.length;
+ $('customSetupSummary').innerHTML=`<b>${count} selected topics</b><div class="section">${selectedCustomTopics.map(x=>`<div>${safe(x.subject)} · ${safe(x.topic)}</div>`).join('')}</div><button class="secondary" onclick="editCustomTopicSelection()">Edit selected topics</button>`;
+}
+
+function editCustomTopicSelection(){
+ $('setup').classList.add('hidden');
+ $('topicBrowser').classList.remove('hidden');
+ $('customSelectionPanel').classList.remove('hidden');
+ topicBrowserMode='subjects';
+ topicBrowserSubject='';
+ renderTopicBrowserSubjects();
+ renderCustomSelectionPanel();
+}
+
+function finishCustomTopicSelection(){
+ if(!selectedCustomTopics.length)return showToast('Select at least one topic first.');
  $('topicBrowser').classList.add('hidden');
+ kind='custom';
+ configureExamSetup('custom');
 }
+
+function selectBrowserTopic(topic){
+ if(!topic)return;
+ $('subject').value=topicBrowserSubject;
+ $('topic').value=topic;
+ $('count').value='20';
+ $('topic').disabled=false;
+ $('count').disabled=false;
+ kind='topic';
+ $('topicBrowser').classList.add('hidden');
+ configureExamSetup('topic');
+}
+
+function topicBrowserBack(){
+ if(topicBrowserMode==='topics'){
+  topicBrowserMode='subjects';
+  topicBrowserSubject='';
+  $('topicBrowserSearch').value='';
+  renderTopicBrowserSubjects();
+  return;
+ }
+ $('topicBrowser').classList.add('hidden');
+ $('customSelectionPanel').classList.add('hidden');
+}
+
+// ---------------- START EXAM ----------------
+
 async function beginExam(){
- if(!sb)return showToast('The backend is not configured yet.');if(active)return showToast('An examination is already in progress.');
- const topic=$('topic').value.trim();if(kind==='topic'&&!topic)return showToast('Enter a topic.');
- const btn=document.querySelector('#setup button[onclick="beginExam()"]');if(btn)btn.disabled=true;
+ if(!sb)return showToast('The backend is not configured yet.');
+ if(active)return showToast('An examination is already in progress.');
+
+ const topic=$('topic').value.trim();
+ if(kind==='topic'&&!topic)return showToast('Select a topic.');
+ if(kind==='custom'&&!selectedCustomTopics.length)return showToast('Select at least one topic.');
+
+ const btn=document.querySelector('#setup button[onclick="beginExam()"]');
+ if(btn)btn.disabled=true;
+
  try{
-  const {data,error}=await sb.rpc('start_student_exam',{p_exam_type:kind,p_subject:$('subject').value,p_topic:topic||null,p_question_count:kind==='full'?null:Number($('count').value)});
+  let data,error;
+
+  if(kind==='custom'){
+   const result=await sb.rpc('start_custom_student_exam',{
+    p_selected_topics:selectedCustomTopics,
+    p_question_count:Number($('count').value)
+   });
+   data=result.data;error=result.error;
+  }else{
+   const result=await sb.rpc('start_student_exam',{
+    p_exam_type:kind,
+    p_subject:$('subject').value,
+    p_topic:kind==='full'?null:(topic||null),
+    p_question_count:kind==='full'?null:Number($('count').value)
+   });
+   data=result.data;error=result.error;
+  }
+
   if(error)throw error;
-  qs=data?.questions||data?.attempt?.questions||data||[];attemptId=data?.attempt_id||data?.attempt?.id||null;
+
+  qs=data?.questions||data?.attempt?.questions||data||[];
+  attemptId=data?.attempt_id||data?.attempt?.id||null;
+
   if(!Array.isArray(qs)||!qs.length)throw new Error('There are not enough approved questions for this exam.');
-  answers={};$('setup').classList.add('hidden');active=true;submitInFlight=false;
-  left=Number(data?.duration_seconds||Number($('duration').value)*60);renderExam();history.pushState({exam:true},'','#exam');
-  saveLocalBackup();await saveExamProgress();startExamClock();tick();addEventListener('beforeunload',beforeUnload);
- }catch(e){showToast('Could not start examination: '+e.message)}finally{if(btn)btn.disabled=false}
+  if(!attemptId)throw new Error('The server did not return an examination ID.');
+
+  answers={};
+  $('setup').classList.add('hidden');
+  active=true;
+  submitInFlight=false;
+  left=Number(data?.duration_seconds||Number($('duration').value)*60);
+
+  renderExam();
+  history.pushState({exam:true},'','#exam');
+  saveLocalBackup();
+  await saveExamProgress();
+  startExamClock();
+  tick();
+  addEventListener('beforeunload',beforeUnload);
+
+ }catch(e){
+  showToast('Could not start examination: '+e.message);
+ }finally{
+  if(btn)btn.disabled=false;
+ }
 }
-function renderExam(){let examTitle=kind==='daily'?'Daily Challenge':safe($('subject').value)+' examination';let h=`<div class="between"><h2>${examTitle}</h2><b id="clock"></b></div><p class="small muted">Your answers are saved as you work. If your connection drops, keep this page open until it reconnects.</p>`;qs.forEach((q,i)=>{h+=`<div class="section"><b>${i+1}. ${safe(q.question_text||q.question)}</b><button class="secondary" onclick="bookmark(${i})">☆ Save</button> <button class="secondary" onclick="reportQuestion(${i})">Report</button>`;['A','B','C','D'].forEach(a=>h+=`<label class="qopt"><input type="radio" name="q${i}" ${answers[i]===a?'checked':''} onchange="setAnswer(${i},'${a}')"> ${a}. ${safe(q['option_'+a.toLowerCase()]??q[a]??'')}</label>`);h+='</div>'});h+='<button id="submitExamBtn" class="good" onclick="submitExam()">Submit examination</button> <button class="secondary" onclick="requestExit()">Exit exam</button><p id="saveState" class="status-line">Saving answers…</p>';$('examArea').innerHTML=h;$('examArea').classList.remove('hidden')}
-function setAnswer(i,a){answers[i]=a;saveLocalBackup();$('saveState').textContent='Saving answer…';if(autosaveTimer)clearTimeout(autosaveTimer);autosaveTimer=setTimeout(saveExamProgress,450)}
-function saveLocalBackup(){if(!attemptId)return;try{localStorage.setItem('kg_exam_backup_'+attemptId,JSON.stringify({attemptId,answers,updatedAt:Date.now()}))}catch(e){}}
+
+function renderExam(){
+ let examTitle='';
+
+ if(kind==='daily')examTitle='Daily Challenge';
+ else if(kind==='custom')examTitle='Custom Examination';
+ else if(kind==='topic')examTitle='Topic Practice — '+safe($('topic').value);
+ else examTitle=safe($('subject').value)+' Full Subject Examination';
+
+ let h=`<div class="between"><h2>${examTitle}</h2><b id="clock"></b></div>`;
+
+ if(kind==='custom'){
+  h+=`<div class="notice"><b>Selected topics</b><div class="section">${selectedCustomTopics.map(x=>`<div>${safe(x.subject)} · ${safe(x.topic)}</div>`).join('')}</div></div>`;
+ }
+
+ h+=`<p class="small muted">Your answers are saved as you work. If your connection drops, keep this page open until it reconnects.</p>`;
+
+ qs.forEach((q,i)=>{
+  h+=`<div class="section"><b>${i+1}. ${safe(q.question_text||q.question)}</b><button class="secondary" onclick="bookmark(${i})">☆ Save</button> <button class="secondary" onclick="reportQuestion(${i})">Report</button>`;
+  ['A','B','C','D'].forEach(a=>{
+   h+=`<label class="qopt"><input type="radio" name="q${i}" ${answers[i]===a?'checked':''} onchange="setAnswer(${i},'${a}')"> ${a}. ${safe(q['option_'+a.toLowerCase()]??q[a]??'')}</label>`;
+  });
+  h+='</div>';
+ });
+
+ h+='<button id="submitExamBtn" class="good" onclick="submitExam()">Submit examination</button> <button class="secondary" onclick="requestExit()">Exit exam</button><p id="saveState" class="status-line">Saving answers…</p>';
+ $('examArea').innerHTML=h;
+ $('examArea').classList.remove('hidden');
+}
+
+// ---------------- EXAM SAVING AND RESUMING ----------------
+
+function setAnswer(i,a){
+ answers[i]=a;
+ saveLocalBackup();
+ $('saveState').textContent='Saving answer…';
+ if(autosaveTimer)clearTimeout(autosaveTimer);
+ autosaveTimer=setTimeout(saveExamProgress,450);
+}
+
+function saveLocalBackup(){
+ if(!attemptId)return;
+ try{localStorage.setItem('kg_exam_backup_'+attemptId,JSON.stringify({attemptId,answers,updatedAt:Date.now()}))}catch(e){}
+}
+
 async function saveExamProgress(){
  if(!sb||!attemptId||!active)return;
- saveLocalBackup();progressDirty=true;
+
+ saveLocalBackup();
+ progressDirty=true;
+
  if(progressSaving){await progressSavePromise;return}
  progressSaving=true;
+
  progressSavePromise=(async()=>{
   while(progressDirty&&active){
    progressDirty=false;
-   const payload={p_attempt_id:attemptId,p_answers:qs.map((q,i)=>({question_id:q.id,answer:answers[i]||null})),p_time_remaining_seconds:left};
-   try{const {error}=await sb.rpc('save_exam_progress',payload);if(error)throw error;if($('saveState'))$('saveState').textContent='Answers saved to your account.'}
-   catch(e){if($('saveState'))$('saveState').textContent='Offline backup saved on this device. Server sync will retry.';break}
+   const payload={
+    p_attempt_id:attemptId,
+    p_answers:qs.map((q,i)=>({question_id:q.id,answer:answers[i]||null})),
+    p_time_remaining_seconds:left
+   };
+   try{
+    const {error}=await sb.rpc('save_exam_progress',payload);
+    if(error)throw error;
+    if($('saveState'))$('saveState').textContent='Answers saved to your account.';
+   }catch(e){
+    if($('saveState'))$('saveState').textContent='Offline backup saved on this device. Server sync will retry.';
+    break;
+   }
   }
  })();
- try{await progressSavePromise}finally{progressSaving=false;progressSavePromise=null}
+
+ try{await progressSavePromise}
+ finally{progressSaving=false;progressSavePromise=null}
 }
-function startExamClock(){if(timer)clearInterval(timer);if(left<=0){tick();submitExam(true);return}timer=setInterval(()=>{left=Math.max(0,left-1);tick();if(left>0&&left%15===0)saveExamProgress();if(left<=0){clearInterval(timer);timer=null;submitExam(true)}},1000)}
-async function resumeActiveExam(){if(!sb||active)return;try{const {data,error}=await sb.rpc('get_my_active_exam');if(error||!data||!data.attempt_id)return;attemptId=data.attempt_id;qs=data.questions||[];if(!qs.length)return;const backup=localStorage.getItem('kg_exam_backup_'+attemptId);answers=data.answers||{};if(backup){const b=JSON.parse(backup);answers={...answers,...(b.answers||{})}}kind=data.exam_type||'custom';dailyChallengeSubject=data.subject||'';$('subject').value=data.subject||'English';left=Number(data.time_remaining_seconds??data.duration_seconds??900);active=true;submitInFlight=false;renderExam();history.pushState({exam:true},'','#exam');await saveExamProgress();startExamClock();tick();addEventListener('beforeunload',beforeUnload);showToast('Your unfinished examination has been restored.')}catch(e){console.warn('Resume exam:',e)}}
+
+function startExamClock(){
+ if(timer)clearInterval(timer);
+ if(left<=0){tick();submitExam(true);return}
+ timer=setInterval(()=>{
+  left=Math.max(0,left-1);
+  tick();
+  if(left>0&&left%15===0)saveExamProgress();
+  if(left<=0){clearInterval(timer);timer=null;submitExam(true)}
+ },1000);
+}
+
+async function resumeActiveExam(){
+ if(!sb||active)return;
+ try{
+  const {data,error}=await sb.rpc('get_my_active_exam');
+  if(error||!data||!data.attempt_id)return;
+
+  attemptId=data.attempt_id;
+  qs=data.questions||[];
+  if(!qs.length)return;
+
+  const backup=localStorage.getItem('kg_exam_backup_'+attemptId);
+  answers=data.answers||{};
+
+  if(backup){
+   const b=JSON.parse(backup);
+   answers={...answers,...(b.answers||{})};
+  }
+
+  kind=data.exam_type||'custom';
+  dailyChallengeSubject=data.subject||'';
+
+  if(subjects.includes(data.subject))$('subject').value=data.subject;
+  if(data.topic)$('topic').value=data.topic;
+
+  selectedCustomTopics=Array.isArray(data.selected_topics)?data.selected_topics:[];
+
+  left=Number(data.time_remaining_seconds??data.duration_seconds??900);
+  active=true;
+  submitInFlight=false;
+
+  renderExam();
+  history.pushState({exam:true},'','#exam');
+  await saveExamProgress();
+  startExamClock();
+  tick();
+  addEventListener('beforeunload',beforeUnload);
+  showToast('Your unfinished examination has been restored.');
+ }catch(e){console.warn('Resume exam:',e)}
+}
+
 function tick(){if($('clock'))$('clock').textContent=Math.floor(left/60)+':'+String(left%60).padStart(2,'0')}
 function beforeUnload(e){if(active){e.preventDefault();e.returnValue='Examination in progress.'}}
-function requestExit(){$('exitModal').classList.remove('hidden')}function continueExam(){$('exitModal').classList.add('hidden')}
-async function confirmExit(){if(!active)return;$('exitModal').classList.add('hidden');try{await saveExamProgress();const {error}=await sb.rpc('abandon_student_exam',{p_attempt_id:attemptId});if(error)throw error;finishLocalExam();showToast('Your attempt has been marked abandoned and cannot be resumed.')}catch(e){showToast('Could not confirm exit: '+e.message+'. Your answers remain on this device; the exam is still open.')}}
-function finishLocalExam(){active=false;clearInterval(timer);timer=null;if(autosaveTimer)clearTimeout(autosaveTimer);removeEventListener('beforeunload',beforeUnload);$('examArea').classList.add('hidden');history.replaceState({},'',location.pathname);}
-onpopstate=()=>{if(active){history.pushState({exam:true},'','#exam');requestExit()}}
-function renderQuestionReview(q,i){const selected=String(q.selected_answer??q.student_answer??'').toUpperCase();const correct=String(q.correct_answer??'').toUpperCase();const options=['A','B','C','D'].map(letter=>{const value=q['option_'+letter.toLowerCase()]??q['option'+letter]??q[letter]??'';let note='';if(letter===correct&&letter===selected)note=' — Your answer · Correct';else if(letter===correct)note=' — Correct answer';else if(letter===selected)note=' — Your answer';return `<div class="qopt"><b>${letter}.</b> ${safe(value)}<b>${safe(note)}</b></div>`}).join('');return `<div class="section card"><b>${i+1}. ${safe(q.question_text??q.question??'Question unavailable')}</b>${options}<p><b>Your answer:</b> ${safe(selected||'Not answered')}</p><p><b>Correct answer:</b> ${safe(correct||'Unavailable')}</p><p><b>Explanation:</b> ${safe(q.explanation||'Explanation pending.')}</p></div>`}
+function requestExit(){$('exitModal').classList.remove('hidden')}
+function continueExam(){$('exitModal').classList.add('hidden')}
+
+async function confirmExit(){
+ if(!active)return;
+ $('exitModal').classList.add('hidden');
+ try{
+  await saveExamProgress();
+  const {error}=await sb.rpc('abandon_student_exam',{p_attempt_id:attemptId});
+  if(error)throw error;
+  finishLocalExam();
+  showToast('Your attempt has been marked abandoned and cannot be resumed.');
+ }catch(e){
+  showToast('Could not confirm exit: '+e.message+'. Your answers remain on this device; the exam is still open.');
+ }
+}
+
+function finishLocalExam(){
+ active=false;
+ clearInterval(timer);
+ timer=null;
+ if(autosaveTimer)clearTimeout(autosaveTimer);
+ removeEventListener('beforeunload',beforeUnload);
+ $('examArea').classList.add('hidden');
+ history.replaceState({},'',location.pathname);
+}
+
+onpopstate=()=>{
+ if(active){history.pushState({exam:true},'','#exam');requestExit()}
+};
+
+function renderQuestionReview(q,i){
+ const selected=String(q.selected_answer??q.student_answer??'').toUpperCase();
+ const correct=String(q.correct_answer??'').toUpperCase();
+ const options=['A','B','C','D'].map(letter=>{
+  const value=q['option_'+letter.toLowerCase()]??q['option'+letter]??q[letter]??'';
+  let note='';
+  if(letter===correct&&letter===selected)note=' — Your answer · Correct';
+  else if(letter===correct)note=' — Correct answer';
+  else if(letter===selected)note=' — Your answer';
+  return `<div class="qopt"><b>${letter}.</b> ${safe(value)}<b>${safe(note)}</b></div>`;
+ }).join('');
+ return `<div class="section card"><b>${i+1}. ${safe(q.question_text??q.question??'Question unavailable')}</b>${options}<p><b>Your answer:</b> ${safe(selected||'Not answered')}</p><p><b>Correct answer:</b> ${safe(correct||'Unavailable')}</p><p><b>Explanation:</b> ${safe(q.explanation||'Explanation pending.')}</p></div>`;
+}
+
 async function submitExam(auto=false){
- if(!active||submitInFlight)return;submitInFlight=true;const btn=$('submitExamBtn');if(btn)btn.disabled=true;if($('saveState'))$('saveState').textContent='Submitting securely…';
+ if(!active||submitInFlight)return;
+ submitInFlight=true;
+ const btn=$('submitExamBtn');
+ if(btn)btn.disabled=true;
+ if($('saveState'))$('saveState').textContent='Submitting securely…';
+
  try{
   if(autosaveTimer){clearTimeout(autosaveTimer);autosaveTimer=null}
-  // Flush the latest queued autosave before submission. The submit RPC also
-  // receives the complete current answer set, so it remains authoritative.
   await saveExamProgress();
-  const {data,error}=await sb.rpc('submit_student_exam',{p_attempt_id:attemptId,p_answers:qs.map((q,i)=>({question_id:q.id,answer:answers[i]||null})),p_auto_submitted:auto});if(error)throw error;
-  // Only close the attempt after the server confirms successful submission.
-  active=false;submitInFlight=false;clearInterval(timer);timer=null;if(autosaveTimer)clearTimeout(autosaveTimer);removeEventListener('beforeunload',beforeUnload);if(attemptId)localStorage.removeItem('kg_exam_backup_'+attemptId);const review=Array.isArray(data?.review)?data.review:[];$('examArea').innerHTML='<h2>Examination submitted</h2><p>Result confirmed and saved by the server.</p>'+(data?.score!==undefined?`<div class="metric">${safe(data.score)} / ${safe(data.total||qs.length)}</div>`:'')+(auto?'<p class="notice">Your time ended and the examination was submitted automatically.</p>':'')+(review.length?review.map((x,i)=>renderQuestionReview(x,i)).join(''):'<p class="muted">The result was saved, but detailed review was not returned.</p>');await loadStudent();
- }catch(e){submitInFlight=false;if(btn)btn.disabled=false;if($('saveState'))$('saveState').textContent='Submission not confirmed. Your answers are preserved; tap Submit examination to retry.';showToast('Submission failed: '+e.message+'. Your examination has NOT been closed. Retry submission when the connection is available.')}
+
+  const {data,error}=await sb.rpc('submit_student_exam',{
+   p_attempt_id:attemptId,
+   p_answers:qs.map((q,i)=>({question_id:q.id,answer:answers[i]||null})),
+   p_auto_submitted:auto
+  });
+  if(error)throw error;
+
+  active=false;
+  submitInFlight=false;
+  clearInterval(timer);
+  timer=null;
+  if(autosaveTimer)clearTimeout(autosaveTimer);
+  removeEventListener('beforeunload',beforeUnload);
+  if(attemptId)localStorage.removeItem('kg_exam_backup_'+attemptId);
+
+  const review=Array.isArray(data?.review)?data.review:[];
+  $('examArea').innerHTML='<h2>Examination submitted</h2><p>Result confirmed and saved by the server.</p>'+
+   (data?.score!==undefined?`<div class="metric">${safe(data.score)} / ${safe(data.total||qs.length)}</div>`:'')+
+   (auto?'<p class="notice">Your time ended and the examination was submitted automatically.</p>':'')+
+   (review.length?review.map((x,i)=>renderQuestionReview(x,i)).join(''):'<p class="muted">The result was saved, but detailed review was not returned.</p>');
+
+  await loadStudent();
+ }catch(e){
+  submitInFlight=false;
+  if(btn)btn.disabled=false;
+  if($('saveState'))$('saveState').textContent='Submission not confirmed. Your answers are preserved; tap Submit examination to retry.';
+  showToast('Submission failed: '+e.message+'. Your examination has NOT been closed. Retry submission when the connection is available.');
+ }
 }
-async function bookmark(i){if(!sb)return;const {error}=await sb.rpc('toggle_question_bookmark',{p_question_id:qs[i].id});showToast(error?'Bookmark unavailable: '+error.message:'Bookmark updated.')}
-async function reportQuestion(i){const reason=prompt('Describe the issue: wrong answer, typo, duplicate or unclear question');if(!reason)return;const {error}=await sb.rpc('report_question_issue',{p_question_id:qs[i].id,p_reason:reason});showToast(error?error.message:'Report sent to admin.')}
-async function reviewAttempt(id){const {data,error}=await sb.rpc('get_exam_review',{p_attempt_id:id});if(error)return showToast(error.message);const items=Array.isArray(data)?data:(data?.questions||data?.review||[]);$('historyList').innerHTML='<h3>Complete exam review</h3>'+(items.length?items.map((q,i)=>renderQuestionReview(q,i)).join(''):'<p>No review questions were returned for this attempt.</p>')}
-async function loadSaved(mode){const {data,error}=await sb.rpc('get_my_revision_list',{p_mode:mode});$('savedList').innerHTML=error?safe(error.message):(data||[]).map(q=>`<div class="card section"><b>${safe(q.question_text)}</b><p>${safe(q.subject)} · ${safe(q.topic)}</p>${safe(q.explanation)}</div>`).join('')||'No saved questions.'}
-async function loadDaily(){if(!sb)return;const area=$('dailyArea');area.classList.remove('hidden');area.textContent='Loading challenge…';const {data,error}=await sb.rpc('get_current_daily_challenge');if(error){area.textContent='Daily Challenge is not available: '+error.message;return}if(!data){area.textContent='No challenge has been published for today yet.';return}dailyChallengeSubject=data.subject||'';area.innerHTML=`<h3>${safe(data.subject)} Daily Challenge</h3><p>${safe(data.topic||'Mixed questions')} · ${safe(data.question_count||'')} questions · ${safe(data.duration_minutes||'')} minutes</p><button onclick="showDailyChallengeWarning()">Start challenge</button>`}
-function showDailyChallengeWarning(){if(active)return showToast('Finish or exit your current examination before starting another.');$('dailyConfirmModal').classList.remove('hidden')}
+
+async function bookmark(i){
+ if(!sb)return;
+ const {error}=await sb.rpc('toggle_question_bookmark',{p_question_id:qs[i].id});
+ showToast(error?'Bookmark unavailable: '+error.message:'Bookmark updated.');
+}
+
+async function reportQuestion(i){
+ const reason=prompt('Describe the issue: wrong answer, typo, duplicate or unclear question');
+ if(!reason)return;
+ const {error}=await sb.rpc('report_question_issue',{p_question_id:qs[i].id,p_reason:reason});
+ showToast(error?error.message:'Report sent to admin.');
+}
+
+async function reviewAttempt(id){
+ const {data,error}=await sb.rpc('get_exam_review',{p_attempt_id:id});
+ if(error)return showToast(error.message);
+ const items=Array.isArray(data)?data:(data?.questions||data?.review||[]);
+ $('historyList').innerHTML='<h3>Complete exam review</h3>'+(items.length?items.map((q,i)=>renderQuestionReview(q,i)).join(''):'<p>No review questions were returned for this attempt.</p>');
+}
+
+async function loadSaved(mode){
+ const {data,error}=await sb.rpc('get_my_revision_list',{p_mode:mode});
+ $('savedList').innerHTML=error?safe(error.message):(data||[]).map(q=>`<div class="card section"><b>${safe(q.question_text)}</b><p>${safe(q.subject)} · ${safe(q.topic)}</p>${safe(q.explanation)}</div>`).join('')||'No saved questions.';
+}
+
+// ---------------- DAILY CHALLENGE ----------------
+
+async function loadDaily(){
+ if(!sb)return;
+ const area=$('dailyArea');
+ area.classList.remove('hidden');
+ area.textContent='Loading challenge…';
+ const {data,error}=await sb.rpc('get_current_daily_challenge');
+ if(error){area.textContent='Daily Challenge is not available: '+error.message;return}
+ if(!data){area.textContent='No challenge has been published for today yet.';return}
+ dailyChallengeSubject=data.subject||'';
+ area.innerHTML=`<h3>${safe(data.subject)} Daily Challenge</h3><p>${safe(data.topic||'Mixed questions')} · ${safe(data.question_count||'')} questions · ${safe(data.duration_minutes||'')} minutes</p><button onclick="showDailyChallengeWarning()">Start challenge</button>`;
+}
+
+function showDailyChallengeWarning(){
+ if(active)return showToast('Finish or exit your current examination before starting another.');
+ $('dailyConfirmModal').classList.remove('hidden');
+}
 function cancelDailyChallenge(){$('dailyConfirmModal').classList.add('hidden')}
 async function confirmDailyChallenge(){$('dailyConfirmModal').classList.add('hidden');await startDailyExam()}
-async function startDailyExam(){if(!sb)return;if(active)return showToast('An examination is already in progress.');const {data,error}=await sb.rpc('start_daily_challenge_attempt');if(error)return showToast(error.message);qs=data?.questions||[];attemptId=data?.attempt_id||null;if(!qs.length||!attemptId)return showToast('No challenge questions were returned.');kind='daily';answers={};left=Number(data.time_remaining_seconds??data.duration_seconds??900);active=true;submitInFlight=false;renderExam();$('dailyArea').classList.add('hidden');saveLocalBackup();await saveExamProgress();startExamClock();tick();addEventListener('beforeunload',beforeUnload)}
-async function saveProfile(){const full_name=$('profileName').value.trim();if(!full_name)return showToast('Full name cannot be empty.');const {error}=await sb.rpc('update_my_profile',{p_full_name:full_name});if(error)return showToast(error.message);profile.full_name=full_name;$('who').textContent=full_name;showToast('Profile updated.')}
-async function loadCollector(){const {data,error}=await sb.rpc('get_my_collector_dashboard');if(error){$('collectorSubjects').textContent='Setup needed';$('collectorHistory').textContent=error.message;return}$('collectorSubjects').textContent=(data.assigned_subjects||[]).join(', ');$('collectorBatches').textContent=data.batch_count??0;$('collectorApproved').textContent=data.approved_question_count??0;renderReadableRecords('collectorHistory',data.submissions||[],'No submissions have been recorded yet.')}
-function csvParse(s){let out=[],r=[],v='',q=false;for(let i=0;i<s.length;i++){let c=s[i];if(c==='"'&&q&&s[i+1]==='"'){v+='"';i++}else if(c==='"')q=!q;else if(c===','&&!q){r.push(v);v=''}else if((c==='\n'||c==='\r')&&!q){if(c==='\r'&&s[i+1]==='\n')i++;r.push(v);if(r.some(x=>x.trim()))out.push(r);r=[];v=''}else v+=c}r.push(v);if(r.some(x=>x.trim()))out.push(r);return out}
+
+async function startDailyExam(){
+ if(!sb)return;
+ if(active)return showToast('An examination is already in progress.');
+ const {data,error}=await sb.rpc('start_daily_challenge_attempt');
+ if(error)return showToast(error.message);
+ qs=data?.questions||[];
+ attemptId=data?.attempt_id||null;
+ if(!qs.length||!attemptId)return showToast('No challenge questions were returned.');
+ kind='daily';
+ answers={};
+ left=Number(data.time_remaining_seconds??data.duration_seconds??900);
+ active=true;
+ submitInFlight=false;
+ renderExam();
+ $('dailyArea').classList.add('hidden');
+ saveLocalBackup();
+ await saveExamProgress();
+ startExamClock();
+ tick();
+ addEventListener('beforeunload',beforeUnload);
+}
+
+// ---------------- PROFILE ----------------
+
+async function saveProfile(){
+ const full_name=$('profileName').value.trim();
+ if(!full_name)return showToast('Full name cannot be empty.');
+ const {error}=await sb.rpc('update_my_profile',{p_full_name:full_name});
+ if(error)return showToast(error.message);
+ profile.full_name=full_name;
+ $('who').textContent=full_name;
+ showToast('Profile updated.');
+}
+
+// ---------------- COLLECTOR AND IMPORTER ----------------
+
+async function loadCollector(){
+ const {data,error}=await sb.rpc('get_my_collector_dashboard');
+ if(error){$('collectorSubjects').textContent='Setup needed';$('collectorHistory').textContent=error.message;return}
+ $('collectorSubjects').textContent=(data.assigned_subjects||[]).join(', ');
+ $('collectorBatches').textContent=data.batch_count??0;
+ $('collectorApproved').textContent=data.approved_question_count??0;
+ renderReadableRecords('collectorHistory',data.submissions||[],'No submissions have been recorded yet.');
+}
+
+function csvParse(s){
+ let out=[],r=[],v='',q=false;
+ for(let i=0;i<s.length;i++){
+  let c=s[i];
+  if(c==='"'&&q&&s[i+1]==='"'){v+='"';i++}
+  else if(c==='"')q=!q;
+  else if(c===','&&!q){r.push(v);v=''}
+  else if((c==='\n'||c==='\r')&&!q){
+   if(c==='\r'&&s[i+1]==='\n')i++;
+   r.push(v);
+   if(r.some(x=>x.trim()))out.push(r);
+   r=[];v='';
+  }else v+=c;
+ }
+ r.push(v);
+ if(r.some(x=>x.trim()))out.push(r);
+ return out;
+}
+
 function norm(s){return String(s||'').toLowerCase().replace(/[^a-z0-9]/g,'')}
-function mapQ(h,r){const a={subject:['subject'],topic:['topic','chapter'],question_text:['question','questiontext'],option_a:['a','optiona','option1'],option_b:['b','optionb','option2'],option_c:['c','optionc','option3'],option_d:['d','optiond','option4'],correct_answer:['answer','correctanswer','correctoption','key'],explanation:['explanation','solution']},o={};for(const k in a){const i=h.findIndex(x=>a[k].includes(norm(x)));o[k]=i<0?'':String(r[i]??'').trim()}return o}
-async function previewBulk(){try{const f=$('bulkFile').files[0];if(!f)return showToast('Choose a file.');let rows;if(f.name.toLowerCase().endsWith('.csv'))rows=csvParse(await f.text());else{if(!window.XLSX)return showToast('Excel parser unavailable; try CSV.');const w=XLSX.read(await f.arrayBuffer(),{type:'array'});rows=XLSX.utils.sheet_to_json(w.Sheets[w.SheetNames[0]],{header:1,defval:''})}if(!rows.length)return showToast('The file is empty.');const seen=new Set();staged=rows.slice(1).map((r,i)=>{const q=mapQ(rows[0],r),issues=[];if(!subjects.includes(q.subject))issues.push('Invalid subject');if(!q.topic)issues.push('Missing topic');if(!q.question_text)issues.push('Missing question');['option_a','option_b','option_c','option_d'].forEach(k=>{if(!q[k])issues.push('Missing option '+k.slice(-1))});q.correct_answer=q.correct_answer.toUpperCase();if(!['A','B','C','D'].includes(q.correct_answer))issues.push('Missing/invalid answer');const fp=(q.subject+'|'+q.question_text).toLowerCase().replace(/\s+/g,' ').trim();if(seen.has(fp))issues.push('Duplicate within this file');seen.add(fp);q.issues=issues;q.row=i+2;return q});const good=staged.filter(x=>!x.issues.length).length;$('importSummary').textContent=`${staged.length} rows · ${good} valid · ${staged.length-good} need correction. Answers are never guessed.`;$('importPreview').innerHTML='<table class="table"><tr><th>Row</th><th>Subject/topic</th><th>Question</th><th>Answer</th><th>Validation</th></tr>'+staged.slice(0,50).map(q=>`<tr><td>${q.row}</td><td>${safe(q.subject)}<br>${safe(q.topic)}</td><td>${safe(q.question_text)}</td><td>${safe(q.correct_answer)}</td><td>${safe(q.issues.join(', ')||'Ready')}</td></tr>`).join('')+'</table>';$('submitBatch').classList.toggle('hidden',!good)}catch(e){showToast('Could not read file: '+e.message)}}
-async function submitBatch(){if(!sb)return showToast('Backend not configured.');const valid=staged.filter(q=>!q.issues.length);if(!valid.length)return showToast('There are no valid rows to submit.');const btn=$('submitBatch');btn.disabled=true;try{const {error}=await sb.rpc('create_question_submission',{p_questions:valid});if(error)throw error;showToast('Batch submitted for review.');staged=[];$('importPreview').innerHTML='';btn.classList.add('hidden');await loadCollector()}catch(e){showToast('Batch was not confirmed: '+e.message)}finally{btn.disabled=false}}
-function downloadTemplate(){const s='subject,topic,question,option_a,option_b,option_c,option_d,correct_answer,explanation\nPhysics,Motion,What is speed?,Distance/time,Mass/time,Force/time,Work/time,A,Distance divided by time\n',a=document.createElement('a');a.href=URL.createObjectURL(new Blob([s],{type:'text/csv'}));a.download='KG_JAMB_Question_Template.csv';a.click();URL.revokeObjectURL(a.href)}
-async function previewAdminBulk(){try{const f=$('adminBulkFile').files[0];if(!f)return showToast('Choose a question file first.');let rows;if(f.name.toLowerCase().endsWith('.csv'))rows=csvParse(await f.text());else{if(!window.XLSX)return showToast('Excel parser unavailable; please use CSV.');const w=XLSX.read(await f.arrayBuffer(),{type:'array'});rows=XLSX.utils.sheet_to_json(w.Sheets[w.SheetNames[0]],{header:1,defval:''})}if(!rows.length)return showToast('The selected file is empty.');if(rows.length-1>500)return showToast('This importer accepts up to 500 questions at a time. Split the file into smaller batches.');const seen=new Set();adminStaged=rows.slice(1).map((r,i)=>{const q=mapQ(rows[0],r),issues=[];if(!subjects.includes(q.subject))issues.push('Invalid subject');if(!q.topic)issues.push('Missing topic');if(!q.question_text)issues.push('Missing question');['option_a','option_b','option_c','option_d'].forEach(k=>{if(!q[k])issues.push('Missing option '+k.slice(-1))});q.correct_answer=q.correct_answer.toUpperCase();if(!['A','B','C','D'].includes(q.correct_answer))issues.push('Missing/invalid answer');const fp=(q.subject+'|'+q.question_text).toLowerCase().replace(/\s+/g,' ').trim();if(seen.has(fp))issues.push('Duplicate within this file');seen.add(fp);q.issues=issues;q.row=i+2;return q});const good=adminStaged.filter(q=>!q.issues.length).length;$('adminImportSummary').textContent=`${adminStaged.length} rows · ${good} valid · ${adminStaged.length-good} need correction. Answers are never guessed. Valid rows will be added with approved status.`;$('adminImportPreview').innerHTML='<table class="table"><tr><th>Row</th><th>Subject/topic</th><th>Question</th><th>Answer</th><th>Validation</th></tr>'+adminStaged.slice(0,100).map(q=>`<tr><td>${q.row}</td><td>${safe(q.subject)}<br>${safe(q.topic)}</td><td>${safe(q.question_text)}</td><td>${safe(q.correct_answer)}</td><td>${safe(q.issues.join(', ')||'Ready')}</td></tr>`).join('')+'</table>'+(adminStaged.length>100?'<p class="small muted">Preview shows the first 100 rows; all rows are validated.</p>':'');$('adminImportSubmit').classList.toggle('hidden',!good)}catch(e){showToast('Could not read file: '+e.message)}}
-async function submitAdminImport(){if(!sb)return showToast('Backend is not connected.');const valid=adminStaged.filter(q=>!q.issues.length).map(({row,issues,...q})=>q);if(!valid.length)return showToast('There are no valid questions to import.');if(!confirm(`Import ${valid.length} valid questions directly into the approved Question Bank?`))return;const btn=$('adminImportSubmit');btn.disabled=true;try{const {data,error}=await sb.rpc('admin_import_questions',{p_questions:valid});if(error)throw error;const count=Number(data?.inserted_count??valid.length);showToast(`${count} questions imported successfully into the approved Question Bank.`);adminStaged=[];$('adminBulkFile').value='';$('adminImportSummary').textContent='Import completed.';$('adminImportPreview').innerHTML='';btn.classList.add('hidden');await loadAdminQuestionBank(0)}catch(e){showToast('Import was not confirmed. No success was reported: '+e.message)}finally{btn.disabled=false}}
+
+function mapQ(h,r){
+ const a={
+  subject:['subject'],topic:['topic','chapter'],
+  question_text:['question','questiontext'],
+  option_a:['a','optiona','option1'],option_b:['b','optionb','option2'],
+  option_c:['c','optionc','option3'],option_d:['d','optiond','option4'],
+  correct_answer:['answer','correctanswer','correctoption','key'],
+  explanation:['explanation','solution']
+ },o={};
+ for(const k in a){const i=h.findIndex(x=>a[k].includes(norm(x)));o[k]=i<0?'':String(r[i]??'').trim()}
+ return o;
+}
+
+async function previewBulk(){
+ try{
+  const f=$('bulkFile').files[0];
+  if(!f)return showToast('Choose a file.');
+  let rows;
+  if(f.name.toLowerCase().endsWith('.csv'))rows=csvParse(await f.text());
+  else{
+   if(!window.XLSX)return showToast('Excel parser unavailable; try CSV.');
+   const w=XLSX.read(await f.arrayBuffer(),{type:'array'});
+   rows=XLSX.utils.sheet_to_json(w.Sheets[w.SheetNames[0]],{header:1,defval:''});
+  }
+  if(!rows.length)return showToast('The file is empty.');
+  const seen=new Set();
+  staged=rows.slice(1).map((r,i)=>{
+   const q=mapQ(rows[0],r),issues=[];
+   if(!subjects.includes(q.subject))issues.push('Invalid subject');
+   if(!q.topic)issues.push('Missing topic');
+   if(!q.question_text)issues.push('Missing question');
+   ['option_a','option_b','option_c','option_d'].forEach(k=>{if(!q[k])issues.push('Missing option '+k.slice(-1))});
+   q.correct_answer=q.correct_answer.toUpperCase();
+   if(!['A','B','C','D'].includes(q.correct_answer))issues.push('Missing/invalid answer');
+   const fp=(q.subject+'|'+q.question_text).toLowerCase().replace(/\s+/g,' ').trim();
+   if(seen.has(fp))issues.push('Duplicate within this file');
+   seen.add(fp);q.issues=issues;q.row=i+2;return q;
+  });
+  const good=staged.filter(x=>!x.issues.length).length;
+  $('importSummary').textContent=`${staged.length} rows · ${good} valid · ${staged.length-good} need correction. Answers are never guessed.`;
+  $('importPreview').innerHTML='<table class="table"><tr><th>Row</th><th>Subject/topic</th><th>Question</th><th>Answer</th><th>Validation</th></tr>'+staged.slice(0,50).map(q=>`<tr><td>${q.row}</td><td>${safe(q.subject)}<br>${safe(q.topic)}</td><td>${safe(q.question_text)}</td><td>${safe(q.correct_answer)}</td><td>${safe(q.issues.join(', ')||'Ready')}</td></tr>`).join('')+'</table>';
+  $('submitBatch').classList.toggle('hidden',!good);
+ }catch(e){showToast('Could not read file: '+e.message)}
+}
+
+async function submitBatch(){
+ if(!sb)return showToast('Backend not configured.');
+ const valid=staged.filter(q=>!q.issues.length);
+ if(!valid.length)return showToast('There are no valid rows to submit.');
+ const btn=$('submitBatch');btn.disabled=true;
+ try{
+  const {error}=await sb.rpc('create_question_submission',{p_questions:valid});
+  if(error)throw error;
+  showToast('Batch submitted for review.');
+  staged=[];$('importPreview').innerHTML='';btn.classList.add('hidden');await loadCollector();
+ }catch(e){showToast('Batch was not confirmed: '+e.message)}
+ finally{btn.disabled=false}
+}
+
+function downloadTemplate(){
+ const s='subject,topic,question,option_a,option_b,option_c,option_d,correct_answer,explanation\nPhysics,Motion,What is speed?,Distance/time,Mass/time,Force/time,Work/time,A,Distance divided by time\n';
+ const a=document.createElement('a');
+ a.href=URL.createObjectURL(new Blob([s],{type:'text/csv'}));
+ a.download='KG_JAMB_Question_Template.csv';
+ a.click();
+ URL.revokeObjectURL(a.href);
+}
+
+async function previewAdminBulk(){
+ try{
+  const f=$('adminBulkFile').files[0];
+  if(!f)return showToast('Choose a question file first.');
+  let rows;
+  if(f.name.toLowerCase().endsWith('.csv'))rows=csvParse(await f.text());
+  else{
+   if(!window.XLSX)return showToast('Excel parser unavailable; please use CSV.');
+   const w=XLSX.read(await f.arrayBuffer(),{type:'array'});
+   rows=XLSX.utils.sheet_to_json(w.Sheets[w.SheetNames[0]],{header:1,defval:''});
+  }
+  if(!rows.length)return showToast('The selected file is empty.');
+  if(rows.length-1>500)return showToast('This importer accepts up to 500 questions at a time. Split the file into smaller batches.');
+  const seen=new Set();
+  adminStaged=rows.slice(1).map((r,i)=>{
+   const q=mapQ(rows[0],r),issues=[];
+   if(!subjects.includes(q.subject))issues.push('Invalid subject');
+   if(!q.topic)issues.push('Missing topic');
+   if(!q.question_text)issues.push('Missing question');
+   ['option_a','option_b','option_c','option_d'].forEach(k=>{if(!q[k])issues.push('Missing option '+k.slice(-1))});
+   q.correct_answer=q.correct_answer.toUpperCase();
+   if(!['A','B','C','D'].includes(q.correct_answer))issues.push('Missing/invalid answer');
+   const fp=(q.subject+'|'+q.question_text).toLowerCase().replace(/\s+/g,' ').trim();
+   if(seen.has(fp))issues.push('Duplicate within this file');
+   seen.add(fp);q.issues=issues;q.row=i+2;return q;
+  });
+  const good=adminStaged.filter(q=>!q.issues.length).length;
+  $('adminImportSummary').textContent=`${adminStaged.length} rows · ${good} valid · ${adminStaged.length-good} need correction. Answers are never guessed. Valid rows will be added with approved status.`;
+  $('adminImportPreview').innerHTML='<table class="table"><tr><th>Row</th><th>Subject/topic</th><th>Question</th><th>Answer</th><th>Validation</th></tr>'+adminStaged.slice(0,100).map(q=>`<tr><td>${q.row}</td><td>${safe(q.subject)}<br>${safe(q.topic)}</td><td>${safe(q.question_text)}</td><td>${safe(q.correct_answer)}</td><td>${safe(q.issues.join(', ')||'Ready')}</td></tr>`).join('')+'</table>'+(adminStaged.length>100?'<p class="small muted">Preview shows the first 100 rows; all rows are validated.</p>':'');
+  $('adminImportSubmit').classList.toggle('hidden',!good);
+ }catch(e){showToast('Could not read file: '+e.message)}
+}
+
+async function submitAdminImport(){
+ if(!sb)return showToast('Backend is not connected.');
+ const valid=adminStaged.filter(q=>!q.issues.length).map(({row,issues,...q})=>q);
+ if(!valid.length)return showToast('There are no valid questions to import.');
+ if(!confirm(`Import ${valid.length} valid questions directly into the approved Question Bank?`))return;
+ const btn=$('adminImportSubmit');btn.disabled=true;
+ try{
+  const {data,error}=await sb.rpc('admin_import_questions',{p_questions:valid});
+  if(error)throw error;
+  const count=Number(data?.inserted_count??valid.length);
+  showToast(`${count} questions imported successfully into the approved Question Bank.`);
+  adminStaged=[];$('adminBulkFile').value='';$('adminImportSummary').textContent='Import completed.';$('adminImportPreview').innerHTML='';btn.classList.add('hidden');await loadAdminQuestionBank(0);
+ }catch(e){showToast('Import was not confirmed. No success was reported: '+e.message)}
+ finally{btn.disabled=false}
+}
+
+// ---------------- ADMIN DISPLAY ----------------
+
 function readableLabel(key){return String(key||'Details').replace(/([a-z0-9])([A-Z])/g,'$1 $2').replace(/[_-]+/g,' ').replace(/\b\w/g,c=>c.toUpperCase())}
-function readableValue(value){if(value===null||value===undefined||value==='')return '—';if(typeof value==='boolean')return value?'Yes':'No';if(Array.isArray(value))return value.length?value.map(v=>typeof v==='object'?readableValue(v):String(v)).join(', '):'None';if(typeof value==='object')return Object.entries(value).map(([k,v])=>readableLabel(k)+': '+readableValue(v)).join(' · ');if(typeof value==='string'&&/^\d{4}-\d\d-\d\dT/.test(value)){const d=new Date(value);if(!Number.isNaN(d.getTime()))return d.toLocaleString()}return String(value)}
+
+function readableValue(value){
+ if(value===null||value===undefined||value==='')return '—';
+ if(typeof value==='boolean')return value?'Yes':'No';
+ if(Array.isArray(value))return value.length?value.map(v=>typeof v==='object'?readableValue(v):String(v)).join(', '):'None';
+ if(typeof value==='object')return Object.entries(value).map(([k,v])=>readableLabel(k)+': '+readableValue(v)).join(' · ');
+ if(typeof value==='string'&&/^\d{4}-\d\d-\d\dT/.test(value)){const d=new Date(value);if(!Number.isNaN(d.getTime()))return d.toLocaleString()}
+ return String(value);
+}
+
 function renderReadableRecords(containerId,records,emptyMessage='No records available.'){
- const el=$(containerId);if(!el)return;let rows=Array.isArray(records)?records:(records&&typeof records==='object'?Object.entries(records).map(([key,value])=>({name:key,value})):[]);
+ const el=$(containerId);if(!el)return;
+ let rows=Array.isArray(records)?records:(records&&typeof records==='object'?Object.entries(records).map(([key,value])=>({name:key,value})):[]);
  if(!rows.length){el.innerHTML=`<div class="record-empty">${safe(emptyMessage)}</div>`;return}
  el.innerHTML='<div class="record-list">'+rows.map((record,index)=>{
   if(record===null||record===undefined)return '';
   if(typeof record!=='object')return `<article class="record-card"><h3>Record ${index+1}</h3><div>${safe(readableValue(record))}</div></article>`;
-  const entries=Object.entries(record);const preferred=['full_name','name','email','subject','topic','status','role','created_at','updated_at','id'];
+  const entries=Object.entries(record);
+  const preferred=['full_name','name','email','subject','topic','status','role','created_at','updated_at','id'];
   entries.sort((a,b)=>{const ai=preferred.indexOf(a[0]),bi=preferred.indexOf(b[0]);return (ai<0?99:ai)-(bi<0?99:bi)});
   const heading=record.full_name||record.name||record.email||record.subject||record.title||`Record ${index+1}`;
-  return `<article class="record-card"><h3>${safe(readableValue(heading))}</h3><div class="record-fields">${entries.map(([key,value])=>`<div class="record-field"><b>${safe(readableLabel(key))}</b><span>${safe(readableValue(value))}</span></div>`).join('')}</div></article>`
+  return `<article class="record-card"><h3>${safe(readableValue(heading))}</h3><div class="record-fields">${entries.map(([key,value])=>`<div class="record-field"><b>${safe(readableLabel(key))}</b><span>${safe(readableValue(value))}</span></div>`).join('')}</div></article>`;
  }).join('')+'</div>';
 }
+
 function renderAdminQuestionBank(){
  const el=$('bankTable');if(!el)return;
  if(adminQuestionLoading){el.innerHTML='<p class="muted">Loading questions…</p>';return}
  if(!adminQuestionBankRows.length){el.innerHTML='<div class="record-empty">No questions match the selected search and status.</div>';return}
  el.innerHTML=adminQuestionBankRows.map((q,i)=>`<article class="bank-question"><div class="between"><h3>${safe(q.question_text||'Question text unavailable')}</h3><span class="pill">${safe(q.status||'unknown')}</span></div><div class="bank-meta"><span class="small muted">${safe(q.subject||'Subject unavailable')}</span><span class="small muted">${safe(q.topic||'No topic')}</span><span class="small muted">${safe(q.created_at?new Date(q.created_at).toLocaleString():'Date unavailable')}</span></div><div class="bank-options">${['A','B','C','D'].map(letter=>`<div class="bank-option"><b>${letter}.</b> ${safe(q['option_'+letter.toLowerCase()]||'')}</div>`).join('')}</div><p><b>Correct answer:</b> ${safe(q.correct_answer||'Not set')}</p><p><b>Explanation:</b> ${safe(q.explanation||'No explanation provided.')}</p><div class="record-actions">${q.status==='archived'?`<button class="good" onclick="adminSetQuestionArchived('${safe(q.id)}',false)">Restore</button>`:`<button class="danger" onclick="adminSetQuestionArchived('${safe(q.id)}',true)">Archive</button>`}</div></article>`).join('');
 }
+
 function renderAdminQuestionPagination(){
- const el=$('bankPagination');if(!el)return;const pages=Math.max(1,Math.ceil(adminQuestionTotal/adminQuestionPageSize));const start=adminQuestionTotal?adminQuestionPage*adminQuestionPageSize+1:0;const end=Math.min((adminQuestionPage+1)*adminQuestionPageSize,adminQuestionTotal);
+ const el=$('bankPagination');if(!el)return;
+ const pages=Math.max(1,Math.ceil(adminQuestionTotal/adminQuestionPageSize));
+ const start=adminQuestionTotal?adminQuestionPage*adminQuestionPageSize+1:0;
+ const end=Math.min((adminQuestionPage+1)*adminQuestionPageSize,adminQuestionTotal);
  el.innerHTML=`<span class="small muted">Showing ${start}–${end} of ${adminQuestionTotal} questions · Page ${adminQuestionPage+1} of ${pages}</span><div class="row"><button class="secondary" ${adminQuestionPage<=0?'disabled':''} onclick="loadAdminQuestionBank(${adminQuestionPage-1})">Previous</button><button class="secondary" ${adminQuestionPage+1>=pages?'disabled':''} onclick="loadAdminQuestionBank(${adminQuestionPage+1})">Next</button></div>`;
 }
-function scheduleAdminQuestionSearch(){if(adminQuestionSearchTimer)clearTimeout(adminQuestionSearchTimer);adminQuestionSearchTimer=setTimeout(()=>loadAdminQuestionBank(0),350)}
+
+function scheduleAdminQuestionSearch(){
+ if(adminQuestionSearchTimer)clearTimeout(adminQuestionSearchTimer);
+ adminQuestionSearchTimer=setTimeout(()=>loadAdminQuestionBank(0),350);
+}
+
 async function loadAdminQuestionBank(page=0){
- if(!sb||adminQuestionLoading)return;adminQuestionLoading=true;adminQuestionPage=Math.max(0,page);renderAdminQuestionBank();
+ if(!sb||adminQuestionLoading)return;
+ adminQuestionLoading=true;
+ adminQuestionPage=Math.max(0,page);
+ renderAdminQuestionBank();
+
  try{
   let query=sb.from('questions').select('id,subject,topic,question_text,option_a,option_b,option_c,option_d,correct_answer,explanation,status,created_at',{count:'exact'}).order('created_at',{ascending:false});
-  const status=$('adminQuestionStatus')?.value||'all';const search=$('adminQuestionSearch')?.value.trim()||'';
+  const status=$('adminQuestionStatus')?.value||'all';
+  const search=$('adminQuestionSearch')?.value.trim()||'';
   if(status!=='all')query=query.eq('status',status);
   if(search)query=query.ilike('question_text',`%${search}%`);
-  const from=adminQuestionPage*adminQuestionPageSize;const {data,error,count}=await query.range(from,from+adminQuestionPageSize-1);
-  if(error)throw error;adminQuestionBankRows=Array.isArray(data)?data:[];adminQuestionTotal=Number(count||0);
- }catch(e){adminQuestionBankRows=[];adminQuestionTotal=0;$('bankTable').innerHTML=`<div class="notice"><b>Could not load the complete question archive.</b><p>${safe(e.message||'Unknown database error')}</p><p class="small">This page needs an authenticated admin account with permission to read the questions table. No questions have been changed.</p></div>`;$('bankPagination').innerHTML='';adminQuestionLoading=false;return}
- adminQuestionLoading=false;renderAdminQuestionBank();renderAdminQuestionPagination();
+  const from=adminQuestionPage*adminQuestionPageSize;
+  const {data,error,count}=await query.range(from,from+adminQuestionPageSize-1);
+  if(error)throw error;
+  adminQuestionBankRows=Array.isArray(data)?data:[];
+  adminQuestionTotal=Number(count||0);
+ }catch(e){
+  adminQuestionBankRows=[];adminQuestionTotal=0;
+  $('bankTable').innerHTML=`<div class="notice"><b>Could not load the complete question archive.</b><p>${safe(e.message||'Unknown database error')}</p><p class="small">This page needs an authenticated admin account with permission to read the questions table. No questions have been changed.</p></div>`;
+  $('bankPagination').innerHTML='';
+  adminQuestionLoading=false;
+  return;
+ }
+ adminQuestionLoading=false;
+ renderAdminQuestionBank();
+ renderAdminQuestionPagination();
 }
+
 async function loadAdmin(){
- const {data,error}=await sb.rpc('get_admin_dashboard');if(error)return showToast('Admin backend setup required: '+error.message);
- $('mStudents').textContent=data.students??0;$('mCollectors').textContent=data.collectors??0;$('mQuestions').textContent=data.approved_questions??0;$('mPending').textContent=data.pending_batches??0;
+ const {data,error}=await sb.rpc('get_admin_dashboard');
+ if(error)return showToast('Admin backend setup required: '+error.message);
+ $('mStudents').textContent=data.students??0;
+ $('mCollectors').textContent=data.collectors??0;
+ $('mQuestions').textContent=data.approved_questions??0;
+ $('mPending').textContent=data.pending_batches??0;
  renderReadableRecords('studentsTable',data.students_preview||[],'No student records were returned.');
  renderReadableRecords('collectorsTable',data.collectors_preview||[],'No collector records were returned.');
  renderReadableRecords('reviewQueue',data.pending_submissions||[],'No submissions are waiting for review.');
  renderReadableRecords('reportsList',data.reports||[],'No student reports are available.');
  renderReadableRecords('auditList',data.audit_log||[],'No activity log records are available.');
- adminQuestionPage=0;await loadAdminQuestionBank(0);
+ adminQuestionPage=0;
+ await loadAdminQuestionBank(0);
 }
-function adminPage(p,b){document.querySelectorAll('.adminpage').forEach(x=>x.classList.add('hidden'));$('admin-'+p).classList.remove('hidden');document.querySelectorAll('#adminTabs button').forEach(x=>x.classList.remove('active'));b.classList.add('active')}
+
+function adminPage(p,b){
+ document.querySelectorAll('.adminpage').forEach(x=>x.classList.add('hidden'));
+ $('admin-'+p).classList.remove('hidden');
+ document.querySelectorAll('#adminTabs button').forEach(x=>x.classList.remove('active'));
+ b.classList.add('active');
+}
+
 async function adminSetQuestionArchived(questionId,archived){
- const action=archived?'archive':'restore';if(!confirm(`Are you sure you want to ${action} this question?`))return;
- try{const {error}=await sb.rpc('admin_set_question_archived',{p_question_id:questionId,p_archived:archived});if(error)throw error;showToast(archived?'Question archived.':'Question restored.');await loadAdminQuestionBank(adminQuestionPage);}
- catch(e){showToast(`Could not ${action} question: ${e.message}`)}
+ const action=archived?'archive':'restore';
+ if(!confirm(`Are you sure you want to ${action} this question?`))return;
+ try{
+  const {error}=await sb.rpc('admin_set_question_archived',{p_question_id:questionId,p_archived:archived});
+  if(error)throw error;
+  showToast(archived?'Question archived.':'Question restored.');
+  await loadAdminQuestionBank(adminQuestionPage);
+ }catch(e){showToast(`Could not ${action} question: ${e.message}`)}
 }
-async function publishChallenge(){const p={challenge_date:$('challengeDate').value,subject:$('challengeSubject').value,topic:$('challengeTopic').value||null,question_count:Number($('challengeCount').value),duration_minutes:Number($('challengeTime').value),fallback_deadline:$('challengeDeadline').value||null};const {data,error}=await sb.rpc('admin_publish_daily_challenge',{p_challenge:p});$('challengeStatus').textContent=error?'Could not publish: '+error.message:'Challenge publication request confirmed: '+JSON.stringify(data||'')}
+
+async function publishChallenge(){
+ const p={
+  challenge_date:$('challengeDate').value,
+  subject:$('challengeSubject').value,
+  topic:$('challengeTopic').value||null,
+  question_count:Number($('challengeCount').value),
+  duration_minutes:Number($('challengeTime').value),
+  fallback_deadline:$('challengeDeadline').value||null
+ };
+ const {data,error}=await sb.rpc('admin_publish_daily_challenge',{p_challenge:p});
+ $('challengeStatus').textContent=error?'Could not publish: '+error.message:'Challenge publication request confirmed: '+JSON.stringify(data||'');
+}
+
 addEventListener('DOMContentLoaded',init);
-</script></body></html>
+</script>
+</body>
+</html>
