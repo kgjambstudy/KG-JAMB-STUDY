@@ -9,16 +9,16 @@
 <main class="wrap">
 <section id="auth" class="panel" style="max-width:540px;margin:35px auto"><h1>Welcome to KG JAMB STUDY</h1><p class="muted">Sign in or create your student account.</p><div class="tabs"><button id="loginTab" class="active" onclick="authMode('login')">Sign in</button><button id="signupTab" onclick="authMode('signup')">Create account</button></div><p id="authMsg" class="notice hidden"></p><p id="connectionStatus" class="connection-banner">Checking secure backend connection…</p><label id="nameLabel" class="hidden">Full name</label><input id="fullName" class="hidden" placeholder="Your full name"><label id="usernameLabel" class="hidden">Username</label><input id="signupUsername" class="hidden" maxlength="20" autocomplete="username" placeholder="3–20 letters, numbers or underscores"><label>Email</label><input id="email" type="email"><label>Password</label><input id="password" type="password"><button id="authBtn" style="width:100%;margin-top:14px" onclick="authenticate()">Sign in</button><p class="small muted">This form creates student accounts only. Staff roles must be assigned securely by an administrator.</p><p class="small muted">Your account session is securely restored when you return. Backend configuration is managed by KG JAMB STUDY.</p></section>
 <section id="studentApp" class="hidden"><div id="usernameGate" class="panel hidden"><h2>Choose your username</h2><p>Your username is required before you can use KG JAMB STUDY. Use 3–20 letters, numbers or underscores.</p><label for="gateUsername">Username</label><input id="gateUsername" maxlength="20" autocomplete="username" placeholder="e.g. StudyAce_24"><button class="section" onclick="saveUsername(true)">Save username and continue</button><p id="usernameGateStatus" class="small muted"></p></div><div class="between"><div><h1 id="greeting">Student dashboard</h1><p class="muted">Your JAMB preparation workspace.</p></div><span class="pill">STUDENT</span></div>
-<div class="grid"><div class="card"><div class="small muted">Shared Topic + Custom free uses</div><div class="metric" id="usage">—</div></div><div class="card"><div class="small muted">Full Subject Exams</div><div class="metric">Unlimited</div></div><div class="card"><div class="small muted">Study streak</div><div class="metric" id="streak">—</div></div><div class="card"><div class="small muted">Membership</div><div class="metric" id="membership">Free</div></div></div>
+<div class="grid"><div class="card"><div class="small muted">Shared Topic + Custom free uses</div><div class="metric" id="usage">—</div></div><div class="card"><div class="small muted">General Examinations</div><div class="metric">Unlimited</div></div><div class="card"><div class="small muted">Study streak</div><div class="metric" id="streak">—</div></div><div class="card"><div class="small muted">Membership</div><div class="metric" id="membership">Free</div></div></div>
 <nav class="tabs" id="studentTabs"><button class="active" onclick="studentPage('learn',this)">Learn & practise</button><button onclick="studentPage('progress',this)">Progress</button><button onclick="studentPage('saved',this)">Saved questions</button><button onclick="studentPage('history',this)">Exam history</button><button onclick="studentPage('friends',this)">Friends & leaderboard</button><button onclick="studentPage('profile',this)">Profile</button></nav>
-<div id="student-learn" class="panel studentpage"><h2>Start practising</h2><div class="grid"><div class="card"><h3>Topic Practice</h3><p class="small muted">Practise a selected topic.</p><button onclick="startExam('topic')">Start practice</button></div><div class="card"><h3>Custom Examination</h3><p class="small muted">Choose topics across any subjects. All approved questions in those topics will be included.</p><button onclick="startExam('custom')">Create exam</button></div><div class="card"><h3>Full Subject Exam</h3><p class="small muted">Unlimited free access.</p><button onclick="startExam('full')">Start full exam</button></div><div class="card"><h3>Daily Challenge</h3><p class="small muted">Same challenge for all students.</p><button onclick="loadDaily()">View challenge</button></div></div>
+<div id="student-learn" class="panel studentpage"><h2>Start practising</h2><div class="grid"><div class="card"><h3>Topic Practice</h3><p class="small muted">Practise a selected topic.</p><button onclick="startExam('topic')">Start practice</button></div><div class="card"><h3>Custom Examination</h3><p class="small muted">Choose topics across any subjects. All approved questions in those topics will be included.</p><button onclick="startExam('custom')">Create exam</button></div><div class="card"><h3>General Examination</h3><p class="small muted">Choose subjects, set a question count for each, and let KG JAMB STUDY build a balanced mixed exam.</p><button onclick="startExam('general')">Set up examination</button></div><div class="card"><h3>Daily Challenge</h3><p class="small muted">Same challenge for all students.</p><button onclick="loadDaily()">View challenge</button></div></div>
 <div id="topicBrowser" class="card section hidden">
  <div class="between"><div><h3 id="topicBrowserTitle">Browse subjects</h3><p id="topicBrowserHint" class="small muted">Choose a subject to see its approved topics.</p></div><button id="topicBrowserBack" class="secondary" onclick="topicBrowserBack()">Back</button></div>
  <div id="topicBrowserSubjects" class="grid section"></div>
  <div id="topicBrowserSearchWrap" class="hidden"><label for="topicBrowserSearch">Search topics (optional)</label><input id="topicBrowserSearch" type="search" placeholder="Try SHM, motion, acids…" oninput="renderTopicBrowserTopics()"></div>
  <div id="topicBrowserList" class="record-list"></div>
 </div>
-<div id="setup" class="card section hidden"><h3 id="setupTitle">Exam setup</h3><div class="grid"><div id="subjectField"><label>Subject</label><select id="subject" onchange="handleExamSubjectChange()"><option>English</option><option>Physics</option><option>Chemistry</option><option>Biology</option></select></div><div id="singleTopicField"><label>Topic</label><input id="topic" placeholder="e.g. Motion, Ecology"></div><div id="countField"><label>Question count</label><select id="count"><option>10</option><option>20</option><option>30</option><option>40</option><option>60</option><option>100</option></select></div><div><label>Duration (minutes)</label><select id="duration"><option>15</option><option>30</option><option>45</option><option>60</option><option>90</option></select></div></div><div id="customTopicSelection" class="section hidden"><button type="button" class="secondary" onclick="openCustomTopicBrowser()">Choose topics from any subject</button><p id="customTopicSummary" class="small muted">No topics selected.</p></div><button onclick="beginExam()">Load questions</button><button class="secondary" onclick="cancelExamSetup()">Cancel</button></div><div id="examArea" class="card section hidden"></div><div id="dailyArea" class="card section hidden"></div></div>
+<div id="setup" class="card section hidden"><h3 id="setupTitle">Exam setup</h3><div class="grid"><div id="subjectField"><label>Subject</label><select id="subject" onchange="handleExamSubjectChange()"><option>English</option><option>Physics</option><option>Chemistry</option><option>Biology</option></select></div><div id="singleTopicField"><label>Topic</label><input id="topic" placeholder="e.g. Motion, Ecology"></div><div id="countField"><label>Question count</label><select id="count"><option>10</option><option>20</option><option>30</option><option>40</option><option>60</option><option>100</option></select></div><div><label>Duration (minutes)</label><select id="duration"><option>15</option><option>30</option><option>45</option><option>60</option><option>90</option></select></div></div><div id="generalSubjectFields" class="section hidden"><h4>Choose subjects and question counts</h4><p class="small muted">Select one or more subjects. Set how many questions you want from each selected subject. Questions will be spread as evenly as possible across that subject’s approved topics.</p><div class="row"><button type="button" class="secondary" onclick="selectAllGeneralSubjects(true)">Select all four</button><button type="button" class="secondary" onclick="selectAllGeneralSubjects(false)">Clear selection</button></div><div id="generalSubjectOptions" class="grid section"></div><p id="generalSummary" class="small muted">No subjects selected.</p></div><div id="customTopicSelection" class="section hidden"><button type="button" class="secondary" onclick="openCustomTopicBrowser()">Choose topics from any subject</button><p id="customTopicSummary" class="small muted">No topics selected.</p></div><button onclick="beginExam()">Load questions</button><button class="secondary" onclick="cancelExamSetup()">Cancel</button></div><div id="examArea" class="card section hidden"></div><div id="dailyArea" class="card section hidden"></div></div>
 <div id="student-progress" class="panel studentpage hidden"><h2>Weakness Detector & achievements</h2><p class="muted">Topic insights are calculated from server-validated exam history.</p><div id="weaknessList">Analytics backend required.</div><h3>Achievements</h3><div id="achievements" class="grid"><div class="card">🔥 Study streak</div><div class="card">🏆 Perfect score</div><div class="card">📚 Topic master</div><div class="card">⚡ Comeback</div></div></div>
 <div id="student-saved" class="panel studentpage hidden"><h2>Revision list</h2><div class="tabs"><button onclick="loadSaved('bookmarks')">Bookmarks</button><button onclick="loadSaved('wrong')">Questions I got wrong</button></div><div id="savedList">Revision backend required.</div></div>
 <div id="student-history" class="panel studentpage hidden"><h2>Exam history & review</h2><div id="historyList">History backend required.</div></div>
@@ -42,7 +42,7 @@ const SUPABASE_URL = 'https://aycckgtshuzpexhupbmf.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_xuSYHzsR23gMFIu-rVw6lg_2hV3I3EH';
 let sb=null,user=null,profile=null,mode='login',kind='custom',qs=[],answers={},active=false,timer=null,left=0,staged=[],adminStaged=[],dailyChallengeStaged=[],attemptId=null,submitInFlight=false,autosaveTimer=null,progressSaving=false,progressSavePromise=null,progressDirty=false,dailyChallengeSubject='',adminQuestionBankRows=[],adminQuestionPage=0,adminQuestionTotal=0,adminQuestionPageSize=20,adminQuestionSearchTimer=null,adminQuestionLoading=false,editingQuestionId=null;
 const $=id=>document.getElementById(id),subjects=['English','Physics','Chemistry','Biology'];
-let availableTopics=[],topicBrowserSubject='',topicBrowserMode='subjects',topicBrowserLoading=false,selectedCustomTopics=[];
+let availableTopics=[],topicBrowserSubject='',topicBrowserMode='subjects',topicBrowserLoading=false,selectedCustomTopics=[],generalSubjectCounts={};
 const topicAliases={'simpleharmonicmotion':['shm','simple harmonic oscillation'],'lawsofmotion':['newton laws','newtons laws'],'electromagneticwaves':['em waves'],'periodictable':['periodic classification'],'chemicalbonding':['bonding'],'organicchemistry':['organic compounds']};
 function safe(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function showToast(t){$('toastText').textContent=t;$('toast').classList.remove('hidden')}
@@ -83,14 +83,17 @@ async function loadStudent(){if(!sb)return;const {data,error}=await sb.rpc('get_
 function studentPage(p,b){document.querySelectorAll('.studentpage').forEach(x=>x.classList.add('hidden'));$('student-'+p).classList.remove('hidden');document.querySelectorAll('#studentTabs button').forEach(x=>x.classList.remove('active'));b.classList.add('active')}
 function startExam(k){
  kind=k;$('setup').classList.add('hidden');$('topicBrowser').classList.add('hidden');
- if(k==='topic'){$('customTopicSelection').classList.add('hidden');$('singleTopicField').classList.remove('hidden');$('topicBrowser').classList.remove('hidden');topicBrowserMode='subjects';topicBrowserSubject='';loadAvailableTopics();return}
- $('setup').classList.remove('hidden');$('setupTitle').textContent=k==='full'?'Full Subject Examination':'Custom Examination';
- const isFull=k==='full',isCustom=k==='custom';
- $('singleTopicField').classList.toggle('hidden',isFull||isCustom);$('subjectField').classList.toggle('hidden',isCustom);$('countField').classList.toggle('hidden',isCustom);
+ if(k==='topic'){$('customTopicSelection').classList.add('hidden');$('generalSubjectFields').classList.add('hidden');$('subjectField').classList.remove('hidden');$('countField').classList.remove('hidden');$('singleTopicField').classList.remove('hidden');$('topicBrowser').classList.remove('hidden');topicBrowserMode='subjects';topicBrowserSubject='';loadAvailableTopics();return}
+ $('setup').classList.remove('hidden');
+ $('setupTitle').textContent=k==='general'?'General Examination':'Custom Examination';
+ const isCustom=k==='custom',isGeneral=k==='general';
+ $('singleTopicField').classList.add('hidden');$('subjectField').classList.toggle('hidden',isCustom||isGeneral);
+ $('countField').classList.toggle('hidden',isCustom||isGeneral);
  $('customTopicSelection').classList.toggle('hidden',!isCustom);
- $('topic').disabled=isFull||isCustom;$('count').disabled=isFull;
- if(isFull){$('count').value='100';$('topic').value='';selectedCustomTopics=[];}
- if(isCustom){$('topic').value='';selectedCustomTopics=[];$('count').disabled=false;$('customTopicSummary').textContent='No topics selected.';loadAvailableTopics();}
+ $('generalSubjectFields').classList.toggle('hidden',!isGeneral);
+ $('topic').disabled=true;$('count').disabled=isCustom||isGeneral;
+ if(isCustom){$('topic').value='';selectedCustomTopics=[];$('customTopicSummary').textContent='No topics selected.';loadAvailableTopics();}
+ if(isGeneral){generalSubjectCounts={};renderGeneralSubjectOptions();loadAvailableTopics();}
 }
 function openCustomTopicBrowser(){
  if(!availableTopics.length){loadAvailableTopics();return;}
@@ -104,6 +107,7 @@ async function loadAvailableTopics(){
   const {data,error}=await sb.rpc('get_available_topics');if(error)throw error;
   availableTopics=Array.isArray(data)?data:[];
   if(kind==='custom'){$('customTopicSummary').textContent=customTopicSummary();if($('topicBrowser').classList.contains('hidden'))$('topicBrowserSubjects').innerHTML='';else if(topicBrowserMode==='subjects')renderTopicBrowserSubjects();else renderTopicBrowserTopics();}
+  else if(kind==='general'){renderGeneralSubjectOptions();}
   else if(topicBrowserMode==='subjects')renderTopicBrowserSubjects();else renderTopicBrowserTopics();
  }catch(e){const msg=`<div class="record-empty">Could not load topics: ${safe(e.message)}<div class="section"><button class="secondary" onclick="loadAvailableTopics()">Try again</button></div></div>`;$('topicBrowserSubjects').innerHTML='';$('topicBrowserList').innerHTML=msg;}
  finally{topicBrowserLoading=false}
@@ -125,41 +129,62 @@ function renderTopicBrowserTopics(){
 }
 function customTopicSummary(){if(!selectedCustomTopics.length)return 'No topics selected.';const total=selectedCustomTopics.reduce((sum,sel)=>{const row=availableTopics.find(x=>String(x.subject||'').trim().toLowerCase()===sel.subject.toLowerCase()&&String(x.topic||'').trim().toLowerCase()===sel.topic.toLowerCase());return sum+(Number(row?.question_count)||0)},0);return 'Selected '+selectedCustomTopics.length+' topics across '+new Set(selectedCustomTopics.map(x=>x.subject)).size+' subjects · '+total+' approved questions will be included.';}
 function toggleCustomTopic(subject,topic){subject=String(subject||'').trim();topic=String(topic||'').trim();if(!subject||!topic)return;const i=selectedCustomTopics.findIndex(x=>x.subject.toLowerCase()===subject.toLowerCase()&&x.topic.toLowerCase()===topic.toLowerCase());if(i>=0)selectedCustomTopics.splice(i,1);else selectedCustomTopics.push({subject,topic});$('customTopicSummary').textContent=customTopicSummary();}
+function getGeneralSubjectAvailable(subject){return availableTopics.filter(x=>String(x.subject||'').trim().toLowerCase()===subject.toLowerCase()).reduce((n,x)=>n+(Number(x.question_count)||0),0)}
+function renderGeneralSubjectOptions(){
+ const host=$('generalSubjectOptions');if(!host)return;
+ host.innerHTML=subjects.map(subject=>{const available=getGeneralSubjectAvailable(subject),checked=Object.prototype.hasOwnProperty.call(generalSubjectCounts,subject);const count=checked?generalSubjectCounts[subject]:20;return `<div class="card"><label class="qopt"><input type="checkbox" ${checked?'checked':''} onchange="toggleGeneralSubject(${safe(JSON.stringify(subject))},this.checked)"> <strong>${safe(subject)}</strong></label><p class="small muted">${available} approved questions across available topics</p><label>Questions from ${safe(subject)}</label><input type="number" min="1" max="500" value="${count}" ${checked?'':'disabled'} onchange="setGeneralSubjectCount(${safe(JSON.stringify(subject))},this.value)"></div>`}).join('');
+ updateGeneralSummary();
+}
+function toggleGeneralSubject(subject,checked){if(checked){if(!Object.prototype.hasOwnProperty.call(generalSubjectCounts,subject))generalSubjectCounts[subject]=20;}else delete generalSubjectCounts[subject];renderGeneralSubjectOptions();}
+function setGeneralSubjectCount(subject,value){const n=Number(value);if(!Number.isInteger(n)||n<1||n>500){showToast('Choose a whole number from 1 to 500 for '+subject+'.');renderGeneralSubjectOptions();return;}if(Object.prototype.hasOwnProperty.call(generalSubjectCounts,subject)){generalSubjectCounts[subject]=n;updateGeneralSummary();}}
+function selectAllGeneralSubjects(checked){if(checked)subjects.forEach(subject=>{if(!Object.prototype.hasOwnProperty.call(generalSubjectCounts,subject))generalSubjectCounts[subject]=20;});else generalSubjectCounts={};renderGeneralSubjectOptions();}
+function updateGeneralSummary(){const entries=Object.entries(generalSubjectCounts);if(!entries.length){$('generalSummary').textContent='No subjects selected.';return;}const total=entries.reduce((n,[,count])=>n+Number(count||0),0);$('generalSummary').textContent=entries.map(([subject,count])=>subject+': '+count).join(' · ')+' | Total: '+total+' questions';}
+function getGeneralSelection(){return Object.entries(generalSubjectCounts).map(([subject,question_count])=>({subject,question_count:Number(question_count)}));}
 function handleExamSubjectChange(){}
-function cancelExamSetup(){$('setup').classList.add('hidden');$('customTopicSelection').classList.add('hidden');$('singleTopicField').classList.remove('hidden');$('topicBrowser').classList.add('hidden');selectedCustomTopics=[];}
+function cancelExamSetup(){$('setup').classList.add('hidden');$('customTopicSelection').classList.add('hidden');$('generalSubjectFields').classList.add('hidden');$('singleTopicField').classList.remove('hidden');$('topicBrowser').classList.add('hidden');selectedCustomTopics=[];generalSubjectCounts={};}
 function selectBrowserTopic(topic){
  if(!topic)return;$('subject').value=topicBrowserSubject;$('topic').value=topic;$('count').value='20';$('topic').disabled=false;$('count').disabled=false;kind='topic';$('topicBrowser').classList.add('hidden');$('setupTitle').textContent='Topic Practice — '+topic;$('setup').classList.remove('hidden');
 }
 function topicBrowserBack(){
  if(topicBrowserMode==='topics'){topicBrowserMode='subjects';topicBrowserSubject='';$('topicBrowserSearch').value='';renderTopicBrowserSubjects();return}
  $('topicBrowser').classList.add('hidden');
-}
-async function beginExam(){
+}async function beginExam(){
  if(!sb)return showToast('The backend is not configured yet.');
  if(active)return showToast('An examination is already in progress.');
  const topic=$('topic').value.trim();
  const selectedTopics=kind==='custom'?selectedCustomTopics.map(x=>x.subject+'::'+x.topic):[];
+ const generalSelection=kind==='general'?getGeneralSelection():[];
  if(kind==='topic'&&!topic)return showToast('Choose a topic before starting.');
  if(kind==='custom'&&!selectedTopics.length)return showToast('Select at least one approved topic for your Custom Examination.');
- const requestedCount=kind==='full'?null:kind==='custom'?selectedCustomTopics.reduce((sum,sel)=>{const row=availableTopics.find(x=>String(x.subject||'').trim().toLowerCase()===sel.subject.toLowerCase()&&String(x.topic||'').trim().toLowerCase()===sel.topic.toLowerCase());return sum+(Number(row?.question_count)||0)},0):Number($('count').value);
- if(kind==='custom'&&requestedCount<1)return showToast('No approved questions are available in the selected topics.');
+ if(kind==='custom'){
+  const requestedCustomCount=selectedCustomTopics.reduce((sum,sel)=>{const row=availableTopics.find(x=>String(x.subject||'').trim().toLowerCase()===sel.subject.toLowerCase()&&String(x.topic||'').trim().toLowerCase()===sel.topic.toLowerCase());return sum+(Number(row?.question_count)||0)},0);
+  if(requestedCustomCount<1)return showToast('No approved questions are available in the selected topics.');
+ }
+ if(kind==='general'&&!generalSelection.length)return showToast('Select at least one subject for your General Examination.');
+ for(const item of generalSelection){const available=getGeneralSubjectAvailable(item.subject);if(item.question_count>available)return showToast(item.subject+' has only '+available+' approved questions, but you requested '+item.question_count+'.');}
+ const requestedCount=kind==='custom'?selectedCustomTopics.reduce((sum,sel)=>{const row=availableTopics.find(x=>String(x.subject||'').trim().toLowerCase()===sel.subject.toLowerCase()&&String(x.topic||'').trim().toLowerCase()===sel.topic.toLowerCase());return sum+(Number(row?.question_count)||0)},0):kind==='general'?generalSelection.reduce((n,x)=>n+x.question_count,0):kind==='full'?null:Number($('count').value);
  const requestedDuration=Number($('duration').value);
  if(!Number.isFinite(requestedDuration)||requestedDuration<1)return showToast('Choose a valid examination duration.');
  const btn=document.querySelector('#setup button[onclick="beginExam()"]');if(btn)btn.disabled=true;
  try{
-  const {data,error}=await sb.rpc('start_student_exam_v2',{
-   p_exam_type:kind,
-   p_subject:kind==='custom'?'ALL':$('subject').value,
-   p_topic:kind==='topic'?topic:null,
-   p_topics:selectedTopics,
-   p_question_count:requestedCount,
-   p_duration_minutes:requestedDuration
-  });
+  let data,error;
+  if(kind==='general'){
+   ({data,error}=await sb.rpc('start_general_exam_v1',{p_subject_counts:generalSelection,p_duration_minutes:requestedDuration}));
+  }else{
+   ({data,error}=await sb.rpc('start_student_exam_v2',{
+    p_exam_type:kind,
+    p_subject:kind==='custom'?'ALL':$('subject').value,
+    p_topic:kind==='topic'?topic:null,
+    p_topics:selectedTopics,
+    p_question_count:requestedCount,
+    p_duration_minutes:requestedDuration
+   }));
+  }
   if(error)throw error;
   qs=data?.questions||data?.attempt?.questions||data||[];
   attemptId=data?.attempt_id||data?.attempt?.id||null;
-  if(!Array.isArray(qs)||!qs.length)throw new Error('There are not enough approved questions for this exam.');
-  if(requestedCount!==null&&qs.length!==requestedCount)throw new Error(`The server returned ${qs.length} questions, but ${requestedCount} were requested. No examination was started. Please contact support.`);
+  if(!Array.isArray(qs)||!qs.length)throw new Error('There are not enough approved questions for this examination.');
+  if(requestedCount!==null&&qs.length!==requestedCount)throw new Error(`The server returned ${qs.length} questions, but ${requestedCount} were requested. No examination was started.`);
   const returnedDuration=Number(data?.duration_seconds??data?.attempt?.duration_seconds??(Number(data?.duration_minutes??data?.attempt?.duration_minutes)*60));
   if(!Number.isFinite(returnedDuration)||returnedDuration!==requestedDuration*60)throw new Error('The server did not confirm the exact duration you selected. No examination was started.');
   answers={};$('setup').classList.add('hidden');active=true;submitInFlight=false;
@@ -167,9 +192,28 @@ async function beginExam(){
   saveLocalBackup();await saveExamProgress();startExamClock();tick();addEventListener('beforeunload',beforeUnload);
  }catch(e){showToast('Could not start examination: '+e.message)}finally{if(btn)btn.disabled=false}
 }
-
-function openExamView(){const area=$('examArea');area.classList.add('exam-fullscreen');area.classList.remove('hidden');history.pushState({exam:true},'','#exam')}
-function closeExamView(){if(active)return requestExit();$('examArea').classList.add('hidden');$('examArea').classList.remove('exam-fullscreen');history.replaceState({},'',location.pathname+location.search)}function renderExam(){let examTitle=kind==='daily'?'Daily Challenge':kind==='custom'?'Custom Examination — Mixed Subjects':safe($('subject').value)+' examination';let h=`<div class="exam-inner"><div class="between"><h2>${examTitle}</h2><b id="clock"></b></div><p class="small muted">Your answers are saved as you work. If your connection drops, keep this page open until it reconnects.</p>`;qs.forEach((q,i)=>{h+=`<div class="section"><b>${i+1}. ${safe(q.question_text||q.question)}</b>${kind==='daily'?`<span class="pill">${subjects[Math.floor(i/5)]||'Mixed Subjects'}</span>`:''}<button class="secondary" onclick="bookmark(${i})">☆ Save</button> <button class="secondary" onclick="reportQuestion(${i})">Report</button>`;['A','B','C','D'].forEach(a=>h+=`<label class="qopt"><input type="radio" name="q${i}" ${answers[i]===a?'checked':''} onchange="setAnswer(${i},'${a}')"> ${a}. ${safe(q['option_'+a.toLowerCase()]??q[a]??'')}</label>`);h+='</div>'});h+='<button id="submitExamBtn" class="good" onclick="submitExam()">Submit examination</button> <button class="secondary" onclick="requestExit()">Exit exam</button><p id="saveState" class="status-line">Saving answers…</p></div>';$('examArea').innerHTML=h;$('examArea').classList.add('exam-fullscreen');$('examArea').classList.remove('hidden')}
+function openExamView(){
+  // Keep the exam visible as a full-screen view and hide setup/navigation behind it.
+  $('setup').classList.add('hidden');
+  $('examArea').classList.remove('hidden');
+  $('examArea').classList.add('exam-fullscreen');
+  if(location.hash!=='#exam')history.pushState({exam:true},'',location.pathname+location.search+'#exam');
+}
+function closeExamView(){
+  // This button is shown after submission; never let it silently abandon a live exam.
+  if(active){showToast('Your examination is still in progress. Use Exit exam if you want to leave.');return;}
+  $('examArea').classList.add('hidden');
+  $('examArea').classList.remove('exam-fullscreen');
+  $('setup').classList.add('hidden');
+  $('dailyArea').classList.add('hidden');
+  document.querySelectorAll('#studentApp .studentpage').forEach(x=>x.classList.add('hidden'));
+  $('student-learn').classList.remove('hidden');
+  $('studentTabs').classList.remove('hidden');
+  $('studentTabs').querySelectorAll('button').forEach((b,i)=>b.classList.toggle('active',i===0));
+  if(location.hash==='#exam')history.replaceState({},'',location.pathname+location.search);
+  loadStudent();
+}
+function renderExam(){let examTitle=kind==='daily'?'Daily Challenge':kind==='general'?'General Examination — Mixed Subjects':kind==='custom'?'Custom Examination — Mixed Subjects':safe($('subject').value)+' examination';let h=`<div class="exam-inner"><div class="between"><h2>${examTitle}</h2><b id="clock"></b></div><p class="small muted">Your answers are saved as you work. If your connection drops, keep this page open until it reconnects.</p>`;qs.forEach((q,i)=>{h+=`<div class="section"><b>${i+1}. ${safe(q.question_text||q.question)}</b>${kind==='daily'?`<span class="pill">${subjects[Math.floor(i/5)]||'Mixed Subjects'}</span>`:''}<button class="secondary" onclick="bookmark(${i})">☆ Save</button> <button class="secondary" onclick="reportQuestion(${i})">Report</button>`;['A','B','C','D'].forEach(a=>h+=`<label class="qopt"><input type="radio" name="q${i}" ${answers[i]===a?'checked':''} onchange="setAnswer(${i},'${a}')"> ${a}. ${safe(q['option_'+a.toLowerCase()]??q[a]??'')}</label>`);h+='</div>'});h+='<button id="submitExamBtn" class="good" onclick="submitExam()">Submit examination</button> <button class="secondary" onclick="requestExit()">Exit exam</button><p id="saveState" class="status-line">Saving answers…</p></div>';$('examArea').innerHTML=h;$('examArea').classList.add('exam-fullscreen');$('examArea').classList.remove('hidden')}
 function setAnswer(i,a){answers[i]=a;saveLocalBackup();$('saveState').textContent='Saving answer…';if(autosaveTimer)clearTimeout(autosaveTimer);autosaveTimer=setTimeout(saveExamProgress,450)}
 function saveLocalBackup(){if(!attemptId)return;try{localStorage.setItem('kg_exam_backup_'+attemptId,JSON.stringify({attemptId,answers,updatedAt:Date.now()}))}catch(e){}}
 async function saveExamProgress(){
